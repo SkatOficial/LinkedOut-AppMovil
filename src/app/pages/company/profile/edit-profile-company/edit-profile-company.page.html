@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button class="back-btn"></ion-back-button>
+    </ion-buttons>
+    <a class="linkedout-logo"><ion-img src="assets/img/logo.png"></ion-img></a>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #formData="ngForm" (ngSubmit)="validateData(formData)">
+    <!-- FOTO NOMBRE Y DIRECCION -->
+    <ion-item lines="none">
+      <div class="item-content">
+        <ion-item lines="none">
+          <ion-img src="assets/img/company.png" tab="img-company" class="img-profile"></ion-img>
+        </ion-item>
+          <ion-item lines="none">
+            <ion-label>
+              <h3>Nombre*</h3>
+              <ion-input
+              value={{user.name}}
+              [(ngModel)]="user.name"
+              type="text" 
+              name="nombre" 
+              errorText="Nombre invalido"
+              required
+              > </ion-input>
+            </ion-label>
+          </ion-item >
+          <ion-item lines="none">
+            <ion-label>
+              <h3>Ubicacion*</h3>
+              <ion-input value={{user.address}}
+              [(ngModel)]="user.address"
+              type="text" 
+              name="direccion"  
+              errorText="Ubicacion invalida"
+              required> </ion-input>
+            </ion-label>
+          </ion-item>
+      </div>  
+    </ion-item>
+
+    <!-- CONTACTOS -->
+    <ion-item lines="none" class="pt-10px">
+      <ion-label>
+        <ion-item>
+          <h1>Contactos</h1>
+        </ion-item>
+        <ion-list>
+          <ion-item>
+            <ion-icon name="call-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h2>Teléfono</h2>
+              <div class="d-flex">
+                <p class="p-auto">+</p>
+                <ion-input
+                  maxlength="11"
+                  name="telefono"
+                  [(ngModel)]="user.phone"
+                  [value]="inputModel"
+                  (ionInput)="onInput($event)"
+                  #ionInputEl
+                ></ion-input>
+              </div>
+            </ion-label>
+          </ion-item>
+          
+          <ion-item>
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h2>Correo Electrónico</h2>
+              <ion-input value="{{user.email}}"
+              [(ngModel)]="user.email"
+              type="email"
+              name="correo"
+              errorText="correo invalido"
+              required 
+              email></ion-input>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-label>
+    </ion-item>
+
+    <!-- ACERCA DE -->
+    <ion-item lines="none" class="pt-10px">
+      <ion-label>
+        <ion-item>
+          <h1>Acerca de</h1>
+        </ion-item>
+        <ion-textarea rows="10"
+        name="acerca de" 
+        value="{{user.about}}">
+        </ion-textarea>
+      </ion-label>
+    </ion-item>
+    <ion-button expand="full" class="mb-50px" type="submite">confirmar</ion-button>
+  </form>
+
+</ion-content>

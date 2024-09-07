@@ -1,0 +1,48 @@
+ion-header{
+    box-shadow: none;
+    ion-toolbar{
+        --background: #E1EAE9;
+    }
+    ion-searchbar{
+        --background: white;
+    }
+}
+
+ion-content{
+    --ion-background-color:#E1EAE9;
+}
+
+.bg-white{
+    --background: white;
+}
+
+.item-content{
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    ion-img{
+        width: 20%;
+        padding: 5px;
+        margin-right: 5px;
+    }
+    ion-label{
+        margin: auto;
+        margin-left: 0px;
+        width: 60%;
+    }
+}
+
+.trunc{
+    white-space: nowrap;
+    overflow: hidden;  
+    text-overflow: ellipsis;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.m-auto{
+    margin: auto;
+}
+  

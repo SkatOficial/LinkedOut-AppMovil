@@ -1,0 +1,107 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-searchbar placeholder="Buscar Empleos"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item class="bg-white" >
+      <div id="open-modal" class="item-content">
+        <ion-img  src="assets/img/company.png" alt="img-company"></ion-img>
+        <ion-label>
+          <h2>Gestor de Granos de Arena</h2>
+          <h3>Empresar 100%real no Fake</h3>
+          <p class="trunc">Lampa, Región Metropolitana de Santiago</p>
+        </ion-label>
+      </div>
+      <ion-modal #modal trigger="open-modal" [initialBreakpoint]="0.90" [breakpoints]="[0, 0.90]">
+        <ng-template>
+          <ion-content class="bg-white">
+            <h1 class="text-center">Gestor de Granos de Arena</h1>
+            <ion-item class="item-content bg-white">
+              <ion-img src="assets/img/company.png" alt="img-company"></ion-img>
+              <ion-label>
+                <h2>Empresar 100%real no Fake</h2>
+                <p class="trunc">Lampa, Región Metropolitana de Santiago</p>
+              </ion-label>
+            </ion-item>
+            <ion-item class="pt-10px bg-white">
+              <ion-label>
+                <h2>Acerca del empleo</h2>
+                <h3>Encargado de coordinar y supervisar la distribución y organización de granos de arena en entornos industriales o experimentales. Asegura que los granos de arena se clasifiquen y gestionen adecuadamente para cumplir con los requisitos de proyectos específicos. Maneja el inventario, supervisa la calidad y controla los procesos para mantener la precisión y la consistencia en el uso de los granos de arena. Se requiere atención al detalle y habilidades en gestión de recursos.</h3>
+              </ion-label>
+            </ion-item>
+            <ion-button  expand="full" shape="round">POSTULAR</ion-button>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    </ion-item>
+    
+    <ion-item class="bg-white" >
+      <div id="open-modal2" class="item-content">
+        <ion-img  src="assets/img/company.png" alt="img-company"></ion-img>
+        <ion-label>
+          <h2>Soldador de madera</h2>
+          <h3>Empresa Super Profesional</h3>
+          <p class="trunc">Colina, Región Metropolitana de Santiago</p>
+        </ion-label>
+      </div>
+      <ion-modal #modal trigger="open-modal2" [initialBreakpoint]="0.90" [breakpoints]="[0, 0.90]">
+        <ng-template>
+          <ion-content class="bg-white">
+            <h1 class="text-center">Soldador de madera</h1>
+            <ion-item class="item-content bg-white">
+              <ion-img src="assets/img/company.png" alt="img-company"></ion-img>
+              <ion-label>
+                <h2>Empresa Super Profesional</h2>
+                <p class="trunc">Colina, Región Metropolitana de Santiago</p>
+              </ion-label>
+            </ion-item>
+            <ion-item class="pt-10px bg-white">
+              <ion-label>
+                <h2>Acerca del empleo</h2>
+                <h4>Encargado de realizar uniones y reparaciones en estructuras de madera utilizando técnicas de soldadura especializadas. Requiere habilidades técnicas y creatividad en el uso de herramientas no estándar.</h4>
+              </ion-label>
+            </ion-item>
+            <ion-button  expand="full" shape="round">POSTULAR</ion-button>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    </ion-item>
+
+    <ion-item class="bg-white" >
+      <div id="open-modal3" class="item-content">
+        <ion-img  src="assets/img/company.png" alt="img-company"></ion-img>
+        <ion-label>
+          <h2 class="trunc">Especialista en Cerrar Puertas Abiertas</h2>
+          <h3 class="trunc">Empresa Super Profesional</h3>
+          <p class="trunc">Colina, Región Metropolitana de Santiago</p>
+        </ion-label>
+      </div>
+      <ion-modal #modal trigger="open-modal3" [initialBreakpoint]="0.90" [breakpoints]="[0, 0.90]">
+        <ng-template>
+          <ion-content class="bg-white">
+            <h1 class="text-center">Especialista en Cerrar Puertas Abiertas</h1>
+            <ion-item class="item-content bg-white">
+              <ion-img src="assets/img/company.png" alt="img-company"></ion-img>
+              <ion-label>
+                <h2>Empresa Super Profesional</h2>
+                <p class="trunc">Colina, Región Metropolitana de Santiago</p>
+              </ion-label>
+            </ion-item>
+            <ion-item class="pt-10px bg-white">
+              <ion-label>
+                <h2>Acerca del empleo</h2>
+                <h4>Responsable de identificar y cerrar todas las puertas abiertas en las instalaciones. Realiza inspecciones periódicas, asegura el cierre correcto de las puertas y mantiene registros detallados de cada acción. Requiere atención al detalle y habilidades para trabajar de manera autónoma.</h4>
+              </ion-label>
+            </ion-item>
+            <ion-button  expand="full" shape="round">POSTULAR</ion-button>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+

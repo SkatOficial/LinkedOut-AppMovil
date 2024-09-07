@@ -1,0 +1,360 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="toolbar-content">
+      <ion-searchbar placeholder="Buscar Empleos"></ion-searchbar>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item class="bg-white" >
+      <div id="open-modal" class="item-content">
+        <ion-img  src="assets/img/profile.jpg" alt="img-worker"></ion-img>
+        <ion-label>
+          <h2>Juan Pérez</h2>
+          <h3>Desarrollador de Software</h3>
+          <p class="trunc">Colina, Región Metropolitana, Chile</p>
+        </ion-label>
+      </div>
+      <ion-modal #modal trigger="open-modal" [initialBreakpoint]="0.90" [breakpoints]="[0, 0.90]">
+        <ng-template>
+          <ion-content>
+            <!-- FOTO NOMBRE Y DIRECCION -->
+            <ion-item class="bg-white">
+              <div class="item-content-mod">
+                <ion-item class="bg-white">
+                  <ion-img src="assets/img/profile.jpg" tab="foto-perfil" class="img-profile"></ion-img>
+                </ion-item>
+                <ion-label>
+                  <h1>Juan Pérez</h1>
+                  <h2>Desarrollador de Software</h2>
+                  <p>Colina, Región Metropolitana, Chile</p>
+                </ion-label>
+              </div>  
+            </ion-item>
+          
+            <!-- ACERCA DE -->
+            <ion-item class="pt-10px bg-white">
+              <ion-label>
+                <ion-item class="bg-white">
+                  <h1>Acerca de</h1>
+                </ion-item>
+                <p>Soy un desarrollador de software apasionado por la creación de soluciones innovadoras. Mi enfoque se centra en la calidad, la eficiencia, y la colaboración en equipo. Con más de 5 años de experiencia en el sector tecnológico, me dedico a ofrecer resultados que superen las expectativas.</p>
+              </ion-label>
+            </ion-item>
+          
+            <!-- EXPERIENCIA LABORAL -->
+            <ion-item class="pt-10px bg-white">
+              <div class="item-content-mod">
+                <ion-item class="bg-white">
+                  <h1>Experiencia</h1>
+                </ion-item>
+                
+                <ion-list>
+                  <ion-item class="list-item">
+                    <ion-label>
+                      <h2>Compañía Tech</h2>
+                      <h3>Desarrollador Full-Stack</h3>
+                      <p>2020 - 2023</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item class="list-item">
+                    <ion-label>
+                      <h2>StartUp Innovación</h2>
+                      <h3>Ingeniero de Software</h3>
+                      <p>2017 - 2020</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>  
+            </ion-item>
+          
+            <!-- EDUCACION -->
+            <ion-item class="pt-10px bg-white">
+              <div class="item-content-mod">
+                <ion-item class="bg-white">
+                  <h1>Educación</h1>
+                </ion-item>
+                <ion-list class="bg-white">
+                  <ion-item class="list-item">
+                    <ion-label>
+                      <h2>Universidad de Chile</h2>
+                      <h3>Ingeniería en Computación</h3>
+                      <p>2014 - 2019</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item class="list-item">
+                    <ion-label>
+                      <h2>Instituto Técnico Colina</h2>
+                      <h3>Técnico en Programación</h3>
+                      <p>2010 - 2014</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>  
+            </ion-item>
+            <!-- CONTACTOS -->
+            <ion-item class="pt-10px mb-100px">
+              <ion-label>
+                <ion-item>
+                  <h1>Contactos</h1>
+                </ion-item>
+                <ion-list>
+                  <ion-item>
+                    <ion-icon name="call-outline" slot="start"></ion-icon>
+                    <ion-label>
+                      <h2>Teléfono</h2>
+                      <p>+56 9 1234 5678</p>
+                    </ion-label>
+                  </ion-item>
+                  
+                  <ion-item>
+                    <ion-icon name="mail-outline" slot="start"></ion-icon>
+                    <ion-label>
+                      <h2>Correo Electrónico</h2>
+                      <p>juan.perez&#64;example.com</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </ion-label>
+            </ion-item>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    </ion-item>
+    
+    <ion-item class="bg-white" >
+      <div id="open-modal2" class="item-content">
+        <ion-img  src="assets/img/profile.jpg" alt="img-worker"></ion-img>
+        <ion-label>
+          <h2>Juan Pérez</h2>
+          <h3>Desarrollador de Software</h3>
+          <p class="trunc">Colina, Región Metropolitana, Chile</p>
+        </ion-label>
+      </div>
+      <ion-modal #modal trigger="open-modal2" [initialBreakpoint]="0.90" [breakpoints]="[0, 0.90]">
+        <ng-template>
+          <ion-content>
+            <!-- FOTO NOMBRE Y DIRECCION -->
+            <ion-item class="bg-white">
+              <div class="item-content-mod">
+                <ion-item class="bg-white">
+                  <ion-img src="assets/img/profile.jpg" tab="foto-perfil" class="img-profile"></ion-img>
+                </ion-item>
+                <ion-label>
+                  <h1>Juan Pérez</h1>
+                  <h2>Desarrollador de Software</h2>
+                  <p>Colina, Región Metropolitana, Chile</p>
+                </ion-label>
+              </div>  
+            </ion-item>
+          
+            <!-- ACERCA DE -->
+            <ion-item class="pt-10px bg-white">
+              <ion-label>
+                <ion-item class="bg-white">
+                  <h1>Acerca de</h1>
+                </ion-item>
+                <p>Soy un desarrollador de software apasionado por la creación de soluciones innovadoras. Mi enfoque se centra en la calidad, la eficiencia, y la colaboración en equipo. Con más de 5 años de experiencia en el sector tecnológico, me dedico a ofrecer resultados que superen las expectativas.</p>
+              </ion-label>
+            </ion-item>
+          
+            <!-- EXPERIENCIA LABORAL -->
+            <ion-item class="pt-10px bg-white">
+              <div class="item-content-mod">
+                <ion-item class="bg-white">
+                  <h1>Experiencia</h1>
+                </ion-item>
+                
+                <ion-list>
+                  <ion-item class="list-item">
+                    <ion-label>
+                      <h2>Compañía Tech</h2>
+                      <h3>Desarrollador Full-Stack</h3>
+                      <p>2020 - 2023</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item class="list-item">
+                    <ion-label>
+                      <h2>StartUp Innovación</h2>
+                      <h3>Ingeniero de Software</h3>
+                      <p>2017 - 2020</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>  
+            </ion-item>
+          
+            <!-- EDUCACION -->
+            <ion-item class="pt-10px bg-white">
+              <div class="item-content-mod">
+                <ion-item class="bg-white">
+                  <h1>Educación</h1>
+                </ion-item>
+                <ion-list class="bg-white">
+                  <ion-item class="list-item">
+                    <ion-label>
+                      <h2>Universidad de Chile</h2>
+                      <h3>Ingeniería en Computación</h3>
+                      <p>2014 - 2019</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item class="list-item">
+                    <ion-label>
+                      <h2>Instituto Técnico Colina</h2>
+                      <h3>Técnico en Programación</h3>
+                      <p>2010 - 2014</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>  
+            </ion-item>
+            <!-- CONTACTOS -->
+            <ion-item class="pt-10px mb-100px">
+              <ion-label>
+                <ion-item>
+                  <h1>Contactos</h1>
+                </ion-item>
+                <ion-list>
+                  <ion-item>
+                    <ion-icon name="call-outline" slot="start"></ion-icon>
+                    <ion-label>
+                      <h2>Teléfono</h2>
+                      <p>+56 9 1234 5678</p>
+                    </ion-label>
+                  </ion-item>
+                  
+                  <ion-item>
+                    <ion-icon name="mail-outline" slot="start"></ion-icon>
+                    <ion-label>
+                      <h2>Correo Electrónico</h2>
+                      <p>juan.perez&#64;example.com</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </ion-label>
+            </ion-item>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    </ion-item>
+
+    <ion-item class="bg-white" >
+      <div id="open-modal3" class="item-content">
+        <ion-img  src="assets/img/profile.jpg" alt="img-worker"></ion-img>
+        <ion-label>
+          <h2>Juan Pérez</h2>
+          <h3>Desarrollador de Software</h3>
+          <p class="trunc">Colina, Región Metropolitana, Chile</p>
+        </ion-label>
+      </div>
+      <ion-modal #modal trigger="open-modal3" [initialBreakpoint]="0.90" [breakpoints]="[0, 0.90]">
+        <ng-template>
+          <ion-content>
+            <!-- FOTO NOMBRE Y DIRECCION -->
+            <ion-item class="bg-white">
+              <div class="item-content-mod">
+                <ion-item class="bg-white">
+                  <ion-img src="assets/img/profile.jpg" tab="foto-perfil" class="img-profile"></ion-img>
+                </ion-item>
+                <ion-label>
+                  <h1>Juan Pérez</h1>
+                  <h2>Desarrollador de Software</h2>
+                  <p>Colina, Región Metropolitana, Chile</p>
+                </ion-label>
+              </div>  
+            </ion-item>
+          
+            <!-- ACERCA DE -->
+            <ion-item class="pt-10px bg-white">
+              <ion-label>
+                <ion-item class="bg-white">
+                  <h1>Acerca de</h1>
+                </ion-item>
+                <p>Soy un desarrollador de software apasionado por la creación de soluciones innovadoras. Mi enfoque se centra en la calidad, la eficiencia, y la colaboración en equipo. Con más de 5 años de experiencia en el sector tecnológico, me dedico a ofrecer resultados que superen las expectativas.</p>
+              </ion-label>
+            </ion-item>
+          
+            <!-- EXPERIENCIA LABORAL -->
+            <ion-item class="pt-10px bg-white">
+              <div class="item-content-mod">
+                <ion-item class="bg-white">
+                  <h1>Experiencia</h1>
+                </ion-item>
+                
+                <ion-list>
+                  <ion-item class="list-item">
+                    <ion-label>
+                      <h2>Compañía Tech</h2>
+                      <h3>Desarrollador Full-Stack</h3>
+                      <p>2020 - 2023</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item class="list-item">
+                    <ion-label>
+                      <h2>StartUp Innovación</h2>
+                      <h3>Ingeniero de Software</h3>
+                      <p>2017 - 2020</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>  
+            </ion-item>
+          
+            <!-- EDUCACION -->
+            <ion-item class="pt-10px bg-white">
+              <div class="item-content-mod">
+                <ion-item class="bg-white">
+                  <h1>Educación</h1>
+                </ion-item>
+                <ion-list class="bg-white">
+                  <ion-item class="list-item">
+                    <ion-label>
+                      <h2>Universidad de Chile</h2>
+                      <h3>Ingeniería en Computación</h3>
+                      <p>2014 - 2019</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item class="list-item">
+                    <ion-label>
+                      <h2>Instituto Técnico Colina</h2>
+                      <h3>Técnico en Programación</h3>
+                      <p>2010 - 2014</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>  
+            </ion-item>
+            <!-- CONTACTOS -->
+            <ion-item class="pt-10px mb-100px">
+              <ion-label>
+                <ion-item>
+                  <h1>Contactos</h1>
+                </ion-item>
+                <ion-list>
+                  <ion-item>
+                    <ion-icon name="call-outline" slot="start"></ion-icon>
+                    <ion-label>
+                      <h2>Teléfono</h2>
+                      <p>+56 9 1234 5678</p>
+                    </ion-label>
+                  </ion-item>
+                  
+                  <ion-item>
+                    <ion-icon name="mail-outline" slot="start"></ion-icon>
+                    <ion-label>
+                      <h2>Correo Electrónico</h2>
+                      <p>juan.perez&#64;example.com</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </ion-label>
+            </ion-item>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    </ion-item>
+  </ion-list>
+</ion-content>
+

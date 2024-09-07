@@ -1,0 +1,98 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+// @import "@ionic/angular/css/palettes/dark.system.css";
+
+ion-header{
+    box-shadow: none;
+    
+    ion-toolbar {
+        --background: #E1EAE9;
+
+        .toolbar-content{
+            display: flex;
+            ion-img{
+                width: 10%;
+                margin-left: 10px;
+            }
+            ion-searchbar{
+                --background: white;
+                flex: 1;
+            }
+        }
+        .back-btn{
+            --color:#D7984D;
+        }
+        .linkedout-logo{
+            width: 100%;
+            display: flex;
+            justify-content: start;
+            
+            ion-img{
+                width: auto;
+                height: 2rem;
+                display: inline-block;
+            }
+        }
+    }
+    ion-searchbar{
+        --background: white;
+    }
+}
+
+ion-content{
+    --ion-background-color:#E1EAE9;
+}
+
+.confirm-button {
+    color: #ff0000 !important; 
+}
+
+ion-input.ng-valid{
+    --highlight-color-valid: #0054E9;
+}
+
+ion-input.ng-dirty{
+    --highlight-color-valid: #0054E9;
+}
+
+ion-textarea.ng-valid{
+    --highlight-color-valid: #0054E9;
+}
+ion-textarea.ng-dirty{
+    --highlight-color-valid: #0054E9;
+}
+

@@ -1,0 +1,23 @@
+ion-toolbar{
+    --background: white;
+}
+
+ion-item{
+    --background: white;
+    margin-top: 10px;
+    ion-icon{
+        margin-left: auto;
+    }
+}
+
+ion-button{
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+.bg-white{
+    --background: white;
+}
+.item-content{
+    width: 100%;
+    display: block;
+}

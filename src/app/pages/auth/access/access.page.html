@@ -1,0 +1,24 @@
+<ion-header class="ion-no-border">
+
+</ion-header>
+
+<ion-content>
+  <ion-card class="ion-no-margin">
+    <a class="linkedout-logo"><ion-img src="assets/img/logo.png"></ion-img></a>
+    <ion-card-header>
+        <ion-card-subtitle>
+          Únete a una comunidad de confianza con 1.000 millones de NO profesionales
+        </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p class="text-condiciones">
+        Al hacer clic en «Aceptar y unirse» o «Continuar con», aceptas las <ion-text color="primary">Condiciones de uso</ion-text>, la <ion-text color="primary">Política de privacidad</ion-text> y la <ion-text color="primary">Política de cookies</ion-text>.
+      </p>
+      <div class="iniciarSesion-btns">
+        <ion-button expand="block" size ="large" fill="solid" shape="round" class="registrarse-btn" (click)="toRegister()">Aceptar y unirse</ion-button>
+        <button mat-raised-button (click)="toLogin()" class="iniciarSesion-btn">Iniciar sesión</button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

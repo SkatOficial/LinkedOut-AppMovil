@@ -1,0 +1,56 @@
+<ion-header class="ion-no-border ">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button class="back-btn"></ion-back-button>
+    </ion-buttons>
+    <a class="linkedout-logo"><ion-img src="assets/img/logo.png"></ion-img></a>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="none">
+    <ion-text>
+      <h1 class="title-login">Iniciar sesión</h1>
+      <p>
+        o <ion-text color="primary" (click)="toRegister()" class="register-btn">unirte a linkedout</ion-text>
+      </p>
+    </ion-text>
+  </ion-item>
+
+  <form #formLogin="ngForm" (ngSubmit)="validateLogin(formLogin)">
+    <ion-list>
+      <ion-item lines="none">
+        <ion-input label="Correo"
+        type="email"
+        name="correo"
+        placeholder="Introduce tu correo" 
+        labelPlacement="floating"
+        errorText="correo invalido"
+        ngModel 
+        required 
+        email>
+        </ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-input label="Contraseña"
+        type="password" 
+        name="contraseña" 
+        placeholder="Introduce una contraseña" 
+        labelPlacement="floating"
+        errorText="debe contener min 8 caracteres"
+        minlength="8"
+        ngModel 
+        required>
+        </ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-text>
+          <p>
+            <ion-text color="primary" (click)="toChangePassword()" class="register-btn">¿Has olvidado tu contraseña?</ion-text>
+          </p>
+        </ion-text>
+      </ion-item>
+      <ion-button expand="block" size ="large" fill="solid" shape="round" class="continue-btn" type="submite">Continuar</ion-button>
+    </ion-list>
+  </form>
+</ion-content>

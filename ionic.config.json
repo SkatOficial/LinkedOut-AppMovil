@@ -1,0 +1,7 @@
+{
+  "name": "LinkedOut",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

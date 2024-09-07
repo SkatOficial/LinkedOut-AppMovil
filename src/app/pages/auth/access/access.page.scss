@@ -1,0 +1,71 @@
+ion-content{
+    --ion-background-color:#E1EAE9;
+}
+
+ion-header{
+ position: absolute;
+}
+
+ion-toolbar{
+    --ion-background-color:transparent;
+    --opacity: 0;
+}
+
+ion-card{
+    --ion-background-color:transparent;
+    box-shadow: none !important;
+    margin-top: 100px;
+    .linkedout-logo{
+        height: 10%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        ion-img {
+            width: auto;
+            height: 3rem;
+            display: inline-block;
+        }
+    }
+}
+
+ion-card-subtitle{
+    padding-top: 15px;
+    font-size: 21px;
+    color:#333333;
+    text-align: center;
+    font-family: system-ui;
+    font-weight: 100;
+}
+
+ion-card-content{
+    margin-top: 50px;
+    .text-condiciones{
+        color:#333333
+    }
+    
+    .iniciarSesion-btns{
+        margin-top: 20px;
+        text-align: center;
+        color: #f8f4fa;
+        display: flex;
+        flex-direction: column;
+        gap:10px;
+        
+        .regular-btn{
+            --ion-color-primary:#333333;
+            text-transform: none;
+            ion-icon{
+                margin-right: 10px;
+            }
+        }
+        .iniciarSesion-btn{
+            color: #0054e9;
+            padding: 10px;
+            text-transform: none;
+        }
+        .registrarse-btn{
+            --ion-color-primary:#D7984D;
+            text-transform: none;
+        }
+    }
+}

@@ -1,0 +1,23 @@
+<ion-header class="ion-no-border ">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button class="back-btn"></ion-back-button>
+    </ion-buttons>
+    <a class="linkedout-logo"><ion-img src="assets/img/logo.png"></ion-img></a>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="none">
+    <ion-text>
+      <h1 class="titulo-reg">Define tu Rol</h1>
+    </ion-text>
+  </ion-item>
+  <!-- Etiquetas Tipo de Usuario -->
+  <ion-list>
+    <ion-button expand="block" size ="large" fill="outline" shape="round" (click)="toRegisterWorker()">
+      <ion-icon name="person-sharp"></ion-icon>Trabajador</ion-button>
+    <ion-button expand="block" size ="large" fill="outline" shape="round" (click)="toRegisterCompany()">
+      <ion-icon name="business-sharp"></ion-icon>Empresa</ion-button>
+  </ion-list>
+</ion-content>

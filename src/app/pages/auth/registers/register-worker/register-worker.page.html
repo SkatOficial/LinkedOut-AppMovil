@@ -1,0 +1,101 @@
+<ion-header class="ion-no-border ">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button class="back-btn"></ion-back-button>
+    </ion-buttons>
+    <a class="linkedout-logo"><ion-img src="assets/img/logo.png"></ion-img></a>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="none">
+    <ion-text>
+      <h1 class="titulo-reg">{{title}}</h1>
+    </ion-text>
+  </ion-item>
+  
+  <!-- Etiquetas Nombre de usuario -->
+  <form #formName="ngForm" (ngSubmit)="validateName(formName)">
+    <ion-list *ngIf="labelsNameActived">
+        <ion-item lines="none">
+          <ion-input label="Nombre"
+            type="text" 
+            name="nombre" 
+            placeholder="Introduce tu nombre" 
+            labelPlacement="floating"
+            errorText="Nombre invalido"
+            [(ngModel)]="user.name"
+            required 
+            >
+          </ion-input>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-input label="Apellidos"
+          type="text"
+          name="apellidos"
+          placeholder="Introduce tus apellidos" 
+          labelPlacement="floating"
+          errorText="apellidos invalidos"
+          [(ngModel)]="user.lastname"
+          required 
+          >
+          </ion-input>
+        </ion-item>
+        <ion-button expand="block" size="large" fill="solid" shape="round" class="continue-btn" type="submit">Continuar</ion-button>
+    </ion-list>
+  </form>
+
+   
+    
+  <!-- Etiquetas Correo -->
+  <form #formEmail="ngForm" (ngSubmit)="validateEmail(formEmail)">
+    <ion-list *ngIf="labelsEmailActived">
+      <ion-item lines="none">
+        <ion-input label="Correo"
+        type="email"
+        name="correo"
+        placeholder="Introduce tu correo" 
+        labelPlacement="floating"
+        errorText="correo invalido"
+        ngModel 
+        required 
+        email
+        >
+        </ion-input>
+      </ion-item>
+      <ion-button expand="block" size ="large" fill="solid" shape="round" class="continue-btn" type="submite">Continuar</ion-button>
+    </ion-list>
+  </form>
+
+  <!-- Etiquetas Contraseña -->
+  <form #formPassword="ngForm" (ngSubmit)="validatePassword(formPassword)">
+    <ion-list *ngIf="labelsPasswordActived">
+      <ion-item lines="none">
+        <ion-input id="password"
+        label="Contraseña"
+        type="password" 
+        name="contraseña" 
+        placeholder="Introduce una contraseña" 
+        labelPlacement="floating"
+        errorText="debe contener min 8 caracteres"
+        [(ngModel)]="password"
+        minlength="8"
+        required>
+        </ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-input id="confirmPassword"
+        label="Confirmar contraseña"
+        type="password" 
+        name="confirmarContraseña" 
+        placeholder="Repita la contraseña" 
+        labelPlacement="floating"
+        errorText="debe contener min 8 caracteres"
+        [(ngModel)]="confirmPassword"
+        required>
+        </ion-input>
+      </ion-item>
+      <ion-button expand="block" size ="large" fill="solid" shape="round" class="continue-btn" (click)="validatePassword(formPassword)">Continuar</ion-button>
+    </ion-list>
+  </form>
+</ion-content>
