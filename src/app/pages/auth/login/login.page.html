@@ -12,45 +12,28 @@
     <ion-text>
       <h1 class="title-login">Iniciar sesión</h1>
       <p>
-        o <ion-text color="primary" (click)="toRegister()" class="register-btn">unirte a linkedout</ion-text>
+        o <ion-text color="primary" (click)="toRegister()">unirte a linkedout</ion-text>
       </p>
     </ion-text>
   </ion-item>
+  
+  <ion-list>
+    <div *ngIf="!accountNotFound">
+      <p class="error-message">Cuenta y/o contraseña incorrectas</p>
+    </div>
 
-  <form #formLogin="ngForm" (ngSubmit)="validateLogin(formLogin)">
-    <ion-list>
-      <ion-item lines="none">
-        <ion-input label="Correo"
-        type="email"
-        name="correo"
-        placeholder="Introduce tu correo" 
-        labelPlacement="floating"
-        errorText="correo invalido"
-        ngModel 
-        required 
-        email>
-        </ion-input>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-input label="Contraseña"
-        type="password" 
-        name="contraseña" 
-        placeholder="Introduce una contraseña" 
-        labelPlacement="floating"
-        errorText="debe contener min 8 caracteres"
-        minlength="8"
-        ngModel 
-        required>
-        </ion-input>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-text>
-          <p>
-            <ion-text color="primary" (click)="toChangePassword()" class="register-btn">¿Has olvidado tu contraseña?</ion-text>
-          </p>
-        </ion-text>
-      </ion-item>
-      <ion-button expand="block" size ="large" fill="solid" shape="round" class="continue-btn" type="submite">Continuar</ion-button>
-    </ion-list>
-  </form>
+    <div>
+      <ion-input label="Correo" labelPlacement="floating" placeholder="Ingresa tu correo" fill="outline"[(ngModel)]="userInput.email">
+      </ion-input>
+    </div>
+    
+    <div>
+      <ion-input type = "password" label="Contraseña" labelPlacement="floating" placeholder="Ingresa tu contraseña"  fill="outline" [(ngModel)]="userInput.password">
+        <ion-input-password-toggle slot="end" *ngIf="userInput.password"></ion-input-password-toggle>
+      </ion-input>
+    </div>
+    
+    <ion-text color="primary" (click)="toChangePassword()">¿Has olvidado tu contraseña?</ion-text>
+    <ion-button expand="block" size ="large" fill="solid" shape="round" class="continue-btn" (click)="validateLogin()">Continuar</ion-button>
+  </ion-list>
 </ion-content>

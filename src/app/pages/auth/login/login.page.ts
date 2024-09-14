@@ -9,16 +9,26 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
 
-  user: any = {
-    name : '',
-    lastname: '',
-    email:"prueba@gmail.com",
-    password:"12345678",
-    about:'',
-    description:'',
-    addres:'',
-    phone:'',
+  data: any = {
+    user: {
+      name : '',
+      lastname: '',
+      email:"prueba@gmail.com",
+      password:"12345678",
+      about:'',
+      description:'',
+      addres:'',
+      phone:'',
+    }
   }
+  
+  accountNotFound = true;
+
+  userInput:any = {
+    email: "",
+    password: ""
+  }
+
   constructor(private router: Router) { }
 
   ngOnInit(){
@@ -34,33 +44,17 @@ export class LoginPage implements OnInit {
     this.router.navigate(['/tabs-worker']);
   }
 
-  isEmail(email: string): boolean {
-    
-    if (!email) {
-      console.log("que chucha")
-      return false; 
+ 
+  validateLogin(){
+    for(let i = 0; i < this.data.length; i++){
+      let user = this.data[i];
+      console.log(this.data[i]);
+      console.log(this.userInput);
+      
+      if(user.email == this.userInput.email && user.password == this.userInput.password){
+        this.toHome();
+      }
     }
-    let emailParts = email.split('@');
-
-    if(emailParts.length != 2){
-      return false;
-    }
-    emailParts = emailParts[1].split('.');
-    if(emailParts.length != 2){
-      return false;
-    }
-
-    return true;
-  }
-
-  validateLogin(formLogin: NgForm){
-    if (!formLogin.valid && !this.isEmail(formLogin.value.correo)){
-      return
-    }
-    if(formLogin.value.correo === this.user.email 
-      &&formLogin.value.contraseña === this.user.password 
-    ){
-      this.toHome();
-    }
+    this.accountNotFound = false;
   }
 }

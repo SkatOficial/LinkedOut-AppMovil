@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
+import { textValidaton, emailValidation, Passwordvalidation} from 'src/app/utils/validation-functions';
 
 @Component({
   selector: 'app-register-worker',
@@ -15,10 +15,18 @@ export class RegisterWorkerPage implements OnInit {
     email: '',
     password: ''
   }
-
-  password: string = '';
+  
   confirmPassword: string = '';
 
+  //Validadores
+  nameIsCorrect: boolean = true;
+  lastnameIsCorrect: boolean = true;
+  emailIsCorrect: boolean = true;
+  passwordIsCorrect: boolean = true;
+  confirmPasswordIsCorrect : boolean = true;
+  errorMessagesPassword: string[] = [];
+  
+  //activadores
   title: String = "Añade tu nombre";
   labelsNameActived: boolean = true;
   labelsEmailActived: boolean = false;
@@ -51,55 +59,42 @@ export class RegisterWorkerPage implements OnInit {
     this.labelsPasswordActived = true;
   }
 
-  toHome(navigationextras: NavigationExtras){
-    this.router.navigate(['tabs-worker'],navigationextras)
-  }
+  validateName(){
+    this.nameIsCorrect = textValidaton(this.user.name);
+    this.lastnameIsCorrect = textValidaton(this.user.lastname);
 
-  isEmail(email: string): boolean {
-    
-    if (!email) {
-      console.log("que chucha")
-      return false; 
-    }
-    let emailParts = email.split('@');
-
-    if(emailParts.length != 2){
-      return false;
-    }
-    emailParts = emailParts[1].split('.');
-    if(emailParts.length != 2){
-      return false;
-    }
-
-    return true;
-  }
-
-  validateName(formName: NgForm){
-    if (formName.valid) {
+    if(this.nameIsCorrect && this.lastnameIsCorrect){
       this.activateLabelsEmail();
     }
   }
 
-  validateEmail(formEmail: NgForm){
-    if (formEmail.valid && this.isEmail(formEmail.value.correo)){
-      this.user.email = formEmail.value.correo;
+  validateEmail(){
+    this.user.email = this.user.email.toLowerCase();
+    this.emailIsCorrect = emailValidation(this.user.email);
+    
+    if(this.emailIsCorrect){
       this.activatelabelsPassword();
     }
   }
 
-  validatePassword(formPassword: NgForm){
- 
-    if(formPassword.valid && this.password === this.confirmPassword){
-      this.user.password = this.password
+  validatePassword(){
+    const pwValidations: any = Passwordvalidation(this.user.password)
+    this.errorMessagesPassword = pwValidations.errorMessages;
+    this.passwordIsCorrect = pwValidations.allOk;
 
-      let navigationextras: NavigationExtras = {
-        state:{
-          user:this.user
-        }
-      }
-      console.log(this.user)
-      this.toHome(navigationextras);
+    this.confirmPasswordIsCorrect = (this.user.password == this.confirmPassword)
+
+    if(this.passwordIsCorrect && this.confirmPasswordIsCorrect){
+      this.toHome();
     }
-      
+  }
+
+  toHome(){
+    const navigationextras: NavigationExtras = {
+      state:{
+        user:this.user
+      }
+    }
+    this.router.navigate(['tabs-worker'],navigationextras)
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { emailValidation } from 'src/app/utils/validation-functions';
 
 @Component({
   selector: 'app-lost-password',
@@ -8,6 +8,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./lost-password.page.scss'],
 })
 export class LostPasswordPage implements OnInit {
+
+  email: string = "";
+
+  //validadores
+  emailIsCorrect: boolean = true;
+
 
   constructor(private router: Router) { }
 
@@ -21,29 +27,12 @@ export class LostPasswordPage implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  isEmail(email: string): boolean {
+  validateEmail(){
+   this.emailIsCorrect = emailValidation(this.email)
+   
+   if(this.emailIsCorrect){
     
-    if (!email) {
-      console.log("que chucha")
-      return false; 
-    }
-    let emailParts = email.split('@');
-
-    if(emailParts.length != 2){
-      return false;
-    }
-    emailParts = emailParts[1].split('.');
-    if(emailParts.length != 2){
-      return false;
-    }
-
-    return true;
-  }
-
-  validateEmail(formEmail: NgForm){
-    if (formEmail.valid && this.isEmail(formEmail.value.correo)){
-      this.toLogin()
-    }
+   }
   }
 
 }

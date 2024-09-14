@@ -15,75 +15,44 @@
   </ion-item>
 
   <!-- Etiquetas Nombre de usuario -->
-  <form #formName="ngForm" (ngSubmit)="validateName(formName)">
-    <ion-list *ngIf="labelsNameActived">
-      <ion-item lines="none">
-        <ion-input label="Entidad"
-        type="text" 
-        name="nombre" 
-        placeholder="Introduce el nombre de la entidad" 
-        labelPlacement="floating"
-        errorText="Nombre invalido"
-        ngModel 
-        required >
-        </ion-input>
-      </ion-item>
-      <ion-button expand="block" size ="large" fill="solid" shape="round" class="continue-btn" (click)="validateName(formName)">Continuar</ion-button>
-    </ion-list>
-  </form>
+  <ion-list *ngIf="labelsNameActived">
+    <div>
+      <ion-input label="Nombre compañia" labelPlacement="floating" placeholder="Ingresa el nombre de la compañia" fill="outline"
+      [(ngModel)]="user.name">
+      </ion-input>
+      <p class="error-message" *ngIf="!nameIsCorrect">Este campo no puede quedar vacío</p>
+    </div> 
+    <ion-button expand="block" size="large" fill="solid" shape="round" class="continue-btn" (click)="validateName()">Continuar</ion-button>
+  </ion-list>
  
   <!-- Etiquetas Correo -->
-  <form #formEmail="ngForm" (ngSubmit)="validateEmail(formEmail)">
-    <ion-list *ngIf="labelsEmailActived">
-      <ion-item lines="none">
-        <ion-input label="Correo"
-        type="email"
-        name="correo"
-        placeholder="Introduce tu correo" 
-        labelPlacement="floating"
-        errorText="correo invalido"
-        ngModel 
-        required 
-        email
-        >
-        </ion-input>
-      </ion-item>
-      <ion-button expand="block" size ="large" fill="solid" shape="round" class="continue-btn" type="submite">Continuar</ion-button>
-    </ion-list>
-  </form>
+  <ion-list *ngIf="labelsEmailActived">
+    <div>
+      <ion-input label="Correo" labelPlacement="floating" placeholder="Ingresa tu correo" fill="outline"[(ngModel)]="user.email">
+      </ion-input>
+      <p class="error-message" *ngIf="!emailIsCorrect">Correo invalido</p>
+    </div>
+    
+    <ion-button expand="block" size ="large" fill="solid" shape="round" class="continue-btn" (click)="validateEmail()">Continuar</ion-button>
+  </ion-list>
 
   <!-- Etiquetas Contraseña -->
-  <form #formPassword="ngForm" (ngSubmit)="validatePassword(formPassword)">
-    <ion-list *ngIf="labelsPasswordActived">
-      <ion-item lines="none">
-        <ion-input id="password"
-        label="Contraseña"
-        type="password" 
-        name="contraseña" 
-        placeholder="Introduce una contraseña" 
-        labelPlacement="floating"
-        errorText="debe contener min 8 caracteres"
-        [(ngModel)]="password"
-        minlength="8"
-        ngModel 
-        required>
-        </ion-input>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-input id="confirmPassword"
-        label="Confirmar contraseña"
-        type="password" 
-        name="confirmarContraseña" 
-        placeholder="Repita la contraseña" 
-        labelPlacement="floating"
-        errorText="debe contener min 8 caracteres"
-        [(ngModel)]="confirmPassword"
-        minlength="8"
-        ngModel 
-        required>
-        </ion-input>
-      </ion-item>
-      <ion-button expand="block" size ="large" fill="solid" shape="round" class="continue-btn" type="submite">Continuar</ion-button>
-    </ion-list>
-  </form>
+  <ion-list *ngIf="labelsPasswordActived">
+    <div>
+      <ion-input type = "password" label="Contraseña" placeholder="Ingresa tu contraseña" labelPlacement="floating" fill="outline" [(ngModel)]="user.password">
+        <ion-input-password-toggle slot="end" *ngIf="user.password"></ion-input-password-toggle>
+      </ion-input>
+      <div *ngIf="!passwordIsCorrect">
+        <p class="error-message" *ngFor="let errorMessage of errorMessagesPassword">{{errorMessage}}</p>
+      </div>
+      
+    </div>
+    <div>
+      <ion-input type="password" label="Confirmar Contraseña" placeholder="Confirma tu contraseña" labelPlacement="floating" fill="outline" [(ngModel)]="confirmPassword">
+        <ion-input-password-toggle slot="end" *ngIf="confirmPassword"></ion-input-password-toggle>
+      </ion-input>
+      <p class="error-message" *ngIf="!confirmPasswordIsCorrect">Las contraseñas no coinciden</p>
+    </div>
+    <ion-button expand="block" size ="large" fill="solid" shape="round" class="continue-btn" (click)="validatePassword()">Continuar</ion-button>
+  </ion-list>
 </ion-content>
