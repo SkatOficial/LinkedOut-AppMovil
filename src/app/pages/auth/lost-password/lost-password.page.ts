@@ -10,9 +10,12 @@ import { emailValidation } from 'src/app/utils/validation-functions';
 export class LostPasswordPage implements OnInit {
 
   email: string = "";
-
+  
   //validadores
   emailIsCorrect: boolean = true;
+  
+  //Mensajes de error
+  emailErrorMessage = "";
 
 
   constructor(private router: Router) { }
@@ -28,11 +31,10 @@ export class LostPasswordPage implements OnInit {
   }
 
   validateEmail(){
-   this.emailIsCorrect = emailValidation(this.email)
-   
-   if(this.emailIsCorrect){
+    const emailValidations:any = emailValidation(this.email);
+    this.emailIsCorrect = emailValidations.allOk;
     
-   }
+    this.emailErrorMessage = emailValidations.errorMessage;
   }
 
 }

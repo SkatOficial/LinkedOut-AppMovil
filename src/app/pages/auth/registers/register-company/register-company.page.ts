@@ -31,6 +31,9 @@ export class RegisterCompanyPage implements OnInit {
   labelsEmailActived: boolean = false;
   labelsPasswordActived: boolean = false;
 
+  //Mensajes de error
+  emailErrorMessage = "";
+
   constructor(private router:Router) { 
   }
   
@@ -67,9 +70,11 @@ export class RegisterCompanyPage implements OnInit {
   }
 
   validateEmail(){
-    this.user.email = this.user.email.toLowerCase();
-    this.emailIsCorrect = emailValidation(this.user.email);
+    const emailValidations:any = emailValidation(this.user.email);
+    this.emailIsCorrect = emailValidations.allOk;
     
+    this.emailErrorMessage = emailValidations.errorMessage;
+
     if(this.emailIsCorrect){
       this.activatelabelsPassword();
     }

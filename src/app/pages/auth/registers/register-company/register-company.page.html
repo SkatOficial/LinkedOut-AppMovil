@@ -30,7 +30,7 @@
     <div>
       <ion-input label="Correo" labelPlacement="floating" placeholder="Ingresa tu correo" fill="outline"[(ngModel)]="user.email">
       </ion-input>
-      <p class="error-message" *ngIf="!emailIsCorrect">Correo invalido</p>
+      <p class="error-message" *ngIf="!emailIsCorrect">{{emailErrorMessage}}</p>
     </div>
     
     <ion-button expand="block" size ="large" fill="solid" shape="round" class="continue-btn" (click)="validateEmail()">Continuar</ion-button>
