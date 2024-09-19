@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="ion-no-border ">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button class="back-btn"></ion-back-button>
@@ -8,80 +8,70 @@
 </ion-header>
 
 <ion-content>
-  <form #formData="ngForm" (ngSubmit)="validateData(formData)">
     <!-- FOTO NOMBRE Y DIRECCION -->
     <ion-item lines="none">
       <div class="item-content">
         <ion-item lines="none">
           <ion-img src="assets/img/company.png" tab="img-company" class="img-profile"></ion-img>
         </ion-item>
-          <ion-item lines="none">
+        <ion-item lines="none" class="item-content">
+          <div class="w-100">
             <ion-label>
-              <h3>Nombre*</h3>
-              <ion-input
-              value={{user.name}}
-              [(ngModel)]="user.name"
-              type="text" 
-              name="nombre" 
-              errorText="Nombre invalido"
-              required
-              > </ion-input>
+              <h3>Nombre</h3>
+              <div class="input-border">
+                <ion-input placeholder="Ingresa el nombre de la entidad" value={{user.name}} [(ngModel)]="user.name"> </ion-input>
+              </div>
             </ion-label>
-          </ion-item >
-          <ion-item lines="none">
-            <ion-label>
-              <h3>Ubicacion*</h3>
-              <ion-input value={{user.address}}
-              [(ngModel)]="user.address"
-              type="text" 
-              name="direccion"  
-              errorText="Ubicacion invalida"
-              required> </ion-input>
-            </ion-label>
-          </ion-item>
+            <p class="error-message" *ngIf="!nameIsCorrect">Este campo es obligatorio</p>
+          </div>
+        </ion-item >
+        <ion-item lines="none">
+          <ion-label>
+            <h3>Ubicacion</h3>
+            <div class="input-border">
+              <ion-input placeholder="Ingresa la direccion de la entidad" value={{user.address}} [(ngModel)]="user.address"> </ion-input>
+            </div>
+          </ion-label>
+        </ion-item>
       </div>  
     </ion-item>
 
     <!-- CONTACTOS -->
     <ion-item lines="none" class="pt-10px">
-      <ion-label>
-        <ion-item>
+      <div class="item-content">
+        <ion-item lines="none">
           <h1>Contactos</h1>
         </ion-item>
-        <ion-list>
-          <ion-item>
-            <ion-icon name="call-outline" slot="start"></ion-icon>
-            <ion-label>
-              <h2>Teléfono</h2>
-              <div class="d-flex">
-                <p class="p-auto">+</p>
+        <ion-item lines="none">
+          <ion-icon name="call-outline" slot="start"></ion-icon>
+          <ion-label>
+            <div class="d-flex">
+              <p class="m-auto">+</p>
+              <div class="input-border flex-grow">
                 <ion-input
-                  maxlength="11"
-                  name="telefono"
-                  [(ngModel)]="user.phone"
-                  [value]="inputModel"
-                  (ionInput)="onInput($event)"
-                  #ionInputEl
-                ></ion-input>
+                maxlength="11"
+                [(ngModel)]="user.phone"
+                [value]="inputModel"
+                (ionInput)="onInput($event)"
+                #ionInputEl
+              ></ion-input>
+              </div>
+            </div>
+          </ion-label>
+        </ion-item>
+          
+        <ion-item lines="none">
+          <ion-icon name="mail-outline" slot="start"></ion-icon>
+          <div class="w-100 my-10px">
+            <ion-label>
+              <div class="input-border">
+                <ion-input value="{{user.email}}" [(ngModel)]="user.email"></ion-input>
               </div>
             </ion-label>
-          </ion-item>
-          
-          <ion-item>
-            <ion-icon name="mail-outline" slot="start"></ion-icon>
-            <ion-label>
-              <h2>Correo Electrónico</h2>
-              <ion-input value="{{user.email}}"
-              [(ngModel)]="user.email"
-              type="email"
-              name="correo"
-              errorText="correo invalido"
-              required 
-              email></ion-input>
-            </ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-label>
+            <p class="error-message" *ngIf="!emailIsCorrect">{{emailErrorMessage}}</p>
+          </div>  
+        </ion-item>
+      </div>
     </ion-item>
 
     <!-- ACERCA DE -->
@@ -96,7 +86,7 @@
         </ion-textarea>
       </ion-label>
     </ion-item>
-    <ion-button expand="full" class="mb-50px" type="submite">confirmar</ion-button>
-  </form>
+    <ion-button expand="full" (click)="validateProfile()">confirmar</ion-button>
+
 
 </ion-content>

@@ -1,0 +1,11 @@
+[33mcommit 07bc5772df38b6106dd6cd5787d58aae224385e0[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mrefactor-forms[m[33m, [m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m
+Author: Sebastian Abarca <sebastian.abarca.p@gmail.com>
+Date:   Sat Sep 14 19:20:55 2024 -0300
+
+    Refactorizacion de los formularios (auth)
+
+[33mcommit 8c7cf08da9996d72dedec5a6fe093bc183f78290[m
+Author: Sebastian Abarca <sebastian.abarca.p@gmail.com>
+Date:   Sat Sep 7 13:58:34 2024 -0400
+
+    Proyecto base

@@ -40,7 +40,7 @@ ion-header{
     box-shadow: none;
     
     ion-toolbar {
-        --background: #E1EAE9;
+        --background: white;
 
         .toolbar-content{
             display: flex;
@@ -103,4 +103,39 @@ ion-textarea.ng-dirty{
 
     font-size: 0.85rem;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.input-border{
+    border-bottom: 1px solid rgb(161, 160, 160); 
+}
+
+.input-border:focus-within{
+    border-bottom: 1px solid #0054E9;
+
+}
+
+
+.d-flex{
+    display: flex;
+    align-items: center;
+}
+.m-auto{
+    margin: 0;
+    margin-right: 5px;
+}
+.my-10px{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.pt-10px{
+    padding-top: 10px;
+}
+
+
+.w-100{
+    width: 100%;
+}
+
+.flex-grow {
+    flex-grow: 1;
 }
