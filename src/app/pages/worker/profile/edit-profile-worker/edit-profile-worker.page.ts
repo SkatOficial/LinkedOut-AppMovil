@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonInput } from '@ionic/angular';
+import { emailValidation, textValidaton } from 'src/app/utils/validation-functions';
 
 @Component({
   selector: 'app-edit-profile-worker',
@@ -31,6 +32,17 @@ export class EditProfileWorkerPage implements OnInit {
     addres:'',
     phone:'',
   }
+
+  inputModel = this.user.phone;
+
+  //Validadores
+  nameIsCorrect:boolean = true;
+  lastnameIsCorrect:boolean = true;
+  emailIsCorrect:boolean = true;
+
+  //Mensajes de error
+  emailErrorMessage = "";
+
   constructor(private router: Router, private activedroute: ActivatedRoute) {
     this.activedroute.queryParams.subscribe(param =>{
       console.log(this.router.getCurrentNavigation()?.extras.state)
@@ -62,36 +74,6 @@ export class EditProfileWorkerPage implements OnInit {
     this.router.navigate(['/edit-education-worker'])
   }
 
-  isEmail(email: string): boolean {
-    
-    if (!email) {
-      console.log("que chucha")
-      return false; 
-    }
-    let emailParts = email.split('@');
-
-    if(emailParts.length != 2){
-      return false;
-    }
-    emailParts = emailParts[1].split('.');
-    if(emailParts.length != 2){
-      return false;
-    }
-
-    return true;
-  }
-
-  validateData(formData: NgForm){
-    if (formData.valid && this.isEmail(formData.value.correo)){
-      console.log("formName Valido")
-    }else{
-      console.log("formName Invalido")
-    }
-  }
-
-
-  inputModel = this.user.phone;
-
   @ViewChild('ionInputEl', { static: true }) ionInputEl!: IonInput;
 
   onInput(ev:any) {
@@ -104,5 +86,15 @@ export class EditProfileWorkerPage implements OnInit {
      * the component to keep them in sync.
      */
     this.ionInputEl.value = this.inputModel = filteredValue;
+  }
+
+  //Validaciones
+  validateProfile(){
+    const emailValidations:any = emailValidation(this.user.email);
+    this.emailIsCorrect = emailValidations.allOk;
+    this.nameIsCorrect = textValidaton(this.user.name);
+    this.lastnameIsCorrect = textValidaton(this.user.lastname);
+    
+    this.emailErrorMessage = emailValidations.errorMessage;
   }
 }
