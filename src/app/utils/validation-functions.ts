@@ -5,7 +5,7 @@ export function textValidaton(text:string): boolean{
   return true;
 }
 
-export function emailValidation(email: string): boolean {
+export function emailValidation(email: string): any {
   let validations:any = {
     allOk: true,
     errorMessage: "",
@@ -24,7 +24,7 @@ export function emailValidation(email: string): boolean {
   return validations;
 }
 
-export function Passwordvalidation(password: string): any{
+export function passwordValidation(password: string): any{
   let validations:any = {
     allOk: true,
     errorMessages: [],
@@ -56,4 +56,5 @@ export function Passwordvalidation(password: string): any{
    }
   return validations;
 }
+
 
