@@ -20,7 +20,7 @@
       <ion-input label="Nombre compañia" labelPlacement="floating" placeholder="Ingresa el nombre de la compañia" fill="outline"
       [(ngModel)]="user.name">
       </ion-input>
-      <p class="error-message" *ngIf="!nameIsCorrect">Este campo no puede quedar vacío</p>
+      <p class="error-message" *ngIf="!nameIsCorrect">este campo es obligatorio</p>
     </div> 
     <ion-button expand="block" size="large" fill="solid" shape="round" class="continue-btn" (click)="validateName()">Continuar</ion-button>
   </ion-list>

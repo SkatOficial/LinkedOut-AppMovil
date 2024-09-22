@@ -9,6 +9,7 @@ import { EditEducationWorkerPageRoutingModule } from './edit-education-worker-ro
 import { EditEducationWorkerPage } from './edit-education-worker.page';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {MatIconModule} from '@angular/material/icon';
     IonicModule,
     EditEducationWorkerPageRoutingModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    SharedModule
   ],
   declarations: [EditEducationWorkerPage]
 })

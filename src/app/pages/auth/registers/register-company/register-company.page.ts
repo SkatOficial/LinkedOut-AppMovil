@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
-import { emailValidation, Passwordvalidation, textValidaton } from 'src/app/utils/validation-functions';
+import { emailValidation, passwordValidation, textValidaton } from 'src/app/utils/validation-functions';
 
 @Component({
   selector: 'app-register-company',
@@ -81,7 +81,7 @@ export class RegisterCompanyPage implements OnInit {
   }
 
   validatePassword(){
-    const pwValidations: any = Passwordvalidation(this.user.password)
+    const pwValidations: any = passwordValidation(this.user.password)
     this.errorMessagesPassword = pwValidations.errorMessages;
     this.passwordIsCorrect = pwValidations.allOk;
 

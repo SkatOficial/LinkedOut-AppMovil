@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { textValidaton, emailValidation, Passwordvalidation} from 'src/app/utils/validation-functions';
+import { textValidaton, emailValidation, passwordValidation} from 'src/app/utils/validation-functions';
 
 @Component({
   selector: 'app-register-worker',
@@ -81,7 +81,7 @@ export class RegisterWorkerPage implements OnInit {
   }
 
   validatePassword(){
-    const pwValidations: any = Passwordvalidation(this.user.password)
+    const pwValidations: any = passwordValidation(this.user.password)
     this.errorMessagesPassword = pwValidations.errorMessages;
     this.passwordIsCorrect = pwValidations.allOk;
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
+import { dateValidaton, textValidaton } from 'src/app/utils/validation-functions';
 
 @Component({
   selector: 'app-edit-experience-worker',
@@ -9,37 +10,37 @@ import { AlertController } from '@ionic/angular';
 })
 export class EditExperienceWorkerPage implements OnInit {
 
-  educInfo: any= {
-    institucion: "",
-    carrera: "",
-    inicio: new Date().toISOString().substring(0, 7),
-    final: new Date().toISOString().substring(0, 7)
+  expInfo: any= {
+    companyName: "",
+    ocupation: "",
+    startDate: undefined,
+    endDate: undefined
   }
 
-  constructor(private alertController: AlertController) { }
+  //Valdiadores
+  companyNameIsCorrect:boolean = true;
+  ocupationIsCorrect:boolean = true;
+  startDateIsCorrect:boolean = true;
+  endDateIsCorrect:boolean = true;
+
+  constructor(private alertController:AlertController) { }
 
   ngOnInit() {
   }
-
-  validaFecha(inicio: string, final: string): boolean {
-
-    const fecha1 = new Date(inicio);
-    const fecha2 = new Date(final);
-
-    return fecha1 < fecha2;
-  }
   
-  validateData(formData: NgForm){
-    let fechaInicial = this.educInfo.inicio;
-    let fechaFinal = this.educInfo.final;
-
-    if (formData.valid && this.validaFecha(fechaInicial,fechaFinal)){
-      console.log("formData Valido")
-    }else{
-      console.log("formData Invalido")
-    }
+  startDateChanged(date:Date){
+    this.expInfo.startDate = date;
   }
-  
+
+  endDateChanged(date:Date){
+    this.expInfo.endDate = date;
+  }
+  validateData(){
+    this.companyNameIsCorrect = textValidaton(this.expInfo.companyName);
+    this.ocupationIsCorrect = textValidaton(this.expInfo.ocupation);
+    this.startDateIsCorrect = dateValidaton(this.expInfo.startDate);
+    this.endDateIsCorrect = dateValidaton(this.expInfo.endDate);
+  }
   async confirmDeletion() {
     const alert = await this.alertController.create({
       header: '¿Estás seguro de eliminar la educacion?',

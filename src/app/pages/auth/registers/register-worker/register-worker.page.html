@@ -20,13 +20,13 @@
       <ion-input label="Nombre" labelPlacement="floating" placeholder="Ingresa tu nombre" fill="outline"
       [(ngModel)]="user.name">
       </ion-input>
-      <p class="error-message" *ngIf="!nameIsCorrect">Este campo no puede quedar vacío</p>
+      <p class="error-message" *ngIf="!nameIsCorrect">este campo es obligatorio</p>
     </div> 
 
     <div>
       <ion-input label="Apellidos" placeholder="Introduce tus apellidos" labelPlacement="floating" fill="outline" [(ngModel)]="user.lastname">
       </ion-input>
-      <p class="error-message" *ngIf="!lastnameIsCorrect">Este campo no puede quedar vacío</p>
+      <p class="error-message" *ngIf="!lastnameIsCorrect">este campo es obligatorio</p>
     </div>
   
     <ion-button expand="block" size="large" fill="solid" shape="round" class="continue-btn" (click)="validateName()">Continuar</ion-button>

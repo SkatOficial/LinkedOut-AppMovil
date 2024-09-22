@@ -1,0 +1,32 @@
+
+ion-modal{
+    --background: rgba(44, 33, 45, 0.2);
+    &::part(content){
+        backdrop-filter: blur(6px);
+    }
+    ion-content{ 
+        --background: transparent;
+        ion-datetime{
+            border-radius: 16px;
+            margin-top: 24%;
+            --background: rgb(245, 235, 247);
+            --background-rgb: 245, 235, 247;
+            --wheel-highlight-background: rgb(218, 216, 255);
+            --wheel-highlight-border-radius: 48px;
+        }
+    
+    }
+}
+
+
+ion-item{
+    --background: white;
+    margin-top: 10px;
+    ion-icon{
+        margin-left: auto;
+    }
+}
+
+ion-datetime{
+    margin: auto;
+}

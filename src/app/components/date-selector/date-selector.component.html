@@ -1,0 +1,54 @@
+<ion-item id="modal-startDate" lines="none" class="item-content">
+  <div class="w-100 my-10px">
+    <ion-label>
+      <h3>Fecha de inicio</h3>
+      <div class="input-border">
+        <ion-input placeholder="Fecha de Inicio" [readonly]="true" [value]="dateFormat(selectedStartDate)" > </ion-input>
+      </div>
+    </ion-label>
+    <p class="error-message" *ngIf="!startDateIsCorrect">Este campo es obligatorio</p>
+  </div>
+
+  <ion-modal trigger="modal-startDate">
+    <ng-template>
+      <ion-content>
+        <ion-datetime #startdatetime
+        presentation="month-year" 
+        [showDefaultButtons]="true"
+        [max]="today"
+        doneText="Confirmar" 
+        cancelText="Cancelar"
+        (ionChange)="startDateConfirmed($event)">
+        </ion-datetime>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-item >
+
+<ion-item id="modal-endDate" lines="none" class="item-content">
+  <div class="w-100 my-10px">
+    <ion-label>
+      <h3>Fecha de finalización</h3>
+      <div class="input-border">
+        <ion-input placeholder="Fecha de finalización" [readonly]="true" [value]="dateFormat(selectedEndDate)"> </ion-input>
+      </div>
+    </ion-label>
+    <p class="error-message" *ngIf="!endDateIsCorrect">Este campo es obligatorio</p>
+  </div>
+
+  <ion-modal trigger="modal-endDate">
+    <ng-template>
+      <ion-content>
+        <ion-datetime #enddatetime
+        presentation="month-year" 
+        [showDefaultButtons]="true"
+        [max]="today"
+        [min]="minDate"
+        doneText="Confirmar" 
+        cancelText="Cancelar"
+        (ionChange)="endDateConfirmed($event)">
+        </ion-datetime>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-item >

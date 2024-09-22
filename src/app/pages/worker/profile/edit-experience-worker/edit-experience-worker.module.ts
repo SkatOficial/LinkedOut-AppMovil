@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { EditExperienceWorkerPageRoutingModule } from './edit-experience-worker-routing.module';
 
 import { EditExperienceWorkerPage } from './edit-experience-worker.page';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EditExperienceWorkerPageRoutingModule
+    EditExperienceWorkerPageRoutingModule,
+    SharedModule
   ],
   declarations: [EditExperienceWorkerPage]
 })
