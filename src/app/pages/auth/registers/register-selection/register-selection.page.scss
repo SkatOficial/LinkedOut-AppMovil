@@ -1,26 +1,5 @@
-ion-header{
-    ion-toolbar {
-        --background: #E1EAE9;
-    }
-
-    .back-btn{
-        --color:#D7984D;
-    }
-    .linkedout-logo{
-        width: 100%;
-        display: flex;
-        justify-content: start;
-        
-        ion-img{
-            width: auto;
-            height: 2rem;
-            display: inline-block;
-        }
-    }
-}
-
 ion-content{
-    --ion-background-color:#E1EAE9;
+    --ion-background-color:white;
 }
 
 ion-text{
