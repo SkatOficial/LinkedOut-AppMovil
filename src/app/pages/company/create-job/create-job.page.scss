@@ -1,22 +1,22 @@
-
-ion-list{
-    padding: 0px;
-}
-ion-content{
-    --ion-background-color:white;
-}
-
 ion-item{
     --background: white;
-}
-
-ion-label{
-    h2{
-        font-size: large;
+    ion-icon{
+        margin-left: auto;
     }
 }
 
-.mt-50px{
-    margin-top: 20px;
+ion-textarea{
+    padding: 5px;
+    padding-top: 2px;
+    border-radius: 1rem;
+    border: 2px solid #caca;
 }
 
+ion-label{
+    width: 100%;
+}
+
+.item-content{
+    width: 100%;
+    display: block;
+}

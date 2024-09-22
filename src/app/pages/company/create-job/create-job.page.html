@@ -8,34 +8,28 @@
       <h1 class="titulo-reg">Publica un puesto de trabajo</h1>
     </ion-text>
   </ion-item>
-    <form #formData="ngForm" (ngSubmit)="validateData(formData)">
-      <ion-list>
-        <ion-item lines="none" class="mt-20px">
+    <ion-list>
+      <ion-item lines="none" class="item-content">
+        <div class="w-100 my-10px">
           <ion-label>
-            <h2>Titulo</h2>
-            <ion-input 
-              fill="outline"
-              [(ngModel)]="job.title"
-              type="text" 
-              name="titulo" 
-              errorText="No puede quedar vacio"
-              required></ion-input>
+            <h3>Titulo</h3>
+            <div class="input-border">
+              <ion-input placeholder="Ingresa el titulo" [(ngModel)]="job.title"> </ion-input>
+            </div>
           </ion-label>
-        </ion-item>
+          <p class="error-message" *ngIf="!titleIsCorrect">Este campo es obligatorio</p>
+        </div>
+      </ion-item >
 
-        <ion-item class="mt-20px">
-          <ion-label>
-            <h2>Descripcion</h2>
-            <ion-textarea rows="10" labelPlacement="stacked" 
-            fill="outline"
-            [(ngModel)]="job.about"
-              type="text" 
-              name="descripcion" 
-              errorText="No puede quedar vacio"
-              required></ion-textarea>
-          </ion-label>
-        </ion-item>
-        <ion-button expand="block" size ="large" fill="solid" shape="round" type="submite">publicar</ion-button>
-      </ion-list>
-    </form>
+      <ion-item class="my-10px">
+        <ion-label>
+          <h2>Descripcion</h2>
+          <ion-textarea rows="10"
+          name="acerca de" 
+          value="{{job.description}}">
+          </ion-textarea>
+        </ion-label>
+      </ion-item>
+      <ion-button expand="block" size ="large" fill="solid" shape="round" (click)="validateData()">publicar</ion-button>
+    </ion-list>
 </ion-content>

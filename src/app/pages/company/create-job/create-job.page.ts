@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
+import { textValidaton } from 'src/app/utils/validation-functions';
 
 @Component({
   selector: 'app-create-job',
@@ -10,8 +10,11 @@ import { AlertController } from '@ionic/angular';
 export class CreateJobPage implements OnInit {
   job:any = {
     title: "",
-    about: ""
+    description: ""
   }
+
+  //Validadores
+  titleIsCorrect : boolean = true;
   constructor(private alertController: AlertController) { }
 
   ngOnInit() {
@@ -40,13 +43,8 @@ export class CreateJobPage implements OnInit {
     await alert.present();
   }
 
-  validateData(formData: NgForm){
-    if (formData.valid){
-      console.log("form Valido");
-      this.confirmApplication();
-    }else{
-      console.log("formInvalido");
-    }
+  validateData(){
+    this.titleIsCorrect = textValidaton(this.job.title);
   }
 
 }
