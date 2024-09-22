@@ -10,7 +10,7 @@ const routes: Routes = [
     children:[
     {
       path: '',
-      redirectTo: 'home',
+      redirectTo: 'history',
       pathMatch: 'full'
     },
     {
@@ -20,10 +20,6 @@ const routes: Routes = [
     {
       path: 'history',
       loadChildren: () => import('../../company/history-company/history-company.module').then( m => m.HistoryCompanyPageModule)
-    },
-    {
-      path: 'home',
-      loadChildren: () => import('../../company/home-company/home-company.module').then( m => m.HomeCompanyPageModule)
     },
     {
       path: 'create-job',
