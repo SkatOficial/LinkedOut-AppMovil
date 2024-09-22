@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { passwordValidation } from 'src/app/utils/validation-functions';
 
 @Component({
   selector: 'app-change-password',
@@ -9,17 +10,35 @@ import { Router } from '@angular/router';
 })
 export class ChangePasswordPage implements OnInit {
   
-  password: string = '';
+  user: any = {
+    name : '',
+    email: '',
+    password: ''
+  }
+
+  //Validadores
+  passwordIsCorrect: boolean = true;
+  confirmPasswordIsCorrect : boolean = true;
   confirmPassword: string = '';
 
-  constructor(private router:Router) { }
+  //Mensajes de error
+  errorMessagesPassword: string[] = [];
+
+  constructor() { }
 
   ngOnInit() {
   }
 
-  validatePassword(formPassword: NgForm){
-    if(formPassword.valid && this.password === this.confirmPassword){
+  validatePassword(){
+    const pwValidations: any = passwordValidation(this.user.password)
+    this.errorMessagesPassword = pwValidations.errorMessages;
+    this.passwordIsCorrect = pwValidations.allOk;
+    
 
+    this.confirmPasswordIsCorrect = (this.user.password == this.confirmPassword)
+
+    if(this.passwordIsCorrect && this.confirmPasswordIsCorrect){
+      
     }
   }
 
