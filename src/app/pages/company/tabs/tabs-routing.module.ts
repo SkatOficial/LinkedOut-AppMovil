@@ -23,7 +23,7 @@ const routes: Routes = [
     },
     {
       path: 'create-job',
-      loadChildren: () => import('../../company/create-job/create-job.module').then( m => m.CreateJobPageModule)
+      loadChildren: () => import('../job/create-job/create-job.module').then( m => m.CreateJobPageModule)
     },]
   }
 ];

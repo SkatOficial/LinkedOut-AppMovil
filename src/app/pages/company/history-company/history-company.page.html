@@ -7,7 +7,8 @@
 </ion-header>
   
 <ion-content>
-  <ion-list>     
+  <ion-list> 
+
     <ion-item class="bg-white" >
       <div class="item-content" (click)="setOpen(true)">
         <ion-img  src="assets/img/company.png" alt="img-company"></ion-img>
@@ -16,6 +17,9 @@
           <h3>Empresa Super Profesional</h3>
           <p class="trunc">Colina, Región Metropolitana de Santiago</p>
         </ion-label>
+        <div class="m-auto">
+          <ion-icon  name="settings-outline" size="large" color="medium" slot="end"></ion-icon>
+        </div>
       </div>
       <ion-modal [isOpen]="isModalOpen">
         <ng-template>
