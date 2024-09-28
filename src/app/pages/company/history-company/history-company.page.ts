@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-history-company',
@@ -7,13 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HistoryCompanyPage implements OnInit {
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
   }
   
-  isModalOpen = false;
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
+  toJob() {
+    this.router.navigate(['/candidates']);
+  }
+  toOptions(){
+    this.router.navigate(['/option-job'])
   }
 }

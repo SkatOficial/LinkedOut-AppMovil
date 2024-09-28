@@ -79,6 +79,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/worker/profile/edit-education-worker/edit-education-worker.module').then( m => m.EditEducationWorkerPageModule)
   },
   {
+    path: 'candidates',
+    loadChildren: () => import('./pages/company/job/candidates/candidates.module').then( m => m.CandidatesPageModule)
+  },
+  {
+    path: 'option-job',
+    loadChildren: () => import('./pages/company/job/option-job/option-job.module').then( m => m.OptionJobPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/not-found/not-found.module').then( m => m.NotFoundPageModule)
   },
