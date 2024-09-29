@@ -20,6 +20,7 @@ export class ChangePasswordPage implements OnInit {
   passwordIsCorrect: boolean = true;
   confirmPasswordIsCorrect : boolean = true;
   confirmPassword: string = '';
+  isAllGood ?: boolean;
 
   //Mensajes de error
   errorMessagesPassword: string[] = [];
@@ -27,6 +28,10 @@ export class ChangePasswordPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  setOpenToast(value:boolean){
+    this.isAllGood = value;
   }
 
   validatePassword(){
@@ -38,7 +43,7 @@ export class ChangePasswordPage implements OnInit {
     this.confirmPasswordIsCorrect = (this.user.password == this.confirmPassword)
 
     if(this.passwordIsCorrect && this.confirmPasswordIsCorrect){
-      
+      this.setOpenToast(true);
     }
   }
 

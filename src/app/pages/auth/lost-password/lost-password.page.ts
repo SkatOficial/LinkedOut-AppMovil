@@ -13,6 +13,7 @@ export class LostPasswordPage implements OnInit {
   
   //validadores
   emailIsCorrect: boolean = true;
+  isAllGood ?: boolean;
   
   //Mensajes de error
   emailErrorMessage = "";
@@ -30,11 +31,19 @@ export class LostPasswordPage implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  setOpenToast(value:boolean){
+    this.isAllGood = value;
+  }
+
   validateEmail(){
     const emailValidations:any = emailValidation(this.email);
     this.emailIsCorrect = emailValidations.allOk;
     
     this.emailErrorMessage = emailValidations.errorMessage;
+    console.log(this.emailIsCorrect);
+    if(this.emailIsCorrect){
+      this.setOpenToast(true);
+    }
   }
 
 }
