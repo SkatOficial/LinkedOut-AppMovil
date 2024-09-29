@@ -10,6 +10,8 @@ export class DateSelectorComponent  implements OnInit {
   @Input() endDateIsCorrect ?: boolean;
   @Output() startDateChange = new EventEmitter<Date>();
   @Output() endDateChange = new EventEmitter<Date>();
+  @Output() isWorkingChange ?:boolean;
+
  
   //Fecha
   defaultDate= new Date();
@@ -17,6 +19,7 @@ export class DateSelectorComponent  implements OnInit {
   selectedEndDate ?: Date;
   today ?: string;  
   minDate ?: string;
+  isWorking ?: boolean;
 
   constructor() { 
     this.today = new Date().toISOString();
@@ -68,6 +71,10 @@ export class DateSelectorComponent  implements OnInit {
     const month = date.toLocaleString('es-ES', { month: 'long' }); //transforma el mes a la palabra en español
 
     return year + " " + month;
+  }
+
+  isWorkingChanged( event:any){
+    this.isWorking = event.detail.checked;
   }
 
 }

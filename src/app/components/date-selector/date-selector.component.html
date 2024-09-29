@@ -1,3 +1,9 @@
+<ion-item lines="none" > 
+  <div>
+    <ion-checkbox labelPlacement="end" (ionChange)="isWorkingChanged($event)"> Actualmente tengo este cargo</ion-checkbox>
+  </div>
+</ion-item>
+
 <ion-item id="modal-startDate" lines="none" class="item-content">
   <div class="w-100 my-10px">
     <ion-label>
@@ -25,7 +31,7 @@
   </ion-modal>
 </ion-item >
 
-<ion-item id="modal-endDate" lines="none" class="item-content">
+<ion-item *ngIf="!isWorking" id="modal-endDate" lines="none" class="item-content" >
   <div class="w-100 my-10px">
     <ion-label>
       <h3>Fecha de finalización</h3>
