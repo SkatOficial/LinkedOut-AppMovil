@@ -6,7 +6,12 @@
   </ion-header>
   
   <ion-content>
-    <ion-list>      
+    <ion-item *ngIf="postArray.length === 0">
+      <ion-label>
+        <h1>No se encontraron postulaciones, realiza realiza postulaciones para verlas</h1>
+      </ion-label>
+    </ion-item>
+    <ion-list *ngIf="postArray.length > 0">      
       <ion-item *ngFor ="let post of postArray" class="bg-white">
         <div class="item-content" (click)="updateModale(post)">
           <ion-icon *ngIf="post.status_job === 'publicado'" name="time-outline" size="large" class="m-auto"></ion-icon>

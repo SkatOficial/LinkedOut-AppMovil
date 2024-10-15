@@ -25,6 +25,18 @@ export class EditProfileWorkerPage implements OnInit {
     phone:'',
   }
 
+   expArray:any ={
+    id_exp :"",
+    startDate_exp :"",
+    endDate_exp :"", 
+    otherPosition :"",
+    otherCompany :"", 
+    comp :0 ,
+    position :0 ,
+    id_user :0 ,
+  }
+    
+
   inputModel = this.user.phone;
   messageErrorToast?:string;
 
@@ -55,16 +67,25 @@ export class EditProfileWorkerPage implements OnInit {
         }
       }
     });
+
   };
 
   ngOnInit() {
+    this.bd.dbReady().subscribe(data=>{
+      if(data){    
+        //me subcribo al observable del select de los JobsById
+        this.bd.fetchExpById().subscribe(res=>{
+          this.expArray = res;
+        })
+      }
+    });
   }
 
   //RUTAS
   toAddExperience(){
     this.router.navigate(['/add-experience-worker'])
   }
-  toEditExperience(){
+  toEditExperience(exp:any){
     this.router.navigate(['/edit-experience-worker'])
   }
 

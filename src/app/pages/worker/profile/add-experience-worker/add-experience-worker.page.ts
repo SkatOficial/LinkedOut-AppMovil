@@ -151,6 +151,7 @@ export class AddExperienceWorkerPage implements OnInit {
 
   //RUTAS
   toEditProfile(){
+    this.bd.selectExpById(this.id_user);
     const navigationExtras: NavigationExtras = {
       state:{
         from:"AddExperience",

@@ -117,20 +117,14 @@
       </ion-item>
       
       <ion-list>
-        <ion-item class="list-item">
-          <ion-icon name="pencil" size="large" slot="end" (click)="toEditExperience()"></ion-icon>
+        <ion-item *ngFor="let exp of expArray" class="list-item">
+          <ion-icon name="pencil" size="large" slot="end" (click)="toEditExperience(exp)"></ion-icon>
           <ion-label>
-            <h2>Compañía Tech</h2>
-            <h3>Desarrollador Full-Stack</h3>
-            <p>2020 - 2023</p>
-          </ion-label>
-        </ion-item>
-        <ion-item class="list-item">
-          <ion-icon name="pencil" size="large" slot="end" (click)="toEditExperience()"></ion-icon>
-          <ion-label>
-            <h2>StartUp Innovación</h2>
-            <h3>Ingeniero de Software</h3>
-            <p>2017 - 2020</p>
+            <h2 *ngIf="exp.comp">{{exp.comp}}</h2>
+            <h2 *ngIf="!exp.comp">{{exp.otherCompany}}</h2>
+            <h3 *ngIf="exp.position">{{exp.position}}</h3>
+            <h3 *ngIf="!exp.position">{{exp.otherPosition}}</h3>
+            <p>{{exp.startDate_exp}} - <span *ngIf="exp.endDate_exp">{{exp.endDate_exp}}</span><span *ngIf="!exp.endDate_exp">Actualmente</span></p>
           </ion-label>
         </ion-item>
       </ion-list>

@@ -59,6 +59,8 @@ export class TabsPage implements OnInit {
     this.router.navigate(['tabs-worker/history']);
   }
   toProfile() {
+    this.bd.selectExpById(this.id_user)
+
     const navigationExtras: NavigationExtras = {
       state: {
         user: this.user

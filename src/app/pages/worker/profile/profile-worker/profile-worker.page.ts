@@ -21,6 +21,18 @@ export class ProfileWorkerPage implements OnInit {
     addres:'',
     phone:'',
   }
+
+  expArray:any ={
+    id_exp :"",
+    startDate_exp :"",
+    endDate_exp :"", 
+    otherPosition :"",
+    otherCompany :"", 
+    comp :0 ,
+    position :0 ,
+    id_user :0 ,
+  }
+  
   
   constructor(private router: Router, private bd:ServiceBDService,private storage: NativeStorage) {
     //Obtiene el id de usuario del storage
@@ -38,6 +50,9 @@ export class ProfileWorkerPage implements OnInit {
         //me subcribo al observable del select de los UserById
         this.bd.fetchUserById().subscribe(res=>{
           this.user = res;
+        })
+        this.bd.fetchExpById().subscribe(res=>{
+          this.expArray = res;
         })
       }
       });

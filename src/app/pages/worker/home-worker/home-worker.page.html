@@ -5,7 +5,12 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <ion-item *ngIf="jobArray.length === 0">
+    <ion-label>
+      <h1>No se encontraron trabajos, realiza otra busqueda o vuelve en otro momento</h1>
+    </ion-label>
+  </ion-item>
+  <ion-list *ngIf="jobArray.length > 0">
     <ion-item *ngFor="let job of jobArray" class="bg-white" >
       <div class="item-content" (click)="updateModale(job)">
         <ion-img *ngIf = "job.photo_company" [src]="job.photo_company" alt="img-company"></ion-img>

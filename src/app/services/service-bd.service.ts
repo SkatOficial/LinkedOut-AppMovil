@@ -8,6 +8,7 @@ import { Postulation } from '../models/postulation';
 import { ApiService } from './api.service';
 import { Company } from '../models/company';
 import { Position } from '../models/position';
+import { Experience } from '../experience';
 
 
 @Injectable({
@@ -66,7 +67,7 @@ export class ServiceBDService {
   listPostulationById = new BehaviorSubject([]);
   listCompanys = new BehaviorSubject([]);
   listPositions = new BehaviorSubject([]);
-
+  listExperience = new BehaviorSubject([]);
   
 
   //Contenedor de Apis externas
@@ -194,7 +195,9 @@ export class ServiceBDService {
     return this.listPositions.asObservable();
   }
 
-
+  fetchExpById(): Observable<Experience[]> {
+    return this.listExperience.asObservable();
+  }
 
   //INSERTS
   async insertUserCompany(password_user: string, name_user: string, email_user: string, id_rol: number): Promise<void> {
@@ -262,14 +265,22 @@ export class ServiceBDService {
       const res = await this.database.executeSql('INSERT INTO experience(startDate_exp, endDate_exp, otherPosition, otherCompany, id_comp, id_position ,id_user) VALUES(?,?,?,?,?,?,?)', [startDate_exp, endDate_exp, otherPosition, otherCompany, id_comp, id_position,id_user])
 
       if (res.rowsAffected > 0) {
+        const insertedData = `
+        startDate_exp: ${startDate_exp}, 
+        endDate_exp: ${endDate_exp}, 
+        otherPosition: ${otherPosition}, 
+        otherCompany: ${otherCompany}, 
+        id_comp: ${id_comp}, 
+        id_position: ${id_position}, 
+        id_user: ${id_user}
+      `;
+        this.presentAlert("Se creo bien la experiencia","res: "+ insertedData)
         return true;
       }
     } catch (error) {
       throw new Error('Error al insertar experience');
     }
   }
-
-  
 
   //UPDATE
   async UpdateUser(id_user: number, password_user: string, name_user: string, lastname_user: string, photo_user: any, description_user: any, about_user: any, address_user: any, email_user: string, phone_user: string): Promise<any> {
@@ -505,7 +516,7 @@ export class ServiceBDService {
           });
         }
       } else {
-        this.presentAlert("postulaciones vacios", "no se encontraron Postulaciones")
+        
       }
       //actualizamos el observable de este select
       this.listPostulationById.next(items as any);
@@ -529,7 +540,7 @@ export class ServiceBDService {
           });
         }
       } else {
-        this.presentAlert("Companys vacías", "No se encontraron companys");
+        
       }
 
       // Actualizamos el observable con los resultados
@@ -555,7 +566,7 @@ export class ServiceBDService {
           });
         }
       } else {
-        this.presentAlert("Positions vacías", "No se encontraron companys");
+       
       }
 
       // Actualizamos el observable con los resultados
@@ -566,29 +577,35 @@ export class ServiceBDService {
     }
   }
 
-  async selectExp() {
+  async selectExpById(id_user:number) {
     try {
-      const res = await this.database.executeSql('SELECT * FROM experience', []);
-      let items: Position[] = [];
+      const res = await this.database.executeSql('SELECT * FROM experience LEFT JOIN company ON company.id_comp = experience.id_comp LEFT JOIN position ON position.id_position = experience.id_position  WHERE id_user = ?', [id_user]);
+      let items: Experience[] = [];
 
       // Verificar si la consulta trae registros
       if (res.rows.length > 0) {
         // Recorremos el cursor para almacenar los registros
         for (let i = 0; i < res.rows.length; i++) {
           items.push({
-            id_position: res.rows.item(i).id_position,
-            name_position: res.rows.item(i).name_position,
+            id_exp :res.rows.item(i).id_exp ,
+            startDate_exp :res.rows.item(i).startDate_exp ,
+            endDate_exp :res.rows.item(i).endDate_exp ,
+            otherPosition :res.rows.item(i).otherPosition ,
+            otherCompany :res.rows.item(i).otherCompany ,
+            comp :res.rows.item(i).name_comp ,
+            position :res.rows.item(i).name_position ,
+            id_user :res.rows.item(i).id_user,
           });
         }
       } else {
-        this.presentAlert("Positions vacías", "No se encontraron companys");
+        this.presentAlert("experiences vacías", "No se encontraron Experiences");
       }
 
       // Actualizamos el observable con los resultados
-      this.listPositions.next(items as any);
+      this.listExperience.next(items as any);
 
     } catch (e) {
-      this.presentAlert('Error al seleccionar companys', 'Error: ' + JSON.stringify(e));
+      this.presentAlert('Error al seleccionar experiences', 'Error: ' + JSON.stringify(e));
     }
   }
 }
