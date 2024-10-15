@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { Camera, CameraResultType } from '@capacitor/camera';
 import { IonInput } from '@ionic/angular';
+import { ServiceBDService } from 'src/app/services/service-bd.service';
 import { emailValidation, textValidaton } from 'src/app/utils/validation-functions';
 
 @Component({
@@ -22,36 +24,34 @@ export class EditProfileWorkerPage implements OnInit {
     addres:'',
     phone:'',
   }
-  newUser: any = {
-    name : '',
-    lastname: '',
-    email: '',
-    password: '',
-    about:'',
-    description:'',
-    addres:'',
-    phone:'',
-  }
 
   inputModel = this.user.phone;
+  messageErrorToast?:string;
+
 
   //Validadores
   nameIsCorrect:boolean = true;
   lastnameIsCorrect:boolean = true;
   emailIsCorrect:boolean = true;
+  isErrorToastOpen: boolean = false;
+  isSuccessToastOpen:boolean = false;
+
 
   //Mensajes de error
   emailErrorMessage = "";
+  toastSuccessMessage ="";
 
-  constructor(private router: Router, private activedroute: ActivatedRoute) {
-    this.activedroute.queryParams.subscribe(param =>{
-      console.log(this.router.getCurrentNavigation()?.extras.state)
+  constructor(private router: Router, private activedroute: ActivatedRoute,private bd:ServiceBDService) {
+     //subscribirse al observable/promesa
+     this.activedroute.queryParams.subscribe(param =>{
+      //verificar si viene la variable de contexto
       if(this.router.getCurrentNavigation()?.extras.state){
-    
-        let user = this.router.getCurrentNavigation()?.extras?.state?.['user'];
-        if(this.user){
-          this.user = user;
-          console.log(this.user)
+        if(this.router.getCurrentNavigation()?.extras?.state?.["user"]){
+          this.user = JSON.parse(JSON.stringify(this.router.getCurrentNavigation()?.extras?.state?.["user"]));
+        }
+        if(this.router.getCurrentNavigation()?.extras?.state?.['from']){
+          this.toastSuccessMessage = this.router.getCurrentNavigation()?.extras?.state?.['message'];
+          this.setOpenSuccessToast(true);
         }
       }
     });
@@ -60,6 +60,7 @@ export class EditProfileWorkerPage implements OnInit {
   ngOnInit() {
   }
 
+  //RUTAS
   toAddExperience(){
     this.router.navigate(['/add-experience-worker'])
   }
@@ -74,6 +75,55 @@ export class EditProfileWorkerPage implements OnInit {
     this.router.navigate(['/edit-education-worker'])
   }
 
+  toProfile(){
+    this.router.navigate(['tabs-worker/profile']);
+  }
+
+  //VALIDACIONES
+  async validateEmail(){
+    this.user.email_user = this.user.email_user.toLowerCase();
+    const emailValidations = emailValidation(this.user.email_user);
+    this.emailIsCorrect = emailValidations.allOk;
+    this.emailErrorMessage = emailValidations.errorMessage;
+    let emailExists = await this.bd.selectEmailExistsId(this.user.email_user,this.user.id_user);
+
+
+    if(this.emailIsCorrect && !emailExists){
+      return true;
+    }else{
+      if(emailExists){
+        this.emailErrorMessage = "El correo ya existe";
+        this.emailIsCorrect = false;
+      }
+      return false;
+    }
+  }
+
+  async validateProfile(){
+    this.emailIsCorrect = await this.validateEmail();
+    this.nameIsCorrect = textValidaton(this.user.name_user);
+
+    if(this.emailIsCorrect &&  this.nameIsCorrect){
+      let status = await this.bd.UpdateUser(this.user.id_user, this.user.password_user, this.user.name_user, this.user.lastname_user, this.user.photo_user, this.user.description_user, this.user.about_user, this.user.address_user, this.user.email_user, this.user.phone_user);
+
+      if(status){
+        this.bd.selectUserById(this.user.id_user)
+        this.toProfile();
+      }else{
+        this.messageErrorToast = "No se pudo modificar la cuenta"
+        this.setOpenErrorToast(true);
+      }
+    }else{
+      this.messageErrorToast = "Falta completar Datos obligatorios"
+      this.setOpenErrorToast(true);
+    }
+  }
+
+  setOpenSuccessToast(value:boolean){
+    this.isSuccessToastOpen = value;
+  }
+
+  //OTROS
   @ViewChild('ionInputEl', { static: true }) ionInputEl!: IonInput;
 
   onInput(ev:any) {
@@ -88,13 +138,22 @@ export class EditProfileWorkerPage implements OnInit {
     this.ionInputEl.value = this.inputModel = filteredValue;
   }
 
-  //Validaciones
-  validateProfile(){
-    const emailValidations:any = emailValidation(this.user.email);
-    this.emailIsCorrect = emailValidations.allOk;
-    this.nameIsCorrect = textValidaton(this.user.name);
-    this.lastnameIsCorrect = textValidaton(this.user.lastname);
-    
-    this.emailErrorMessage = emailValidations.errorMessage;
+  setOpenErrorToast(value:boolean){
+    this.isErrorToastOpen = value;
   }
+
+  takePicture = async () => {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Uri
+    });
+  
+    // image.webPath will contain a path that can be set as an image src.
+    // You can access the original file using image.path, which can be
+    // passed to the Filesystem API to read the raw data of the image,
+    // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
+    this.user.photo_user = image.webPath;
+  };
 }
+

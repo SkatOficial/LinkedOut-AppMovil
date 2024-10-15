@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { ServiceBDService } from 'src/app/services/service-bd.service';
 import { textValidaton, emailValidation, passwordValidation} from 'src/app/utils/validation-functions';
 
 @Component({
@@ -10,10 +11,12 @@ import { textValidaton, emailValidation, passwordValidation} from 'src/app/utils
 export class RegisterWorkerPage implements OnInit {
 
   user: any = {
-    name : '',
-    lastname: '',
-    email: '',
-    password: ''
+    id_user : null,
+    password_user: '',
+    name_user : '',
+    lastname_user: '',
+    email_user : '',
+    id_rol : 2,
   }
   
   confirmPassword: string = '';
@@ -25,6 +28,7 @@ export class RegisterWorkerPage implements OnInit {
   passwordIsCorrect: boolean = true;
   confirmPasswordIsCorrect : boolean = true;
   errorMessagesPassword: string[] = [];
+  isErrorToastOpen: boolean = false;
   
   //activadores
   title: String = "Añade tu nombre";
@@ -33,12 +37,14 @@ export class RegisterWorkerPage implements OnInit {
   labelsPasswordActived: boolean = false;
   //Mensaje de error
   emailErrorMessage = "";
-  constructor(private router:Router) { 
+
+  constructor(private bd: ServiceBDService, private router:Router) { 
   }
   
   ngOnInit() {
   }
 
+  //CONTROLA LOS LABELS
   activateLabelsName(){
     this.title = "Añade tu nombre";
     this.labelsNameActived = true;
@@ -60,44 +66,72 @@ export class RegisterWorkerPage implements OnInit {
     this.labelsPasswordActived = true;
   }
 
+  //VALIDADORES
   validateName(){
-    this.nameIsCorrect = textValidaton(this.user.name);
-    this.lastnameIsCorrect = textValidaton(this.user.lastname);
+    this.nameIsCorrect = textValidaton(this.user.name_user);
+    this.lastnameIsCorrect = textValidaton(this.user.lastname_user);
 
     if(this.nameIsCorrect && this.lastnameIsCorrect){
       this.activateLabelsEmail();
+    }else{
+      this.setOpenErrorToast(true);
     }
   }
 
-  validateEmail(){
-    const emailValidations:any = emailValidation(this.user.email);
-    this.emailIsCorrect = emailValidations.allOk;
-
-    this.emailErrorMessage = emailValidations.errorMessage;
+  async validateEmail(){
+    this.user.email_user = this.user.email_user.toLowerCase().trim();
     
-    if(this.emailIsCorrect){
+    const emailValidations:any = emailValidation(this.user.email_user);
+    this.emailIsCorrect = emailValidations.allOk;
+    this.emailErrorMessage = emailValidations.errorMessage;
+    let emailExists = await this.bd.selectEmailExists(this.user.email_user);
+
+
+    if(this.emailIsCorrect && !emailExists){
       this.activatelabelsPassword();
+
+    }else{
+      if(emailExists){
+        this.emailErrorMessage = "El correo ya existe";
+        this.emailIsCorrect = false;
+      }
+      this.setOpenErrorToast(true);
     }
   }
 
   validatePassword(){
-    const pwValidations: any = passwordValidation(this.user.password)
+    const pwValidations: any = passwordValidation(this.user.password_user)
     this.errorMessagesPassword = pwValidations.errorMessages;
     this.passwordIsCorrect = pwValidations.allOk;
 
-    this.confirmPasswordIsCorrect = (this.user.password == this.confirmPassword)
+    this.confirmPasswordIsCorrect = (this.user.password_user == this.confirmPassword)
 
     if(this.passwordIsCorrect && this.confirmPasswordIsCorrect){
-      this.toHome();
+      this.createUser();
+    }else{
+      this.setOpenErrorToast(true);
     }
   }
 
-  toHome(){
+  toAcces(){
     const navigationextras: NavigationExtras = {
       state:{
-        user:this.user
+        status:"Registro existoso"
       }
     }
-    this.router.navigate(['tabs-worker'],navigationextras)
+    this.router.navigate(['access'],navigationextras)
+  }
+
+  setOpenErrorToast(value:boolean){
+    this.isErrorToastOpen = value;
+  }
+
+  async createUser(): Promise<void>{
+    try{
+      this.user.id_user = await this.bd.insertUserWorker(this.user.password_user,this.user.name_user,this.user.lastname_user,this.user.email_user,this.user.id_rol); 
+      this.toAcces();
+    }catch(e){
+      this.bd.presentAlert('Error', 'no se ha podido crear el usuario, intentelo nuevamente mas tarde')
+    }
   }
 }

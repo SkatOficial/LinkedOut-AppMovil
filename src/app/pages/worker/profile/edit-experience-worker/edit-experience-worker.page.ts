@@ -28,11 +28,11 @@ export class EditExperienceWorkerPage implements OnInit {
   ngOnInit() {
   }
   
-  startDateChanged(date:Date){
+  startDateChanged(date:string){
     this.expInfo.startDate = date;
   }
 
-  endDateChanged(date:Date){
+  endDateChanged(date:string){
     this.expInfo.endDate = date;
   }
   validateData(){

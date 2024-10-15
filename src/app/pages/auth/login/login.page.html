@@ -18,12 +18,12 @@
   </ion-item>
   
   <ion-list>
-    <div *ngIf="!accountNotFound">
+    <div *ngIf="accountNotFound">
       <p class="error-message">Cuenta y/o contraseña incorrectas</p>
     </div>
 
     <div>
-      <ion-input label="Correo" labelPlacement="floating" placeholder="Ingresa tu correo" fill="outline"[(ngModel)]="userInput.email">
+      <ion-input type = "email" label="Correo" labelPlacement="floating" placeholder="Ingresa tu correo" fill="outline"[(ngModel)]="userInput.email">
       </ion-input>
     </div>
     
@@ -35,5 +35,13 @@
     
     <ion-text color="primary" (click)="toChangePassword()">¿Has olvidado tu contraseña?</ion-text>
     <ion-button expand="block" size ="large" fill="solid" shape="round" class="continue-btn" (click)="validateLogin()">Continuar</ion-button>
+
+    <ion-toast
+    color = "danger"
+    [isOpen]="isErrorToastOpen"
+    message="No se encontro la cuenta ingresada"
+    [duration]="3000"
+    (didDismiss)="setOpenErrorToast(false)"
+    ></ion-toast>
   </ion-list>
 </ion-content>

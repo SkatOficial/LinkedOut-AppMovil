@@ -12,4 +12,13 @@
   <ion-button expand="block" size ="large" fill="solid" shape="round" (click)="toAccess()">
     Inicio
   </ion-button>
+  <h1>USERS</h1>
+  <ion-item *ngFor="let post of postArray">
+    <ion-list>
+      <ion-label>
+        <h2>{{post.id_position}}</h2>
+        <p>{{post.name_position}}</p>
+      </ion-label>
+    </ion-list>  
+  </ion-item>
 </ion-content>

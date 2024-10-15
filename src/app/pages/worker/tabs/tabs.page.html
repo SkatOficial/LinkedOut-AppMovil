@@ -1,9 +1,9 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="home">
+    <ion-tab-button tab="home" (click)="toHome()">
       <ion-icon name="home-sharp"></ion-icon>
     </ion-tab-button>
-    <ion-tab-button tab="history">
+    <ion-tab-button tab="history" (click)="toHistory()">
       <ion-icon name="time-sharp"></ion-icon>
     </ion-tab-button>
     <ion-tab-button tab="profile" (click)="toProfile()">

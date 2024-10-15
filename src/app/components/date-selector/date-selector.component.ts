@@ -8,18 +8,20 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class DateSelectorComponent  implements OnInit {
   @Input() startDateIsCorrect ?: boolean;
   @Input() endDateIsCorrect ?: boolean;
-  @Output() startDateChange = new EventEmitter<Date>();
-  @Output() endDateChange = new EventEmitter<Date>();
-  @Output() isWorkingChange ?:boolean;
+  @Output() startDateChange = new EventEmitter<string>();
+  @Output() endDateChange = new EventEmitter<string>();
+  @Output() isWorkingChange = new EventEmitter <boolean>();
 
  
   //Fecha
   defaultDate= new Date();
-  selectedStartDate ?: Date;
-  selectedEndDate ?: Date;
+  selectedStartDate ?: string;
+  selectedEndDate ?: string;
   today ?: string;  
   minDate ?: string;
   isWorking ?: boolean;
+
+  auxEndDate?:Date;
 
   constructor() { 
     this.today = new Date().toISOString();
@@ -37,13 +39,15 @@ export class DateSelectorComponent  implements OnInit {
       value= new Date(event.detail.value);
     }
 
-    if(this.selectedEndDate && value > this.selectedEndDate ){
+    //LIMITA LA FECHA FINAL
+    if(this.auxEndDate && this.selectedEndDate && value > this.auxEndDate ){
       this.selectedEndDate = undefined;
-      this.endDateChange.emit(this.selectedEndDate);
     }
 
-    this.selectedStartDate = value;
     this.minDate = value.toISOString();
+    value= this.formatDate(value);//transforma la fecha a string "YYYY-MM"
+
+    this.selectedStartDate = value;
     this.startDateChange.emit(value);
 
   }
@@ -57,12 +61,22 @@ export class DateSelectorComponent  implements OnInit {
       value= new Date(event.detail.value);
     }
     
+    this.auxEndDate=value;
+    
+    value= this.formatDate(value);//transforma la fecha a string "YYYY-MM"
+
     this.selectedEndDate = value;
     this.endDateChange.emit(value);
 
   }
 
-  dateFormat(date:Date | undefined){
+  isWorkingChanged(event:any){
+    this.isWorking = event.detail.checked;
+    this.isWorkingChange.emit(event.detail.checked);
+
+  }
+
+  formatDate(date:Date | undefined){
     if(!date){
       return "";
     }
@@ -72,9 +86,4 @@ export class DateSelectorComponent  implements OnInit {
 
     return year + " " + month;
   }
-
-  isWorkingChanged( event:any){
-    this.isWorking = event.detail.checked;
-  }
-
 }

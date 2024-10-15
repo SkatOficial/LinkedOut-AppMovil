@@ -1,17 +1,14 @@
 
 ion-modal{
-    --background: rgba(44, 33, 45, 0.2);
-    &::part(content){
-        backdrop-filter: blur(6px);
-    }
+    --background: rgba(255, 255, 255, 0.2);
     ion-content{ 
         --background: transparent;
         ion-datetime{
             border-radius: 16px;
             margin-top: 24%;
-            --background: rgb(245, 235, 247);
-            --background-rgb: 245, 235, 247;
-            --wheel-highlight-background: rgb(218, 216, 255);
+            --background: rgb(255, 255, 255);
+            --background-rgb: 200, 200, 200,;
+            --wheel-highlight-background: rgb(217, 216, 235);
             --wheel-highlight-border-radius: 48px;
         }
     
@@ -21,7 +18,6 @@ ion-modal{
 
 ion-item{
     --background: white;
-    margin-top: 10px;
     ion-icon{
         margin-left: auto;
     }

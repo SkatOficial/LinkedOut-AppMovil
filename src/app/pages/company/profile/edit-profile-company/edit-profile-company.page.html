@@ -11,15 +11,17 @@
     <!-- FOTO NOMBRE Y DIRECCION -->
     <ion-item lines="none">
       <div class="item-content">
-        <ion-item lines="none">
-          <ion-img src="assets/img/company.png" tab="img-company" class="img-profile"></ion-img>
+        <ion-item lines="none" (click)="takePicture()">
+          <ion-img *ngIf="user.photo_user" [src]="user.photo_user" alt="Con imagen" class="img-profile"></ion-img>
+          <ion-img *ngIf="!user.photo_user" src="assets/img/company.png" tab="img-company" class="img-profile"></ion-img>
+
         </ion-item>
         <ion-item lines="none" class="item-content">
           <div class="w-100">
             <ion-label>
               <h3>Nombre</h3>
               <div class="input-border">
-                <ion-input placeholder="Ingresa el nombre de la entidad" value={{user.name}} [(ngModel)]="user.name"> </ion-input>
+                <ion-input placeholder="Ingresa el nombre de la entidad" [(ngModel)]="user.name_user"> </ion-input>
               </div>
             </ion-label>
             <p class="error-message" *ngIf="!nameIsCorrect">Este campo es obligatorio</p>
@@ -29,7 +31,7 @@
           <ion-label>
             <h3>Ubicacion</h3>
             <div class="input-border">
-              <ion-input placeholder="Ingresa la direccion de la entidad" value={{user.address}} [(ngModel)]="user.address"> </ion-input>
+              <ion-input placeholder="Ingresa la direccion de la entidad" [(ngModel)]="user.address_user"> </ion-input>
             </div>
           </ion-label>
         </ion-item>
@@ -49,8 +51,9 @@
               <p class="m-auto">+</p>
               <div class="input-border flex-grow">
                 <ion-input
+                type="number"
                 maxlength="11"
-                [(ngModel)]="user.phone"
+                [(ngModel)]="user.phone_user"
                 [value]="inputModel"
                 (ionInput)="onInput($event)"
                 #ionInputEl
@@ -65,7 +68,7 @@
           <div class="w-100 my-10px">
             <ion-label>
               <div class="input-border">
-                <ion-input value="{{user.email}}" [(ngModel)]="user.email"></ion-input>
+                <ion-input [(ngModel)]="user.email_user"></ion-input>
               </div>
             </ion-label>
             <p class="error-message" *ngIf="!emailIsCorrect">{{emailErrorMessage}}</p>
@@ -82,11 +85,17 @@
         </ion-item>
         <ion-textarea rows="10"
         name="acerca de" 
-        value="{{user.about}}">
+        [(ngModel)]="user.about_user">
         </ion-textarea>
       </ion-label>
     </ion-item>
     <ion-button expand="full" (click)="validateProfile()">confirmar</ion-button>
 
-
+    <ion-toast
+    color = "danger"
+    [isOpen]="isErrorToastOpen"
+    message={{messageErrorToast}}
+    [duration]="3000"
+    (didDismiss)="setOpenErrorToast(false)"
+    ></ion-toast>
 </ion-content>

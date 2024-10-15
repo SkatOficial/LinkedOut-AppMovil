@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
+import { ServiceBDService } from 'src/app/services/service-bd.service';
 
 @Component({
   selector: 'app-login',
@@ -8,53 +8,66 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
-  data: any = {
-    user: {
-      name : '',
-      lastname: '',
-      email:"prueba@gmail.com",
-      password:"12345678",
-      about:'',
-      description:'',
-      addres:'',
-      phone:'',
-    }
-  }
   
-  accountNotFound = true;
+  //VALIDADORES
+  accountNotFound:boolean = false;
+  isErrorToastOpen: boolean = false;
 
   userInput:any = {
     email: "",
     password: ""
   }
 
-  constructor(private router: Router) { }
+  constructor(private db: ServiceBDService ,private router: Router) { }
 
   ngOnInit(){
   }
 
+  //RUTAS
   toChangePassword(){
     this.router.navigate(['/lost-password']);
   }
+
   toRegister(){
     this.router.navigate(['/register-selection']);
   }
-  toHome(){
-    this.router.navigate(['/tabs-worker']);
-  }
 
- 
-  validateLogin(){
-    for(let i = 0; i < this.data.length; i++){
-      let user = this.data[i];
-      console.log(this.data[i]);
-      console.log(this.userInput);
-      
-      if(user.email == this.userInput.email && user.password == this.userInput.password){
-        this.toHome();
+  toHomeWorker(id_user:number){
+    const navigationextras: NavigationExtras = {
+      state:{
+        id_user:id_user
       }
     }
-    this.accountNotFound = false;
+    this.router.navigate(['/tabs-worker'],navigationextras);
+  }
+
+  toHomeCompany(id_user:number){
+    const navigationextras: NavigationExtras = {
+      state:{
+        id_user:id_user
+      }
+    } 
+    this.router.navigate(['/tabs-company'],navigationextras);
+  }
+
+  //VALIDADORES
+  async validateLogin(){
+    
+    let user = await this.db.selectLogin(this.userInput.email.toLowerCase(),this.userInput.password);
+
+    if(user){
+      if(user.id_rol == 1){
+        this.toHomeCompany(user.id_user)
+      }else if(user.id_rol == 2){
+        this.toHomeWorker(user.id_user);
+      }
+    }
+    
+    this.accountNotFound = true;
+    this.setOpenErrorToast(true);
+  }
+
+  setOpenErrorToast(value:boolean){
+    this.isErrorToastOpen = value;
   }
 }

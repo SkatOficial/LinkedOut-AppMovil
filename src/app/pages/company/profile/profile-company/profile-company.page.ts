@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-company',
@@ -7,29 +7,26 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./profile-company.page.scss'],
 })
 export class ProfileCompanyPage implements OnInit {
+  id_user?:number;
   user: any = {
-    name : '',
-    lastname: '',
-    email: '',
-    password: '',
-    about:'',
+    id_user : 0,
+    password_user : "",
+    name_user : "",
+    lastname_user : "",
+    photo_user : "",
+    email_user : "",
+    phone_user : "",
+    id_rol : 1 
   }
   constructor(private router: Router, private activedroute: ActivatedRoute) {
     //subscribirse al observable/promesa
     this.activedroute.queryParams.subscribe(param =>{
       //verificar si viene la variable de contexto
       if(this.router.getCurrentNavigation()?.extras.state){
-        //recepcionar y guardar los datos
-        this.user.name = this.router.getCurrentNavigation()?.extras?.state?.['user.name'];
-        this.user.lastname = this.router.getCurrentNavigation()?.extras?.state?.['user.lastname'];
-        this.user.email = this.router.getCurrentNavigation()?.extras?.state?.['user.email'];
-        this.user.password = this.router.getCurrentNavigation()?.extras?.state?.['user.password'];
-        this.user.about = this.router.getCurrentNavigation()?.extras?.state?.['user.about'];
-
-        console.log(this.user)
+        this.user = this.router.getCurrentNavigation()?.extras?.state?.["user"];
       }
     });
-   }
+  }
 
   ngOnInit() {
   }
@@ -39,6 +36,11 @@ export class ProfileCompanyPage implements OnInit {
   }
 
   toEditProfile(){
-    this.router.navigate(['edit-profile-company'])
+    const navigationExtras: NavigationExtras = {
+      state: {
+        user: this.user
+      }
+    };
+    this.router.navigate(['edit-profile-company'],navigationExtras)
   }
 }

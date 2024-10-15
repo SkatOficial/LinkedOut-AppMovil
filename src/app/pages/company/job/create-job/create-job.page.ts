@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
+import { ServiceBDService } from 'src/app/services/service-bd.service';
 import { textValidaton } from 'src/app/utils/validation-functions';
 
 @Component({
@@ -9,15 +11,23 @@ import { textValidaton } from 'src/app/utils/validation-functions';
 })
 export class CreateJobPage implements OnInit {
   job:any = {
-    title: "",
-    description: ""
+    title_job: "",
+    description_job: "",
+    id_company : null,
   }
 
   //Validadores
   titleIsCorrect : boolean = true;
-  constructor(private alertController: AlertController) { }
+  descriptionIsCorrect : boolean = true;
+
+  constructor(private alertController: AlertController, private bd:ServiceBDService,private storage: NativeStorage) {
+    this.storage.getItem("userId").then(data=>{
+      this.job.id_company = data;
+    })
+  }
 
   ngOnInit() {
+
   }
 
   async confirmApplication(){
@@ -43,8 +53,17 @@ export class CreateJobPage implements OnInit {
     await alert.present();
   }
 
-  validateData(){
-    this.titleIsCorrect = textValidaton(this.job.title);
+  async validateData(){
+    try{
+      this.titleIsCorrect = textValidaton(this.job.title_job);
+      this.descriptionIsCorrect = textValidaton(this.job.description_job);
+      
+      if(this.titleIsCorrect && this.descriptionIsCorrect){
+        this.bd.insertJob(this.job.title_job,this.job.description_job,this.job.id_company);
+      }
+    }catch(error){
+
+    }
   }
 
 }

@@ -10,13 +10,14 @@
   <ion-item>
     <div class="item-content">
       <ion-item>
-        <ion-img src="assets/img/profile.jpg" tab="foto-perfil" class="img-profile"></ion-img>
+        <ion-img *ngIf="user.photo_user" [src]="user.photo_user" alt="Con imagen" class="img-profile"></ion-img>
+        <ion-img *ngIf="!user.photo_user" src="assets/img/profile.jpg" tab="img-company" class="img-profile"></ion-img>
         <ion-icon name="pencil" size="large" slot="end" (click)="toEditProfile()"></ion-icon>
       </ion-item>
       <ion-label>
-        <h1>{{user.name}} {{user.lastname}}</h1>
-        <h2>{{user.description}}</h2>
-        <p>{{user.address}}</p>
+        <h1>{{user.name_user}} {{user.lastname_user}}</h1>
+        <h2>{{user.description_user}}</h2>
+        <p>{{user.address_user}}</p>
       </ion-label>
     </div>  
   </ion-item>
@@ -28,11 +29,11 @@
         <h1>Contactos</h1>
       </ion-item>
       <ion-list>
-        <ion-item *ngIf="user.phone">
+        <ion-item *ngIf="user.phone_user">
           <ion-icon name="call-outline" slot="start"></ion-icon>
           <ion-label>
             <h2>Teléfono</h2>
-            <p>+{{user.phone}}</p>
+            <p>+{{user.phone_user}}</p>
           </ion-label>
         </ion-item>
         
@@ -40,7 +41,7 @@
           <ion-icon name="mail-outline" slot="start"></ion-icon>
           <ion-label>
             <h2>Correo Electrónico</h2>
-            <p>{{user.email}}</p>
+            <p>{{user.email_user}}</p>
           </ion-label>
         </ion-item>
       </ion-list>
@@ -53,7 +54,7 @@
       <ion-item>
         <h1>Acerca de</h1>
       </ion-item>
-      <p>{{user.about}}</p>
+      <p>{{user.about_user}}</p>
     </ion-label>
   </ion-item>
 

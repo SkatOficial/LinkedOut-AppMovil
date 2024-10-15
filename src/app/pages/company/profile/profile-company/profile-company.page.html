@@ -6,18 +6,20 @@
   <ion-item lines="none">
     <ion-icon name="settings-sharp" (click)="toOptionsProfile()"></ion-icon>
   </ion-item>
+  
   <!-- FOTO NOMBRE Y DIRECCION -->
   <ion-item>
     <div class="item-content">
       <ion-item>
-        <ion-img src="assets/img/company.png" tab="img-company" class="img-profile"></ion-img>
+        <ion-img *ngIf="user.photo_user" [src]="user.photo_user"  class="img-profile"></ion-img>
+        <ion-img *ngIf="!user.photo_user" src="assets/img/company.png"  class="img-profile"></ion-img>
         <div class="mod-btn" (click)="toEditProfile()">
           <ion-icon name="create-outline" size="large"></ion-icon>
         </div>
       </ion-item>
       <ion-label>
-        <h1>Empresa Super Profesional</h1>
-        <p>Colina,Metropolitana,chile</p>
+        <h1>{{user.name_user}}</h1>
+        <p>{{user.address_user}}</p>
       </ion-label>
     </div>  
   </ion-item>
@@ -29,11 +31,11 @@
         <h1>Contactos</h1>
       </ion-item>
       <ion-list>
-        <ion-item>
+        <ion-item *ngIf="user.phone_user">
           <ion-icon name="call-outline" slot="start"></ion-icon>
           <ion-label>
             <h2>Teléfono</h2>
-            <p>+56 9 8765 4321</p>
+            <p>+{{user.phone_user}}</p>
           </ion-label>
         </ion-item>
         
@@ -41,7 +43,7 @@
           <ion-icon name="mail-outline" slot="start"></ion-icon>
           <ion-label>
             <h2>Correo Electrónico</h2>
-            <p>empresasuperprofesional&#64;example.com</p>
+            <p>{{user.email_user}}</p>
           </ion-label>
         </ion-item>
       </ion-list>
@@ -55,11 +57,7 @@
         <h1>Acerca de</h1>
       </ion-item>
 
-      <p>somos el epítome de la eficiencia corporativa. Nuestro equipo altamente capacitado se especializa en asistir a reuniones interminables y redactar correos electrónicos extremadamente importantes. Con un enfoque inquebrantable en maximizar las pausas para el café y optimizar la procrastinación, hemos alcanzado un nivel de profesionalismo que es difícil de igualar.
-
-        Nuestros proyectos siempre están en camino de ser iniciados, y nuestros plazos son tan flexibles que incluso se estiran hasta el infinito. Nos enorgullecemos de nuestra capacidad para gestionar tareas cruciales justo cuando ya no son tan cruciales. La calidad es nuestra segunda prioridad... justo después de encontrar el GIF perfecto para los chats de equipo.
-        
-        Si buscas un socio que pueda llevar tu proyecto a la cima de la lista de cosas por hacer (eventualmente), no busques más. ¡Estamos aquí para posponerlo todo con estilo y profesionalismo!</p>
+      <p>{{user.about_user}}</p>
     </ion-label>
   </ion-item>
   

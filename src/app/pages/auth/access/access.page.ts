@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ServiceBDService } from 'src/app/services/service-bd.service';
 
 @Component({
   selector: 'app-access',
@@ -8,15 +9,37 @@ import { Router } from '@angular/router';
 })
 export class AccessPage implements OnInit {
 
-  constructor(private router: Router) { }
+  isSuccessToastOpen?:boolean;
 
+  constructor(private router: Router,private activedroute:ActivatedRoute, private bd:ServiceBDService) { 
+    //subscribirse al observable/promesa
+    this.activedroute.queryParams.subscribe(param =>{
+      //verificar si viene la variable de contexto
+      if(this.router.getCurrentNavigation()?.extras.state){
+        if(this.router.getCurrentNavigation()?.extras?.state?.['status']){
+          this.setOpenSuccessToast(true);
+        }
+      }
+    });
+  }
   ngOnInit() {
   }
-
+  //Direcciones
   toRegister(){
     this.router.navigate(['/register-selection']);
   }
+
+  toNada(){
+    this.router.navigate(['/prueba']);
+  }
+
   toLogin(){
     this.router.navigate(['/login']);
   }
+
+  setOpenSuccessToast(value:boolean){
+    this.isSuccessToastOpen = value;
+  }
+
+
 }

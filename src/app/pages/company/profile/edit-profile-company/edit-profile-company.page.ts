@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { IonInput } from '@ionic/angular';
+import { ServiceBDService } from 'src/app/services/service-bd.service';
 import { emailValidation, textValidaton } from 'src/app/utils/validation-functions';
+import { Camera, CameraResultType } from '@capacitor/camera';
 
 @Component({
   selector: 'app-edit-profile-company',
@@ -9,24 +12,38 @@ import { emailValidation, textValidaton } from 'src/app/utils/validation-functio
 })
 export class EditProfileCompanyPage implements OnInit {
 
-  user:any ={
-    name: "Empresa Super Profesional",
-    address: "Colina, Region Metropolitana, Chile",
-    email: "empresa.super.profesional@example.com",
-    phone:56912345678,
-    about: "somos el epítome de la eficiencia corporativa. Nuestro equipo altamente capacitado se especializa en asistir a reuniones interminables y redactar correos electrónicos extremadamente importantes. Con un enfoque inquebrantable en maximizar las pausas para el café y optimizar la procrastinación, hemos alcanzado un nivel de profesionalismo que es difícil de igualar Nuestros proyectos siempre están en camino de ser iniciados, y nuestros plazos son tan flexibles que incluso se estiran hasta el infinito. Nos enorgullecemos de nuestra capacidad para gestionar tareas cruciales justo cuando ya no son tan cruciales. La calidad es nuestra segunda prioridad... justo después de encontrar el GIF perfecto para los chats de equipo. Si buscas un socio que pueda llevar tu proyecto a la cima de la lista de cosas por hacer (eventualmente), no busques más. ¡Estamos aquí para posponerlo todo con estilo y profesionalismo!"
+  user: any = {
+    id_user : 0,
+    password_user : "",
+    name_user : "",
+    lastname_user : "",
+    photo_user : null,
+    email_user : "",
+    phone_user : "",
+    id_rol : 1 
   }
 
   inputModel = this.user.phone;
+  messageErrorToast?:string;
 
   //Validadores
   nameIsCorrect:boolean = true;
   emailIsCorrect:boolean = true;
+  isErrorToastOpen: boolean = false;
+
 
   //Mensajes de error
   emailErrorMessage = "";
 
-  constructor() { }
+  constructor(private bd:ServiceBDService, private activedroute: ActivatedRoute,private router: Router) { 
+    //subscribirse al observable/promesa
+    this.activedroute.queryParams.subscribe(param =>{
+      //verificar si viene la variable de contexto
+      if(this.router.getCurrentNavigation()?.extras.state){
+        this.user = JSON.parse(JSON.stringify(this.router.getCurrentNavigation()?.extras?.state?.["user"]));//generae una copia
+      }
+    });
+  }
 
   ngOnInit() {
   }
@@ -46,11 +63,69 @@ export class EditProfileCompanyPage implements OnInit {
   }
 
   //Validaciones
-  validateProfile(){
-    const emailValidations:any = emailValidation(this.user.email);
+  async validateEmail(){
+    this.user.email_user = this.user.email_user.toLowerCase();
+    const emailValidations = emailValidation(this.user.email_user);
     this.emailIsCorrect = emailValidations.allOk;
-    this.nameIsCorrect = textValidaton(this.user.name);
-    
     this.emailErrorMessage = emailValidations.errorMessage;
+    let emailExists = await this.bd.selectEmailExistsId(this.user.email_user,this.user.id_user);
+
+
+    if(this.emailIsCorrect && !emailExists){
+      return true;
+    }else{
+      if(emailExists){
+        this.emailErrorMessage = "El correo ya existe";
+        this.emailIsCorrect = false;
+      }
+      return false;
+    }
   }
+
+  async validateProfile(){
+    this.emailIsCorrect = await this.validateEmail();
+    this.nameIsCorrect = textValidaton(this.user.name_user);
+
+    if(this.emailIsCorrect &&  this.nameIsCorrect){
+      let status = await this.bd.UpdateUser(this.user.id_user, this.user.password_user, this.user.name_user, this.user.lastname_user, this.user.photo_user, this.user.description_user, this.user.about_user, this.user.address_user, this.user.email_user, this.user.phone_user);
+
+      if(status){
+        this.toProfile();
+      }else{
+        this.messageErrorToast = "No se pudo modificar la cuenta"
+        this.setOpenErrorToast(true);
+      }
+    }else{
+      this.messageErrorToast = "Falta completar Datos obligatorios"
+      this.setOpenErrorToast(true);
+    }
+  }
+
+  //OTROS
+  setOpenErrorToast(value:boolean){
+    this.isErrorToastOpen = value;
+  }
+
+  toProfile(){
+    const navigationExtras: NavigationExtras = {
+      state: {
+        user: this.user
+      }
+    };
+    this.router.navigate(['tabs-company/profile'], navigationExtras);
+  }
+
+  takePicture = async () => {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Uri
+    });
+  
+    // image.webPath will contain a path that can be set as an image src.
+    // You can access the original file using image.path, which can be
+    // passed to the Filesystem API to read the raw data of the image,
+    // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
+    this.user.photo_user = image.webPath;
+  };
 }

@@ -14,7 +14,7 @@
           <ion-label>
             <h3>Titulo</h3>
             <div class="input-border">
-              <ion-input placeholder="Ingresa el titulo" [(ngModel)]="job.title"> </ion-input>
+              <ion-input placeholder="Ingresa el titulo" [(ngModel)]="job.title_job"> </ion-input>
             </div>
           </ion-label>
           <p class="error-message" *ngIf="!titleIsCorrect">Este campo es obligatorio</p>
@@ -22,13 +22,16 @@
       </ion-item >
 
       <ion-item class="my-10px">
-        <ion-label>
-          <h2>Descripcion</h2>
-          <ion-textarea rows="10"
-          name="acerca de" 
-          value="{{job.description}}">
-          </ion-textarea>
-        </ion-label>
+        <div class="w-100 my-10px">
+          <ion-label>
+            <h2>Descripcion</h2>
+            <ion-textarea rows="10"
+            name="acerca de" 
+            [(ngModel)]="job.description_job">
+            </ion-textarea>
+          </ion-label>
+          <p class="error-message" *ngIf="!descriptionIsCorrect">Este campo es obligatorio</p>
+        </div>
       </ion-item>
       <ion-button expand="block" size ="large" fill="solid" shape="round" (click)="validateData()">publicar</ion-button>
     </ion-list>

@@ -11,10 +11,12 @@ ion-item{
 }
 
 ion-textarea{
-    padding: 5px;
-    padding-top: 2px;
+    padding-left: 3px;
     border-radius: 1rem;
-    border: 2px solid #caca;
+    border: 1px solid #bbbbbb;
+}
+ion-textarea:focus-within{
+    border: 1px solid #0054E9;
 }
 
 ion-label{

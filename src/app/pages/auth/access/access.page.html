@@ -19,6 +19,17 @@
         <ion-button expand="block" size ="large" fill="solid" shape="round" class="registrarse-btn" (click)="toRegister()">Aceptar y unirse</ion-button>
         <button mat-raised-button (click)="toLogin()" class="iniciarSesion-btn">Iniciar sesión</button>
       </div>
+      <div class="iniciarSesion-btns">
+        <ion-button expand="block" size ="large" fill="solid" shape="round" class="registrarse-btn" (click)="toNada()">NADA</ion-button>
+      </div>
     </ion-card-content>
   </ion-card>
+  
+  <ion-toast
+  color = "success"
+  [isOpen]="isSuccessToastOpen"
+  message="Ingresado Correctamente"
+  [duration]="3000"
+  (didDismiss)="setOpenSuccessToast(false)"
+  ></ion-toast>
 </ion-content>

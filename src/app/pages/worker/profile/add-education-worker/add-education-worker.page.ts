@@ -27,11 +27,11 @@ export class AddEducationWorkerPage implements OnInit {
   ngOnInit() {
   }
   
-  startDateChanged(date:Date){
+  startDateChanged(date:string){
     this.eduInfo.startDate = date;
   }
 
-  endDateChanged(date:Date){
+  endDateChanged(date:string){
     this.eduInfo.endDate = date;
   }
   validateData(){
