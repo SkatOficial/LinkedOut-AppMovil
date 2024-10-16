@@ -164,7 +164,7 @@
   <ion-toast
   color = "success"
   [isOpen]="isSuccessToastOpen"
-  message="Experiencia creada correctamente"
+  message="{{toastSuccessMessage}}"
   [duration]="2000"
   (didDismiss)="setOpenSuccessToast(false)"
   ></ion-toast>

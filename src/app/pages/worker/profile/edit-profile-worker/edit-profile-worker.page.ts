@@ -100,14 +100,24 @@ export class EditProfileWorkerPage implements OnInit {
     this.router.navigate(['/add-experience-worker'])
   }
   toEditExperience(exp:any){
-    this.router.navigate(['/edit-experience-worker'])
+    const navigationextras: NavigationExtras = {
+      state:{
+        exp: exp
+      }
+    }
+    this.router.navigate(['/edit-experience-worker'],navigationextras)
   }
 
   toAddEducation(){
     this.router.navigate(['/add-education-worker'])
   }
   toEditEducation(educ:any){
-    this.router.navigate(['/edit-education-worker'])
+    const navigationextras: NavigationExtras = {
+      state:{
+        educ: educ
+      }
+    }
+    this.router.navigate(['/edit-education-worker'],navigationextras)
   }
 
   toProfile(){

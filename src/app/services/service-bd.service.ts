@@ -307,16 +307,7 @@ export class ServiceBDService {
       const res = await this.database.executeSql('INSERT INTO experience(startDate_exp, endDate_exp, otherPosition, otherCompany, id_comp, id_position ,id_user) VALUES(?,?,?,?,?,?,?)', [startDate_exp, endDate_exp, otherPosition, otherCompany, id_comp, id_position,id_user])
 
       if (res.rowsAffected > 0) {
-        const insertedData = `
-        startDate_exp: ${startDate_exp}, 
-        endDate_exp: ${endDate_exp}, 
-        otherPosition: ${otherPosition}, 
-        otherCompany: ${otherCompany}, 
-        id_comp: ${id_comp}, 
-        id_position: ${id_position}, 
-        id_user: ${id_user}
-      `;
-        this.presentAlert("Se creo bien la experiencia","res: "+ insertedData)
+
         return true;
       }
     } catch (error) {
@@ -349,6 +340,28 @@ export class ServiceBDService {
     }
   }
 
+  async UpdateExp(id_exp:number,startDate_exp:string, endDate_exp:string, otherPosition:string, otherCompany:string, id_comp:number, id_position:number): Promise<any> {
+    try {
+      const res = await this.database.executeSql('UPDATE experience SET startDate_exp = ?, endDate_exp = ?, otherPosition =  ?, otherCompany = ?,  id_comp = ?, id_position = ? WHERE id_exp = ?', [startDate_exp, endDate_exp, otherPosition, otherCompany, id_comp, id_position,id_exp]);
+
+      return res.rowsAffected > 0;
+    } catch (error) {
+      this.presentAlert("MODIFICACION ERROR", 'Error: ' + JSON.stringify(error))
+      throw new Error('Error al modificar el Experience');
+    }
+  }
+
+  //DELETE
+  async DeleteExp(id_exp:number): Promise<any> {
+    try {
+      const res = await this.database.executeSql('DELETE FROM experience WHERE id_exp = ?', [id_exp]);
+
+      return res.rowsAffected > 0;
+    } catch (error) {
+      this.presentAlert("ELIMINACION ERROR", 'Error: ' + JSON.stringify(error))
+      throw new Error('Error al eliminar el Experience');
+    }
+  }
   //SELECTS
   async selectUsers() {
     return await this.database.executeSql('SELECT * FROM user', []).then(res => {

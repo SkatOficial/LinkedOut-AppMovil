@@ -9,38 +9,77 @@
 </ion-header>
   
 <ion-content>
-  <!-- Inputs de texto -->
-  <ion-item lines="none" class="item-content">
+  <ion-item lines="none" class="mt-5px">
+    <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="isOtherCompany"> Otra Entidad</ion-checkbox>
+  </ion-item>
+
+  <ion-item lines="none" class="item-content mt-5px">
     <div class="w-100 my-10px">
       <ion-label>
         <h3>Nombre entidad</h3>
-        <div class="input-border">
-          <ion-input placeholder="Ingresa el nombre de la entidad" [(ngModel)]="expInfo.companyName"> </ion-input>
+        <ion-select *ngIf="!isOtherCompany"
+        [(ngModel)]="selectedCompany"
+        interface="action-sheet"
+        aria-label="Companys"
+        [compareWith]="compareWithCompany"
+        placeholder="Seleccionar Entidad"
+        (ionChange)="handleChangeCompany($event)"
+        >
+        <ion-select-option *ngFor="let comp of companyArray" [value]="comp">{{ comp.name_comp }}</ion-select-option>
+        </ion-select>
+        <div *ngIf="isOtherCompany" class="input-border">
+          <ion-input placeholder="Ingrese su cargo" [(ngModel)]="expInfo.otherCompany"> </ion-input>
         </div>
       </ion-label>
       <p class="error-message" *ngIf="!companyNameIsCorrect">Este campo es obligatorio</p>
     </div>
   </ion-item >
-  <ion-item lines="none" class="item-content">
+
+
+  <!-- Inputs Cargo -->
+  <ion-item lines="none" class="mt-20px"> 
+    <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="isOtherPosition"> Otro cargo</ion-checkbox>
+  </ion-item>
+
+  <ion-item lines="none" class="item-content mt-5px">
     <div class="w-100 my-10px">
       <ion-label>
         <h3>Cargo</h3>
-        <div class="input-border">
-          <ion-input placeholder="Ingresa tu cargo" [(ngModel)]="expInfo.ocupation"> </ion-input>
+        <ion-select *ngIf="!isOtherPosition"
+        [(ngModel)]="selectedPosition"
+        interface="action-sheet"
+        aria-label="Positions"
+        [compareWith]="compareWithPosition"
+        placeholder="Seleccionar Cargo"
+        (ionChange)="handleChangePosition($event)"
+        >
+        <ion-select-option *ngFor="let post of positionArray" [value]="post">{{ post.name_position }}</ion-select-option>
+        </ion-select>
+        <div *ngIf="isOtherPosition" class="input-border">
+          <ion-input placeholder="Ingrese su cargo" [(ngModel)]="expInfo.otherPosition"> </ion-input>
         </div>
       </ion-label>
-      <p class="error-message" *ngIf="!ocupationIsCorrect">Este campo es obligatorio</p>
+      <p class="error-message" *ngIf="!positionIsCorrect">Este campo es obligatorio</p>
     </div>
-  </ion-item >
+  </ion-item>
 
-  <app-date-selector 
+  <app-date-selector class="mt-10px"
   [startDateIsCorrect]="startDateIsCorrect"
   [endDateIsCorrect]="endDateIsCorrect"
-  (startDateChange)="startDateChanged($event)" 
-  (endDateChange)="endDateChanged($event)">
+  (startDateChange)="startDateChanged($event)"
+  (endDateChange)="endDateChanged($event)"
+  (isWorkingChange)="isWorkingChanged($event)">
   </app-date-selector>
 
   <ion-button expand="full" class="mb-50px" (click)="validateData()">Agregar</ion-button>
+
+  <ion-toast
+  color = "danger"
+  [isOpen]="isErrorToastOpen"
+  message="Error en los datos ingresados"
+  [duration]="2000"
+  (didDismiss)="setOpenErrorToast(false)"
+  ></ion-toast>
 </ion-content>
 
 
