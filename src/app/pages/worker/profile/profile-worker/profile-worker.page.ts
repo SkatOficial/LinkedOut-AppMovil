@@ -32,6 +32,17 @@ export class ProfileWorkerPage implements OnInit {
     position :0 ,
     id_user :0 ,
   }
+
+  educArray:any ={
+    id_educ :"",
+    startDate_educ :"",
+    endDate_educ :"", 
+    otherCarrer :"",
+    otherInstitution :"", 
+    inst :0 ,
+    carrer :0 ,
+    id_user :0 ,
+  }
   
   
   constructor(private router: Router, private bd:ServiceBDService,private storage: NativeStorage) {
@@ -53,6 +64,9 @@ export class ProfileWorkerPage implements OnInit {
         })
         this.bd.fetchExpById().subscribe(res=>{
           this.expArray = res;
+        })
+        this.bd.fetchEducById().subscribe(res=>{
+          this.educArray = res;
         })
       }
       });

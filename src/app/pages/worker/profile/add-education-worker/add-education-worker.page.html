@@ -8,36 +8,74 @@
 </ion-header>
   
 <ion-content>
-  <!-- Inputs de texto -->
-  <ion-item lines="none" class="item-content">
+  <!-- Inputs Educacion -->
+  <ion-item lines="none" class="mt-5px">
+    <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="isOtherInstitution">Otra Institución</ion-checkbox>
+  </ion-item>
+
+  <ion-item lines="none" class="item-content mt-5px">
     <div class="w-100 my-10px">
       <ion-label>
-        <h3>Nombre institucion educacional</h3>
-        <div class="input-border">
-          <ion-input placeholder="Ingresa el nombre del instituto" [(ngModel)]="eduInfo.institute"> </ion-input>
+        <h3>Nombre Institucion Educacional</h3>
+        <ion-select [hidden]="isOtherInstitution"
+        interface="action-sheet"
+        aria-label="Institution"
+        [compareWith]="compareWithInstitution"
+        placeholder="Seleccionar Institucion"
+        (ionChange)="handleChangeInstitution($event)"
+        >
+        <ion-select-option *ngFor="let inst of institutionsArray" [value]="inst">{{ inst.name_inst }}</ion-select-option>
+        </ion-select>
+        <div *ngIf="isOtherInstitution" class="input-border">
+          <ion-input placeholder="Ingrese la instituticion" [(ngModel)]="educInfo.otherInstitution"> </ion-input>
         </div>
       </ion-label>
-      <p class="error-message" *ngIf="!instituteIsCorrect">Este campo es obligatorio</p>
-    </div>
-  </ion-item >
-  <ion-item lines="none" class="item-content">
-    <div class="w-100 my-10px">
-      <ion-label>
-        <h3>Cargo</h3>
-        <div class="input-border">
-          <ion-input placeholder="Ingresa tu cargo" [(ngModel)]="eduInfo.carrer"> </ion-input>
-        </div>
-      </ion-label>
-      <p class="error-message" *ngIf="!carrerIsCorrect">Este campo es obligatorio</p>
+      <p class="error-message" *ngIf="!institutionNameIsCorrect">Este campo es obligatorio</p>
     </div>
   </ion-item >
 
-  <app-date-selector 
+
+  <!-- Inputs Cargo -->
+  <ion-item lines="none" class="mt-20px"> 
+    <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="isOtherCareer">Otra Carrera</ion-checkbox>
+  </ion-item>
+
+  <ion-item lines="none" class="item-content mt-5px">
+    <div class="w-100 my-10px">
+      <ion-label>
+        <h3>Carrera</h3>
+        <ion-select [hidden]="isOtherCareer"
+        interface="action-sheet"
+        aria-label="Career"
+        [compareWith]="compareWithCareer"
+        placeholder="Seleccionar Careera"
+        (ionChange)="handleChangeCareer($event)"
+        >
+        <ion-select-option *ngFor="let career of careersArray" [value]="career">{{ career.name_career }}</ion-select-option>
+        </ion-select>
+        <div *ngIf="isOtherCareer" class="input-border">
+          <ion-input placeholder="Ingrese su cargo" [(ngModel)]="educInfo.otherCareer"> </ion-input>
+        </div>
+      </ion-label>
+      <p class="error-message" *ngIf="!careerIsCorrect">Este campo es obligatorio</p>
+    </div>
+  </ion-item>
+
+  <app-date-selector class="mt-10px"
   [startDateIsCorrect]="startDateIsCorrect"
   [endDateIsCorrect]="endDateIsCorrect"
-  (startDateChange)="startDateChanged($event)" 
-  (endDateChange)="endDateChanged($event)">
+  (startDateChange)="startDateChanged($event)"
+  (endDateChange)="endDateChanged($event)"
+  (isWorkingChange)="isWorkingChanged($event)">
   </app-date-selector>
 
   <ion-button expand="full" class="mb-50px" (click)="validateData()">Agregar</ion-button>
+
+  <ion-toast
+  color = "danger"
+  [isOpen]="isErrorToastOpen"
+  message="Error en los datos ingresados"
+  [duration]="2000"
+  (didDismiss)="setOpenErrorToast(false)"
+  ></ion-toast>
 </ion-content>

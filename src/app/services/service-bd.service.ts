@@ -9,6 +9,9 @@ import { ApiService } from './api.service';
 import { Company } from '../models/company';
 import { Position } from '../models/position';
 import { Experience } from '../experience';
+import { Institution } from '../models/institution';
+import { Career } from '../models/career';
+import { Education } from '../models/education';
 
 
 @Injectable({
@@ -30,7 +33,7 @@ export class ServiceBDService {
 
   tableCareer: string = "CREATE TABLE IF NOT EXISTS career(id_career INTEGER PRIMARY KEY AUTOINCREMENT, name_career VARCHAR(100) NOT NULL)";
 
-  tableEducation: string = "CREATE TABLE IF NOT EXISTS education(id_educ INTEGER PRIMARY KEY AUTOINCREMENT, startDate_educ TEXT NOT NULL, endDate_educ TEXT, otherInstitution varchar(100), otherCareer VARCHAR(100), id_inst INTEGER NOT NULL, id_career INTEGER NOT NULL, id_user INTEGER NOT NULL, FOREIGN  KEY (id_inst) REFERENCES institution(id_inst),FOREIGN  KEY (id_career) REFERENCES career(id_career), FOREIGN  KEY (id_user) REFERENCES user(id_user))";
+  tableEducation: string = "CREATE TABLE IF NOT EXISTS education(id_educ INTEGER PRIMARY KEY AUTOINCREMENT, startDate_educ TEXT NOT NULL, endDate_educ TEXT, otherInstitution varchar(100), otherCareer VARCHAR(100), id_inst INTEGER , id_career INTEGER , id_user INTEGER NOT NULL, FOREIGN  KEY (id_inst) REFERENCES institution(id_inst),FOREIGN  KEY (id_career) REFERENCES career(id_career), FOREIGN  KEY (id_user) REFERENCES user(id_user))";
 
   tableCompany: string = "CREATE TABLE IF NOT EXISTS company(id_comp INTEGER PRIMARY KEY AUTOINCREMENT, name_comp VARCHAR(100) NOT NULL)";
 
@@ -58,6 +61,22 @@ export class ServiceBDService {
     {insert: "INSERT OR IGNORE INTO position(id_position,name_position) VALUES (5,'Subgerente')"}
   ]
 
+  registroInstitution: any =[
+    {insert: "INSERT OR IGNORE INTO institution(id_inst,name_inst) VALUES (1,'Universidad Nacional del Almohadón')"},
+    {insert: "INSERT OR IGNORE INTO institution(id_inst,name_inst) VALUES (2,'Instituto Superior de la Cafeína')"},
+    {insert: "INSERT OR IGNORE INTO institution(id_inst,name_inst) VALUES (3,'Academia Internacional de Memelogía')"},
+    {insert: "INSERT OR IGNORE INTO institution(id_inst,name_inst) VALUES (4,'Facultad del Desorden Espontáneo')"},
+    {insert: "INSERT OR IGNORE INTO institution(id_inst,name_inst) VALUES (5,'Escuela Técnica de Autoexpresión')"}
+  ]
+
+  registroCareer: any =[
+    {insert: "INSERT OR IGNORE INTO career(id_career,name_career) VALUES (1,'Arquitectura de Siestas')"},
+    {insert: "INSERT OR IGNORE INTO career(id_career,name_career) VALUES (2,'Ciencias del Café')"},
+    {insert: "INSERT OR IGNORE INTO career(id_career,name_career) VALUES (3,'Filosofía del Meme')"},
+    {insert: "INSERT OR IGNORE INTO career(id_career,name_career) VALUES (4,'Matemáticas del Caos')"},
+    {insert: "INSERT OR IGNORE INTO career(id_career,name_career) VALUES (5,'Ingeniería del Selfie')"}
+  ]
+
 
   //observables para guardar las consultas de las tablas
   listUsers = new BehaviorSubject([]);
@@ -68,7 +87,10 @@ export class ServiceBDService {
   listCompanys = new BehaviorSubject([]);
   listPositions = new BehaviorSubject([]);
   listExperience = new BehaviorSubject([]);
-  
+  listInstitutions = new BehaviorSubject([]);
+  listCareers = new BehaviorSubject([]);
+  listEducations = new BehaviorSubject([]);
+
 
   //Contenedor de Apis externas
   apiArray: any[] = [];
@@ -100,7 +122,7 @@ export class ServiceBDService {
     this.platform.ready().then(() => {
       //crearmos la BD
       this.sqlite.create({
-        name: 'bdprueba23.db',
+        name: 'bdprueba24.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
         //guardar la conexion
@@ -124,9 +146,9 @@ export class ServiceBDService {
       await this.database.executeSql(this.tableUser, []);
       await this.database.executeSql(this.tableJob, []);
       await this.database.executeSql(this.tablePostulation, []);
-      // await this.database.executeSql(this.tableInstitution,[]);
-      // await this.database.executeSql(this.tableCareer,[]);
-      // await this.database.executeSql(this.tableEducation,[]);
+      await this.database.executeSql(this.tableInstitution,[]);
+      await this.database.executeSql(this.tableCareer,[]);
+      await this.database.executeSql(this.tableEducation,[]);
       await this.database.executeSql(this.tableCompany, []);
       await this.database.executeSql(this.tablePosition,[]);
       await this.database.executeSql(this.tableExperience,[]);
@@ -147,6 +169,14 @@ export class ServiceBDService {
       }
 
       for (let registro of this.registroPositions) {
+        await this.database.executeSql(registro.insert, []);
+      }
+
+      for (let registro of this.registroInstitution) {
+        await this.database.executeSql(registro.insert, []);
+      }
+
+      for (let registro of this.registroCareer) {
         await this.database.executeSql(registro.insert, []);
       }
 
@@ -197,6 +227,18 @@ export class ServiceBDService {
 
   fetchExpById(): Observable<Experience[]> {
     return this.listExperience.asObservable();
+  }
+
+  fetchInstitutions(): Observable<Institution[]> {
+    return this.listInstitutions.asObservable();
+  }
+
+  fetchCareers(): Observable<Career[]> {
+    return this.listCareers.asObservable();
+  }
+
+  fetchEducById(): Observable<Education[]> {
+    return this.listEducations.asObservable();
   }
 
   //INSERTS
@@ -282,6 +324,19 @@ export class ServiceBDService {
     }
   }
 
+  async insertEduc(startDate_educ:string, endDate_educ:string, otherCareer:string, otherInstitution:string, id_inst:number, id_career:number,id_user:number): Promise<any> {
+    try {
+      const res = await this.database.executeSql('INSERT INTO education(startDate_educ, endDate_educ, otherCareer, otherInstitution, id_inst, id_career ,id_user) VALUES(?,?,?,?,?,?,?)', [startDate_educ, endDate_educ, otherCareer, otherInstitution, id_inst, id_career,id_user])
+
+      if (res.rowsAffected > 0) {
+        return true;
+      }
+    } catch (error) {
+      this.presentAlert('Error Insert Education', 'Error: ' + JSON.stringify(error));
+
+    }
+  }
+
   //UPDATE
   async UpdateUser(id_user: number, password_user: string, name_user: string, lastname_user: string, photo_user: any, description_user: any, about_user: any, address_user: any, email_user: string, phone_user: string): Promise<any> {
     try {
@@ -348,10 +403,7 @@ export class ServiceBDService {
             address_company: res.rows.item(i).address_user
 
           });
-
         }
-      } else {
-        this.presentAlert("Jobs vacios", "no se encontraron jobs")
       }
       //actualizamos el observable de este select
       this.listJobs.next(items as any);
@@ -597,9 +649,7 @@ export class ServiceBDService {
             id_user :res.rows.item(i).id_user,
           });
         }
-      } else {
-        this.presentAlert("experiences vacías", "No se encontraron Experiences");
-      }
+      } 
 
       // Actualizamos el observable con los resultados
       this.listExperience.next(items as any);
@@ -608,4 +658,83 @@ export class ServiceBDService {
       this.presentAlert('Error al seleccionar experiences', 'Error: ' + JSON.stringify(e));
     }
   }
+
+  async selectInstitutions() {
+    try {
+      const res = await this.database.executeSql('SELECT * FROM institution', []);
+      let items: Institution[] = [];
+
+      // Verificar si la consulta trae registros
+      if (res.rows.length > 0) {
+        // Recorremos el cursor para almacenar los registros
+        for (let i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_inst: res.rows.item(i).id_inst,
+            name_inst: res.rows.item(i).name_inst,
+          });
+        }
+      }
+
+      // Actualizamos el observable con los resultados
+      this.listInstitutions.next(items as any);
+
+    } catch (e) {
+      this.presentAlert('Error al seleccionar companys', 'Error: ' + JSON.stringify(e));
+    }
+  }
+
+  async selectCareers() {
+    try {
+      const res = await this.database.executeSql('SELECT * FROM career', []);
+      let items: Career[] = [];
+
+      // Verificar si la consulta trae registros
+      if (res.rows.length > 0) {
+        // Recorremos el cursor para almacenar los registros
+        for (let i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_career: res.rows.item(i).id_career,
+            name_career: res.rows.item(i).name_career,
+          });
+        }
+      }
+
+      // Actualizamos el observable con los resultados
+      this.listCareers.next(items as any);
+
+    } catch (e) {
+      this.presentAlert('Error al seleccionar companys', 'Error: ' + JSON.stringify(e));
+    }
+  }
+
+  async selectEducById(id_user:number) {
+    try {
+      const res = await this.database.executeSql('SELECT * FROM education LEFT JOIN institution ON institution.id_inst = education.id_inst LEFT JOIN career ON career.id_career = education.id_career  WHERE id_user = ?', [id_user]);
+      let items: Education[] = [];
+
+      // Verificar si la consulta trae registros
+      if (res.rows.length > 0) {
+        // Recorremos el cursor para almacenar los registros
+        for (let i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_educ :res.rows.item(i).id_educ ,
+            startDate_educ :res.rows.item(i).startDate_educ ,
+            endDate_educ :res.rows.item(i).endDate_educ ,
+            otherCareer :res.rows.item(i).otherCareer ,
+            otherInstitution :res.rows.item(i).otherInstitution ,
+            inst :res.rows.item(i).name_inst ,
+            career :res.rows.item(i).name_career ,
+            id_user :res.rows.item(i).id_user,
+          });
+        }
+      }
+
+      // Actualizamos el observable con los resultados
+      this.listEducations.next(items as any);
+
+    } catch (e) {
+      this.presentAlert('Error al seleccionar experiences', 'Error: ' + JSON.stringify(e));
+    }
+  }
+  
 }

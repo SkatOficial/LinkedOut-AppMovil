@@ -35,6 +35,17 @@ export class EditProfileWorkerPage implements OnInit {
     position :0 ,
     id_user :0 ,
   }
+
+  educArray:any ={
+    id_educ :"",
+    startDate_educ :"",
+    endDate_educ :"", 
+    otherCarrer :"",
+    otherInstitution :"", 
+    inst :0 ,
+    carrer :0 ,
+    id_user :0 ,
+  }
     
 
   inputModel = this.user.phone;
@@ -77,6 +88,9 @@ export class EditProfileWorkerPage implements OnInit {
         this.bd.fetchExpById().subscribe(res=>{
           this.expArray = res;
         })
+        this.bd.fetchEducById().subscribe(res=>{
+          this.educArray = res;
+        })
       }
     });
   }
@@ -92,7 +106,7 @@ export class EditProfileWorkerPage implements OnInit {
   toAddEducation(){
     this.router.navigate(['/add-education-worker'])
   }
-  toEditEducation(){
+  toEditEducation(educ:any){
     this.router.navigate(['/edit-education-worker'])
   }
 

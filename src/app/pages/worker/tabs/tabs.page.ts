@@ -60,6 +60,7 @@ export class TabsPage implements OnInit {
   }
   toProfile() {
     this.bd.selectExpById(this.id_user)
+    this.bd.selectEducById(this.id_user)
 
     const navigationExtras: NavigationExtras = {
       state: {

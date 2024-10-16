@@ -44,10 +44,6 @@ export class AddExperienceWorkerPage implements OnInit {
   isOtherPosition?:boolean;
   isErrorToastOpen:boolean = false;
 
-  
-
-  aux:string = "";
-
 
   constructor(private bd: ServiceBDService,private storage: NativeStorage,private router: Router) {
     //Obtiene el id de usuario del storage
@@ -155,7 +151,7 @@ export class AddExperienceWorkerPage implements OnInit {
     const navigationExtras: NavigationExtras = {
       state:{
         from:"AddExperience",
-        message:"Registro existoso"
+        message:"Registro de experiencia existoso"
       }
     };
     this.router.navigate(['edit-profile-worker'], navigationExtras);
