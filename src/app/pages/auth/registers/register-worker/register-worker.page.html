@@ -26,7 +26,6 @@
     <div>
       <ion-input label="Apellidos" placeholder="Introduce tus apellidos" labelPlacement="floating" fill="outline" [(ngModel)]="user.lastname_user">
       </ion-input>
-      <p class="error-message" *ngIf="!lastnameIsCorrect">este campo es obligatorio</p>
     </div>
   
     <ion-button expand="block" size="large" fill="solid" shape="round" class="continue-btn" (click)="validateName()">Continuar</ion-button>

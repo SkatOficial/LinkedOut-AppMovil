@@ -45,9 +45,6 @@ export class EditExperienceWorkerPage implements OnInit {
   isOtherPosition:boolean = false;
   isErrorToastOpen:boolean = false;
 
-  //Auxiliares
-  selectedCompany:any;
-  selectedPosition:any;
 
   constructor(private alertController:AlertController,private router: Router, private activedroute:
     ActivatedRoute,private bd:ServiceBDService) {
@@ -90,6 +87,7 @@ export class EditExperienceWorkerPage implements OnInit {
     }
 
   }
+  
   //VARIABLES DEL COMPONENTE
   startDateChanged(date:string){
     this.expInfo.startDate_exp = date;
@@ -175,11 +173,12 @@ export class EditExperienceWorkerPage implements OnInit {
     this.router.navigate(['edit-profile-worker'], navigationExtras);
   }
 
-  deletExp(){
-    this.bd.DeleteExp(this.expInfo.id_exp);
-  }
 
   //OTROS
+  deletExp(){
+    this.bd.deleteExp(this.expInfo.id_exp);
+  }
+  
   async confirmDeletion() {
     const alert = await this.alertController.create({
       header: '¿Estás seguro de eliminar la educacion?',

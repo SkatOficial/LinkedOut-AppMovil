@@ -8,8 +8,8 @@ import { textValidaton, emailValidation, passwordValidation} from 'src/app/utils
   templateUrl: './register-worker.page.html',
   styleUrls: ['./register-worker.page.scss'],
 })
-export class RegisterWorkerPage implements OnInit {
 
+export class RegisterWorkerPage implements OnInit {
   user: any = {
     id_user : null,
     password_user: '',
@@ -23,7 +23,6 @@ export class RegisterWorkerPage implements OnInit {
 
   //Validadores
   nameIsCorrect: boolean = true;
-  lastnameIsCorrect: boolean = true;
   emailIsCorrect: boolean = true;
   passwordIsCorrect: boolean = true;
   confirmPasswordIsCorrect : boolean = true;
@@ -69,9 +68,8 @@ export class RegisterWorkerPage implements OnInit {
   //VALIDADORES
   validateName(){
     this.nameIsCorrect = textValidaton(this.user.name_user);
-    this.lastnameIsCorrect = textValidaton(this.user.lastname_user);
 
-    if(this.nameIsCorrect && this.lastnameIsCorrect){
+    if(this.nameIsCorrect){
       this.activateLabelsEmail();
     }else{
       this.setOpenErrorToast(true);

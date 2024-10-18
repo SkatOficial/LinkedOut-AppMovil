@@ -19,6 +19,11 @@ export class CreateJobPage implements OnInit {
   //Validadores
   titleIsCorrect : boolean = true;
   descriptionIsCorrect : boolean = true;
+  isErrorToastOpen: boolean = false;
+  isSuccessToastOpen:boolean = false;
+
+  //Mensajes de error
+  messageErrorToast?:string;
 
   constructor(private alertController: AlertController, private bd:ServiceBDService,private storage: NativeStorage) {
     this.storage.getItem("userId").then(data=>{
@@ -30,6 +35,23 @@ export class CreateJobPage implements OnInit {
 
   }
 
+
+  async validateData(){
+    try{
+      this.titleIsCorrect = textValidaton(this.job.title_job);
+      this.descriptionIsCorrect = textValidaton(this.job.description_job);
+      
+      if(this.titleIsCorrect && this.descriptionIsCorrect){
+        this.confirmApplication();
+      }else{
+        this.setOpenErrorToast(true,"Error al ingresar los datos");
+      }
+    }catch(error){
+      this.setOpenErrorToast(true,"Error inesperado");
+    }
+  }
+
+  //ALERTAS
   async confirmApplication(){
     const alert = await this.alertController.create({
       header: '¿Estás seguro de publicar el puesto de trabajo?',
@@ -44,7 +66,10 @@ export class CreateJobPage implements OnInit {
           text: 'Confirmar',
           cssClass: 'confirm-button',
           handler: () => {
-           
+            this.bd.insertJob(this.job.title_job,this.job.description_job,this.job.id_company);
+            this.job.title_job = "";
+            this.job.description_job = "";
+            this.setOpenSuccessToast(true);
           }
         }
       ]
@@ -53,17 +78,13 @@ export class CreateJobPage implements OnInit {
     await alert.present();
   }
 
-  async validateData(){
-    try{
-      this.titleIsCorrect = textValidaton(this.job.title_job);
-      this.descriptionIsCorrect = textValidaton(this.job.description_job);
-      
-      if(this.titleIsCorrect && this.descriptionIsCorrect){
-        this.bd.insertJob(this.job.title_job,this.job.description_job,this.job.id_company);
-      }
-    }catch(error){
+  setOpenErrorToast(value:boolean,msg:string){
+    this.messageErrorToast = msg
+    this.isErrorToastOpen = value;
+  }
 
-    }
+  setOpenSuccessToast(value:boolean){
+    this.isSuccessToastOpen = value;
   }
 
 }

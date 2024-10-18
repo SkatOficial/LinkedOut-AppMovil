@@ -117,7 +117,7 @@ export class AddEducationWorkerPage implements OnInit {
     this.endDateIsCorrect = dateValidaton(this.educInfo.endDate_educ) || this.isWorkingNow;
 
     if(this.institutionNameIsCorrect && this.careerIsCorrect && this.startDateIsCorrect && this.endDateIsCorrect){
-        this.bd.insertEduc(this.educInfo.startDate_educ, this.educInfo.endDate_educ, this.educInfo.otherPosition, this.educInfo.otherInstitution, this.educInfo.id_inst, this.educInfo.id_career,this.educInfo.id_user)
+        this.bd.insertEduc(this.educInfo.startDate_educ, this.educInfo.endDate_educ, this.educInfo.otherCareer, this.educInfo.otherInstitution, this.educInfo.id_inst, this.educInfo.id_career,this.educInfo.id_user)
 
         this.toEditProfile();
     }else{

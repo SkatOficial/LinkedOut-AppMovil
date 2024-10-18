@@ -49,7 +49,7 @@ export class EditProfileWorkerPage implements OnInit {
     
 
   inputModel = this.user.phone;
-  messageErrorToast?:string;
+  
 
 
   //Validadores
@@ -63,6 +63,7 @@ export class EditProfileWorkerPage implements OnInit {
   //Mensajes de error
   emailErrorMessage = "";
   toastSuccessMessage ="";
+  messageErrorToast?:string;
 
   constructor(private router: Router, private activedroute: ActivatedRoute,private bd:ServiceBDService) {
      //subscribirse al observable/promesa
@@ -164,9 +165,7 @@ export class EditProfileWorkerPage implements OnInit {
     }
   }
 
-  setOpenSuccessToast(value:boolean){
-    this.isSuccessToastOpen = value;
-  }
+  
 
   //OTROS
   @ViewChild('ionInputEl', { static: true }) ionInputEl!: IonInput;
@@ -185,6 +184,10 @@ export class EditProfileWorkerPage implements OnInit {
 
   setOpenErrorToast(value:boolean){
     this.isErrorToastOpen = value;
+  }
+
+  setOpenSuccessToast(value:boolean){
+    this.isSuccessToastOpen = value;
   }
 
   takePicture = async () => {

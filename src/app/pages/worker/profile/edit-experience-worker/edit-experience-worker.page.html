@@ -18,7 +18,6 @@
       <ion-label>
         <h3>Nombre entidad</h3>
         <ion-select *ngIf="!isOtherCompany"
-        [(ngModel)]="selectedCompany"
         interface="action-sheet"
         aria-label="Companys"
         [compareWith]="compareWithCompany"
@@ -46,7 +45,6 @@
       <ion-label>
         <h3>Cargo</h3>
         <ion-select *ngIf="!isOtherPosition"
-        [(ngModel)]="selectedPosition"
         interface="action-sheet"
         aria-label="Positions"
         [compareWith]="compareWithPosition"

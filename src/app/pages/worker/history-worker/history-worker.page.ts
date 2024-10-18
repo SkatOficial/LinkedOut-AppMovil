@@ -38,6 +38,10 @@ export class HistoryWorkerPage implements OnInit {
 
   //VALIDADORES
   isModalOpen = false;
+  isSuccessToastOpen:boolean = false;
+  isErrorToastOpen: boolean = false;
+
+
 
   constructor(private alertController: AlertController,private bd: ServiceBDService,private storage: NativeStorage) { 
     this.storage.getItem("userId").then(data=>{
@@ -59,7 +63,7 @@ export class HistoryWorkerPage implements OnInit {
       });
   }
 
-  async confirmDeletion() {
+  async confirmDeletion(id_post:number) {
     const alert = await this.alertController.create({
       header: '¿Estás seguro de eliminar la postulación?',
       message: 'Esta acción no se podrá deshacer',
@@ -74,7 +78,16 @@ export class HistoryWorkerPage implements OnInit {
           text: 'Confirmar',
           cssClass: 'confirm-button',
           handler: () => {
-           
+            this.bd.deletePost(id_post).then(res =>{
+              if(res){
+                this.setOpenSuccessToast(true);
+                this.setOpenModal(false);
+                this.bd.selectPostulationsById(this.id_user)
+              }else{
+                this.setOpenErrorToast(true);
+              }
+            });
+            
           }
         }
       ]
@@ -87,8 +100,28 @@ export class HistoryWorkerPage implements OnInit {
     this.isModalOpen = isOpen;
   }
 
+  setOpenSuccessToast(value:boolean){
+    this.isSuccessToastOpen = value;
+  }
+
+  setOpenErrorToast(value:boolean){
+    this.isErrorToastOpen = value;
+  }
+
   updateModale(post:any){
     this.modalPost = post;
     this.setOpenModal(true);
+  }
+
+  deletePost(id_post:any){
+    this.bd.deletePost(id_post)
+  }
+
+  searchFilter(event:any){
+    try{
+      this.bd.selectFilterPostulationsById(this.id_user,event.detail.value.toLowerCase());
+    }catch(e){
+
+    }
   }
 }

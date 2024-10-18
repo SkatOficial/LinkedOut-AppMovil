@@ -1,7 +1,7 @@
 <div class="ion-page" #home>
   <ion-header>
     <ion-toolbar>
-      <ion-searchbar placeholder="Buscar historial"></ion-searchbar>
+      <ion-searchbar placeholder="Buscar historial" (ionInput)="searchFilter($event)"></ion-searchbar>
     </ion-toolbar>
   </ion-header>
   
@@ -54,10 +54,26 @@
               </div>
             </ion-label>
           </ion-item>
-          <ion-button  expand="full" shape="round" color="danger" (click)="confirmDeletion()">Quitar postulacion</ion-button>
+          <ion-button  expand="full" shape="round" color="danger" (click)="confirmDeletion(modalPost.id_post)">Quitar postulacion</ion-button>
         </ion-content>
       </ng-template>
     </ion-modal>
+
+    <ion-toast
+    color = "success"
+    [isOpen]="isSuccessToastOpen"
+    message="Postulación eliminada"
+    [duration]="2000"
+    (didDismiss)="setOpenSuccessToast(false)"
+    ></ion-toast>
+
+    <ion-toast
+    color = "danger"
+    [isOpen]="isErrorToastOpen"
+    message="No se pudo elimar la postulacion"
+    [duration]="3000"
+    (didDismiss)="setOpenErrorToast(false)"
+    ></ion-toast>
   </ion-content>
 </div>
 

@@ -1,5 +1,6 @@
 import { Component,OnInit} from '@angular/core';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { Job } from 'src/app/models/job';
 import { ServiceBDService } from 'src/app/services/service-bd.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { ServiceBDService } from 'src/app/services/service-bd.service';
 export class HomeWorkerPage implements OnInit {
   id_user = 0;
 
-  jobArray: any ={
+  public jobArray: any ={
     id_job : 0,
     title_job : "",
     description_job : "",
@@ -36,7 +37,7 @@ export class HomeWorkerPage implements OnInit {
   isModalOpen = false;
   isSuccessToastOpen:boolean = false;
   isErrorToastOpen:boolean = false;
-  emailErrorMessage = "Ya postulaste a este trabajo";
+  errorMessage = "Ya postulaste a este trabajo";
 
   constructor( private bd:ServiceBDService,private storage: NativeStorage) { 
     //Obtiene el id de usuario del storage
@@ -58,6 +59,7 @@ export class HomeWorkerPage implements OnInit {
     });
   }
 
+  //Validadores
   setOpenModal(isOpen: boolean) {
     this.isModalOpen = isOpen;
   }
@@ -74,19 +76,25 @@ export class HomeWorkerPage implements OnInit {
     this.isErrorToastOpen = value;
   }
 
-  async createPostulation(){
+  createPostulation(){
     try {
-      let res = await this.bd.insertPostulation(this.id_user, this.modalJob.id_job);
-      
-      if (res){
-        this.setOpenSuccessToast(true);
-      } else if(res = false) {
-        this.setOpenErrorToast(true);
-      }else{
-        this.emailErrorMessage = "Error inesperado"
-        this.setOpenErrorToast(true)
-      }
+      this.bd.insertPostulation(this.id_user, this.modalJob.id_job).then(res => {
+        if (res){
+          this.setOpenSuccessToast(true);
+        } else if(res == false) {
+          this.setOpenErrorToast(true);
+        }
+      });
     } catch (error) {
+      this.errorMessage = "Error inesperado";
+      this.setOpenErrorToast(true);
+    }
+  }
+
+  searchFilter(event:any){
+    try{
+      this.bd.selectFilterJobs(event.detail.value.toLowerCase());
+    }catch(e){
 
     }
   }

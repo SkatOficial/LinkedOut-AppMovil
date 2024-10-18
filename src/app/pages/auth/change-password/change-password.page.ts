@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { ServiceBDService } from 'src/app/services/service-bd.service';
 import { passwordValidation } from 'src/app/utils/validation-functions';
 
 @Component({
@@ -11,8 +11,7 @@ import { passwordValidation } from 'src/app/utils/validation-functions';
 export class ChangePasswordPage implements OnInit {
   
   user: any = {
-    name : '',
-    email: '',
+    id_user: null,
     password: ''
   }
 
@@ -20,18 +19,29 @@ export class ChangePasswordPage implements OnInit {
   passwordIsCorrect: boolean = true;
   confirmPasswordIsCorrect : boolean = true;
   confirmPassword: string = '';
-  isAllGood ?: boolean;
+  isErrorToastOpen: boolean = false;
+  isSuccessToastOpen:boolean = false;
 
   //Mensajes de error
   errorMessagesPassword: string[] = [];
+  messageErrorToast?:string;
 
-  constructor() { }
+  constructor(private bd:ServiceBDService,private storage: NativeStorage) { 
+    //Obtiene el id de usuario del storage
+    this.storage.getItem("userId").then(data=>{
+      this.user.id_user = data;
+   });
+  }
 
   ngOnInit() {
   }
 
-  setOpenToast(value:boolean){
-    this.isAllGood = value;
+  setOpenErrorToast(value:boolean){
+    this.isErrorToastOpen = value;
+  }
+
+  setOpenSuccessToast(value:boolean){
+    this.isSuccessToastOpen = value;
   }
 
   validatePassword(){
@@ -43,7 +53,13 @@ export class ChangePasswordPage implements OnInit {
     this.confirmPasswordIsCorrect = (this.user.password == this.confirmPassword)
 
     if(this.passwordIsCorrect && this.confirmPasswordIsCorrect){
-      this.setOpenToast(true);
+        this.bd.updatePassword(this.user.password,this.user.id_user);
+        this.setOpenSuccessToast(true);
+        this.user.password = "";
+        this.confirmPassword = "";
+    }else{
+      this.messageErrorToast= "Campos rellenados incorrectamente" 
+      this.setOpenErrorToast(true);
     }
   }
 

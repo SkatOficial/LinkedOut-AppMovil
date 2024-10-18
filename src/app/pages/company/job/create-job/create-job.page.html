@@ -35,4 +35,20 @@
       </ion-item>
       <ion-button expand="block" size ="large" fill="solid" shape="round" (click)="validateData()">publicar</ion-button>
     </ion-list>
+
+    <ion-toast
+    color = "danger"
+    [isOpen]="isErrorToastOpen"
+    message="{{messageErrorToast}}"
+    [duration]="3000"
+    (didDismiss)="setOpenErrorToast(false,'')"
+    ></ion-toast>
+
+    <ion-toast
+    color = "success"
+    [isOpen]="isSuccessToastOpen"
+    message="Trabajo publicado"
+    [duration]="2000"
+    (didDismiss)="setOpenSuccessToast(false)"
+    ></ion-toast>
 </ion-content>

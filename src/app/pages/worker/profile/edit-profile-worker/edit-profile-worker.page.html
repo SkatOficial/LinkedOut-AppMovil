@@ -12,8 +12,12 @@
   <ion-item lines="none">
     <div class="item-content">
       <ion-item lines="none" (click)="takePicture()">
-        <ion-img *ngIf="user.photo_user" [src]="user.photo_user" alt="Con imagen" class="img-profile"></ion-img>
-        <ion-img *ngIf="!user.photo_user" src="assets/img/profile.jpg" tab="img-company" class="img-profile"></ion-img>
+        <div class="profile-container">
+          <ion-img *ngIf="user.photo_user" [src]="user.photo_user" alt="Con imagen" class="img-profile"></ion-img>
+          <ion-img *ngIf="!user.photo_user" src="assets/img/profile.jpg" tab="img-company" class="img-profile"></ion-img>
+      
+          <ion-icon name="add-circle" class="add-icon"></ion-icon>
+        </div>
       </ion-item>
       <ion-item lines="none" class="item-content">
         <div class="w-100 my-10px">
@@ -70,7 +74,6 @@
             <div class="input-border flex-grow">
               <ion-input
               type="number"
-              maxlength="11"
               [(ngModel)]="user.phone_user"
               [value]="inputModel"
               (ionInput)="onInput($event)"

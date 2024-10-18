@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-searchbar placeholder="Buscar Empleos"></ion-searchbar>
+    <ion-searchbar placeholder="Buscar Empleos" (ionInput)="searchFilter($event)"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -58,7 +58,7 @@
   <ion-toast
   color = "danger"
   [isOpen]="isErrorToastOpen"
-  message="{{emailErrorMessage}}"
+  message="{{errorMessage}}"
   [duration]="2000"
   (didDismiss)="setOpenErrorToast(false)"
   ></ion-toast>

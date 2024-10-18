@@ -12,9 +12,11 @@
     <ion-item lines="none">
       <div class="item-content">
         <ion-item lines="none" (click)="takePicture()">
-          <ion-img *ngIf="user.photo_user" [src]="user.photo_user" alt="Con imagen" class="img-profile"></ion-img>
-          <ion-img *ngIf="!user.photo_user" src="assets/img/company.png" tab="img-company" class="img-profile"></ion-img>
-
+          <div class="profile-container">
+            <ion-img *ngIf="user.photo_user" [src]="user.photo_user" alt="Con imagen" class="img-profile"></ion-img>
+            <ion-img *ngIf="!user.photo_user" src="assets/img/company.png" tab="img-company" class="img-profile"></ion-img>
+            <ion-icon name="add-circle" class="add-icon"></ion-icon>
+          </div>
         </ion-item>
         <ion-item lines="none" class="item-content">
           <div class="w-100">
