@@ -43,9 +43,11 @@ export class ProfileWorkerPage implements OnInit {
     carrer :0 ,
     id_user :0 ,
   }
+
+  toastSuccessMessage ="";
+  isSuccessToastOpen:boolean = false;
   
-  
-  constructor(private router: Router, private bd:ServiceBDService,private storage: NativeStorage) {
+  constructor(private router: Router, private bd:ServiceBDService,private storage: NativeStorage,private activedroute:ActivatedRoute) {
     //Obtiene el id de usuario del storage
     this.storage.getItem("userId").then(data=>{
       this.id_user = data;
@@ -53,6 +55,17 @@ export class ProfileWorkerPage implements OnInit {
       //actualizo los observables
       this.bd.selectUserById(this.id_user);
    });
+
+   this.activedroute.queryParams.subscribe(param =>{
+    //verificar si viene la variable de contexto
+    if(this.router.getCurrentNavigation()?.extras.state){
+      if(this.router.getCurrentNavigation()?.extras?.state?.['from']){
+        this.toastSuccessMessage = this.router.getCurrentNavigation()?.extras?.state?.['message'];
+        this.setOpenSuccessToast(true);
+      }
+    }
+  });
+   
   };
 
   ngOnInit() {
@@ -83,5 +96,36 @@ export class ProfileWorkerPage implements OnInit {
       }
     };
     this.router.navigate(['edit-profile-worker'],navigationExtras)
+  }
+
+  //RUTAS
+  toAddExperience(){
+    this.router.navigate(['/add-experience-worker'])
+  }
+  
+  toEditExperience(exp:any){
+    const navigationextras: NavigationExtras = {
+      state:{
+        exp: exp
+      }
+    }
+    this.router.navigate(['/edit-experience-worker'],navigationextras)
+  }
+
+  toAddEducation(){
+    this.router.navigate(['/add-education-worker'])
+  }
+
+  toEditEducation(educ:any){
+    const navigationextras: NavigationExtras = {
+      state:{
+        educ: educ
+      }
+    }
+    this.router.navigate(['/edit-education-worker'],navigationextras)
+  }
+
+  setOpenSuccessToast(value:boolean){
+    this.isSuccessToastOpen = value;
   }
 }

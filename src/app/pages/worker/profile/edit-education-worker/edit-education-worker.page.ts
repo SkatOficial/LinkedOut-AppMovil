@@ -166,7 +166,7 @@ export class EditEducationWorkerPage implements OnInit {
         message:msg
       }
     };
-    this.router.navigate(['edit-profile-worker'], navigationExtras);
+    this.router.navigate(['tabs-worker/profile'], navigationExtras);
   }
   
   

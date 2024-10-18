@@ -87,9 +87,15 @@ const routes: Routes = [
     loadChildren: () => import('./pages/company/job/option-job/option-job.module').then( m => m.OptionJobPageModule)
   },
   {
+    path: 'edit-job',
+    loadChildren: () => import('./pages/job/edit-job/edit-job.module').then( m => m.EditJobPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/not-found/not-found.module').then( m => m.NotFoundPageModule)
   },
+  
+
 
 ];
 

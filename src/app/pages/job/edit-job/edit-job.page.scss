@@ -1,12 +1,13 @@
+
+ion-list{
+    padding: 0px;
+}
+
 ion-item{
     --background: white;
     ion-icon{
         margin-left: auto;
     }
-}
-
-ion-list{
-    padding: 0px;
 }
 
 ion-textarea{
@@ -22,20 +23,7 @@ ion-label{
     width: 100%;
 }
 
-.img-profile{
-    width: 150px;
-    height: 150px;
-
-    margin-top: 30px;
-
-    border-radius: 100%;
-    overflow: hidden;
-    border: 4px solid #ffffff;
-    object-fit: cover;
-}
-
 .item-content{
     width: 100%;
     display: block;
 }
-

@@ -104,54 +104,11 @@
       <ion-item>
         <h1>Acerca de</h1>
       </ion-item>
-      <ion-textarea rows="10"
+      <ion-textarea *ngIf="user.about_user" rows="10"
       name="acerca de" 
       value="{{user.about_user}}">
       </ion-textarea>
     </ion-label>
-  </ion-item>
-
-  <!-- EXPERIENCIA LABORAL -->
-  <ion-item class="pt-10px">
-    <div class="item-content">
-      <ion-item>
-        <h1>Experiencia</h1>
-        <ion-icon name="add-circle" size="large" slot="end" (click)="toAddExperience()"></ion-icon>
-      </ion-item>
-      
-      <ion-list>
-        <ion-item *ngFor="let exp of expArray" class="list-item">
-          <ion-icon name="pencil" size="large" slot="end" (click)="toEditExperience(exp)"></ion-icon>
-          <ion-label>
-            <h2 *ngIf="exp.comp">{{exp.comp}}</h2>
-            <h2 *ngIf="!exp.comp">{{exp.otherCompany}}</h2>
-            <h3 *ngIf="exp.position">{{exp.position}}</h3>
-            <h3 *ngIf="!exp.position">{{exp.otherPosition}}</h3>
-            <p>{{exp.startDate_exp}} - <span *ngIf="exp.endDate_exp">{{exp.endDate_exp}}</span><span *ngIf="!exp.endDate_exp">Actualmente</span></p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-    </div>  
-  </ion-item>
-
-  <!-- EDUCACION -->
-  <ion-item class="pt-10px">
-    <div class="item-content">
-      <ion-item>
-        <h1>Educación</h1>
-        <ion-icon name="add-circle" size="large" slot="end" (click)="toAddEducation()"></ion-icon>
-      </ion-item>
-      <ion-item *ngFor="let educ of educArray" class="list-item">
-        <ion-icon name="pencil" size="large" slot="end" (click)="toEditEducation(educ)"></ion-icon>
-        <ion-label>
-          <h2 *ngIf="educ.inst">{{educ.inst}}</h2>
-          <h2 *ngIf="!educ.inst">{{educ.otherInstitution}}</h2>
-          <h3 *ngIf="educ.career">{{educ.career}}</h3>
-          <h3 *ngIf="!educ.career">{{educ.otherCareer}}</h3>
-          <p>{{educ.startDate_educ}} - <span *ngIf="educ.endDate_educ">{{educ.endDate_educ}}</span><span *ngIf="!educ.endDate_educ">Actualmente</span></p>
-        </ion-label>
-      </ion-item>
-    </div>  
   </ion-item>
 
   <ion-button expand="full" (click)="validateProfile()">confirmar</ion-button>
@@ -162,14 +119,6 @@
     message={{messageErrorToast}}
     [duration]="3000"
     (didDismiss)="setOpenErrorToast(false)"
-  ></ion-toast>
-
-  <ion-toast
-  color = "success"
-  [isOpen]="isSuccessToastOpen"
-  message="{{toastSuccessMessage}}"
-  [duration]="2000"
-  (didDismiss)="setOpenSuccessToast(false)"
   ></ion-toast>
 
 </ion-content>

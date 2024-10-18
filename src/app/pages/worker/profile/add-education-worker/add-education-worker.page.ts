@@ -155,6 +155,6 @@ export class AddEducationWorkerPage implements OnInit {
         message:"Registro de educacion existosa"
       }
     };
-    this.router.navigate(['edit-profile-worker'], navigationExtras);
+    this.router.navigate(['tabs-worker/profile'], navigationExtras);
   }
 }

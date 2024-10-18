@@ -154,6 +154,6 @@ export class AddExperienceWorkerPage implements OnInit {
         message:"Registro de experiencia existoso"
       }
     };
-    this.router.navigate(['edit-profile-worker'], navigationExtras);
+    this.router.navigate(['tabs-worker/profile'], navigationExtras);
   }
 }

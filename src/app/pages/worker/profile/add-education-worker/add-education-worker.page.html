@@ -48,7 +48,7 @@
         interface="action-sheet"
         aria-label="Career"
         [compareWith]="compareWithCareer"
-        placeholder="Seleccionar Careera"
+        placeholder="Seleccionar Carrera"
         (ionChange)="handleChangeCareer($event)"
         >
         <ion-select-option *ngFor="let career of careersArray" [value]="career">{{ career.name_career }}</ion-select-option>

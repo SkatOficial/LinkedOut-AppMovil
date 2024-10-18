@@ -369,6 +369,17 @@ export class ServiceBDService {
     }
   }
   
+  async updateJob(title_job: string, description_job: string, id_company: number): Promise<any> {
+    try {
+      const res = await this.database.executeSql('UPDATE job SET title_job = ?,description_job = ? WHERE = id_company = ?', [title_job, description_job, id_company])
+
+      return res.rowsAffected > 0
+        
+    } catch (error) {
+      throw new Error('Error al modificar Job');
+    }
+  }
+  
   //DELETE
   async deleteExp(id_exp:number): Promise<any> {
     try {

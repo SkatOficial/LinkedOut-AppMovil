@@ -18,11 +18,20 @@
           <p class="trunc">{{user.address_user}}</p>
         </ion-label>
       </div>
-      <div class="d-flex" (click)="toOptions()">
+      <div class="d-flex" (click)="toOptions(job)">
         <ion-icon name="settings-outline" size="large" color="medium" slot="end"></ion-icon>
       </div>
     </ion-item>
   </ion-list>
+
+  
+  <ion-toast
+  color = "success"
+  [isOpen]="isSuccessToastOpen"
+  message="{{successMsg}}"
+  [duration]="2000"
+  (didDismiss)="setOpenSuccessToast(false,'')"
+  ></ion-toast>
 </ion-content>
 
 
