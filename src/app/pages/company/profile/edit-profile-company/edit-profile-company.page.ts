@@ -4,6 +4,7 @@ import { IonInput } from '@ionic/angular';
 import { ServiceBDService } from 'src/app/services/service-bd.service';
 import { emailValidation, textValidaton } from 'src/app/utils/validation-functions';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { HapticsService } from 'src/app/services/haptics.service';
 
 @Component({
   selector: 'app-edit-profile-company',
@@ -35,7 +36,7 @@ export class EditProfileCompanyPage implements OnInit {
   //Mensajes de error
   emailErrorMessage = "";
 
-  constructor(private bd:ServiceBDService, private activedroute: ActivatedRoute,private router: Router) { 
+  constructor(private bd:ServiceBDService, private activedroute: ActivatedRoute,private router: Router, private haptics:HapticsService) { 
     //subscribirse al observable/promesa
     this.activedroute.queryParams.subscribe(param =>{
       //verificar si viene la variable de contexto
@@ -102,7 +103,10 @@ export class EditProfileCompanyPage implements OnInit {
   }
 
   //OTROS
-  setOpenErrorToast(value:boolean){
+  async setOpenErrorToast(value:boolean){
+    if(value){
+      await this.haptics.impactMedium()
+    }
     this.isErrorToastOpen = value;
   }
 

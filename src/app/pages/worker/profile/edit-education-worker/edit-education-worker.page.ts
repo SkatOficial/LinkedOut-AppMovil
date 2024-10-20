@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { HapticsService } from 'src/app/services/haptics.service';
 import { ServiceBDService } from 'src/app/services/service-bd.service';
 import { dateValidaton, textValidaton } from 'src/app/utils/validation-functions';
 
@@ -42,7 +43,7 @@ export class EditEducationWorkerPage implements OnInit {
   isOtherCareer:boolean = false;
   isErrorToastOpen:boolean = false;
 
-  constructor(private bd: ServiceBDService,private router: Router,private alertController: AlertController,private activedroute: ActivatedRoute) { 
+  constructor(private bd: ServiceBDService,private router: Router,private alertController: AlertController,private activedroute: ActivatedRoute, private haptics:HapticsService) { 
     //subscribirse al observable/promesa
     this.activedroute.queryParams.subscribe(param =>{
       //verificar si viene la variable de contexto
@@ -153,7 +154,10 @@ export class EditEducationWorkerPage implements OnInit {
     this.educInfo.id_career = ev.target.value.id_career;
   }
 
-  setOpenErrorToast(value:boolean){
+  async setOpenErrorToast(value:boolean){
+    if(value){
+      await this.haptics.impactMedium()
+    }
     this.isErrorToastOpen = value;
   }
   

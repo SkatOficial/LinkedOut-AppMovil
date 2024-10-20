@@ -1,6 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { HapticsService } from 'src/app/services/haptics.service';
 import { ServiceBDService } from 'src/app/services/service-bd.service';
 import { dateValidaton, textValidaton } from 'src/app/utils/validation-functions';
 
@@ -45,7 +46,7 @@ export class AddExperienceWorkerPage implements OnInit {
   isErrorToastOpen:boolean = false;
 
 
-  constructor(private bd: ServiceBDService,private storage: NativeStorage,private router: Router) {
+  constructor(private bd: ServiceBDService,private storage: NativeStorage,private router: Router, private haptics:HapticsService) {
     //Obtiene el id de usuario del storage
     this.storage.getItem("userId").then(data=>{
       this.id_user = data;
@@ -141,7 +142,10 @@ export class AddExperienceWorkerPage implements OnInit {
     this.expInfo.id_position = ev.target.value.id_position;
   }
 
-  setOpenErrorToast(value:boolean){
+  async setOpenErrorToast(value:boolean){
+    if(value){
+      await this.haptics.impactMedium()
+    }
     this.isErrorToastOpen = value;
   }
 

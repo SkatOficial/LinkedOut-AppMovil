@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
+import { HapticsService } from 'src/app/services/haptics.service';
 import { ServiceBDService } from 'src/app/services/service-bd.service';
 import { textValidaton } from 'src/app/utils/validation-functions';
 
@@ -26,7 +27,7 @@ export class EditJobPage implements OnInit {
   //Mensajes de error
   messageErrorToast?:string;
 
-  constructor(private alertController: AlertController, private bd:ServiceBDService,private storage: NativeStorage,private activedroute:ActivatedRoute, private router:Router) {
+  constructor(private alertController: AlertController, private bd:ServiceBDService,private storage: NativeStorage,private activedroute:ActivatedRoute, private router:Router,private haptics:HapticsService) {
     //subscribirse al observable/promesa
     this.activedroute.queryParams.subscribe(param =>{
       //verificar si viene la variable de contexto
@@ -81,7 +82,10 @@ export class EditJobPage implements OnInit {
     await alert.present();
   }
 
-  setOpenErrorToast(value:boolean,msg:string){
+  async setOpenErrorToast(value:boolean,msg:string){
+    if(value){
+      await this.haptics.impactMedium()
+    }
     this.messageErrorToast = msg
     this.isErrorToastOpen = value;
   }

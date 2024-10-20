@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
+import { HapticsService } from 'src/app/services/haptics.service';
 import { ServiceBDService } from 'src/app/services/service-bd.service';
 import { textValidaton } from 'src/app/utils/validation-functions';
 
@@ -25,7 +26,7 @@ export class CreateJobPage implements OnInit {
   //Mensajes de error
   messageErrorToast?:string;
 
-  constructor(private alertController: AlertController, private bd:ServiceBDService,private storage: NativeStorage) {
+  constructor(private alertController: AlertController, private bd:ServiceBDService,private storage: NativeStorage, private haptics:HapticsService) {
     this.storage.getItem("userId").then(data=>{
       this.job.id_company = data;
     })
@@ -78,7 +79,10 @@ export class CreateJobPage implements OnInit {
     await alert.present();
   }
 
-  setOpenErrorToast(value:boolean,msg:string){
+  async setOpenErrorToast(value:boolean,msg:string){
+    if(value){
+      await this.haptics.impactMedium()
+    }
     this.messageErrorToast = msg
     this.isErrorToastOpen = value;
   }

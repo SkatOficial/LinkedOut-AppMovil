@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
+import { HapticsService } from 'src/app/services/haptics.service';
 import { ServiceBDService } from 'src/app/services/service-bd.service';
 
 @Component({
@@ -44,7 +45,7 @@ export class HistoryWorkerPage implements OnInit {
   searchValue:string="";
 
 
-  constructor(private router: Router, private alertController: AlertController,private bd: ServiceBDService,private storage: NativeStorage) { 
+  constructor(private router: Router, private alertController: AlertController,private bd: ServiceBDService,private storage: NativeStorage, private haptics:HapticsService) { 
     this.storage.getItem("userId").then(data=>{
       this.id_user = data;
 
@@ -105,7 +106,10 @@ export class HistoryWorkerPage implements OnInit {
     this.isSuccessToastOpen = value;
   }
 
-  setOpenErrorToast(value:boolean){
+  async setOpenErrorToast(value:boolean){
+    if(value){
+      await this.haptics.impactMedium()
+    }
     this.isErrorToastOpen = value;
   }
 

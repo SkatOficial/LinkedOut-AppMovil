@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { IonInput } from '@ionic/angular';
+import { HapticsService } from 'src/app/services/haptics.service';
 import { ServiceBDService } from 'src/app/services/service-bd.service';
 import { emailValidation, textValidaton } from 'src/app/utils/validation-functions';
 
@@ -65,7 +66,7 @@ export class EditProfileWorkerPage implements OnInit {
   toastSuccessMessage ="";
   messageErrorToast?:string;
 
-  constructor(private router: Router, private activedroute: ActivatedRoute,private bd:ServiceBDService) {
+  constructor(private router: Router, private activedroute: ActivatedRoute,private bd:ServiceBDService, private haptics:HapticsService) {
      //subscribirse al observable/promesa
      this.activedroute.queryParams.subscribe(param =>{
       //verificar si viene la variable de contexto
@@ -182,7 +183,10 @@ export class EditProfileWorkerPage implements OnInit {
     this.ionInputEl.value = this.inputModel = filteredValue;
   }
 
-  setOpenErrorToast(value:boolean){
+  async setOpenErrorToast(value:boolean){
+    if(value){
+      await this.haptics.impactMedium()
+    }
     this.isErrorToastOpen = value;
   }
 

@@ -13,18 +13,15 @@
 
     <ion-card-content>
       <p class="text-condiciones">
-        Al hacer clic en «Aceptar y unirse» o «Continuar con», aceptas las <ion-text color="primary">Condiciones de uso</ion-text>, la <ion-text color="primary">Política de privacidad</ion-text> y la <ion-text color="primary">Política de cookies</ion-text>.
+        Al hacer clic en «Aceptar y unirse» o «Continuar con», aceptas las <ion-text color="primary" (click)="toNotFound()">Condiciones de uso</ion-text>, la <ion-text color="primary" (click)="toNotFound()">Política de privacidad</ion-text> y la <ion-text color="primary" (click)="toNotFound()">Política de cookies</ion-text>.
       </p>
       <div class="iniciarSesion-btns">
         <ion-button expand="block" size ="large" fill="solid" shape="round" class="registrarse-btn" (click)="toRegister()">Aceptar y unirse</ion-button>
         <button mat-raised-button (click)="toLogin()" class="iniciarSesion-btn">Iniciar sesión</button>
       </div>
-      <div class="iniciarSesion-btns">
-        <ion-button expand="block" size ="large" fill="solid" shape="round" class="registrarse-btn" (click)="toNada()">NADA</ion-button>
-      </div>
     </ion-card-content>
   </ion-card>
-  
+
   <ion-toast
   color = "success"
   [isOpen]="isSuccessToastOpen"

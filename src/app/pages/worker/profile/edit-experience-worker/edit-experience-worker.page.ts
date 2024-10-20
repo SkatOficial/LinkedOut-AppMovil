@@ -5,6 +5,7 @@ import { dateValidaton, textValidaton } from 'src/app/utils/validation-functions
 import { AlertController } from '@ionic/angular';
 import { Company } from 'src/app/models/company';
 import { Position } from 'src/app/models/position';
+import { HapticsService } from 'src/app/services/haptics.service';
 
 
 @Component({
@@ -47,7 +48,7 @@ export class EditExperienceWorkerPage implements OnInit {
 
 
   constructor(private alertController:AlertController,private router: Router, private activedroute:
-    ActivatedRoute,private bd:ServiceBDService) {
+    ActivatedRoute,private bd:ServiceBDService, private haptics:HapticsService) {
     //subscribirse al observable/promesa
     this.activedroute.queryParams.subscribe(param =>{
       //verificar si viene la variable de contexto
@@ -157,7 +158,10 @@ export class EditExperienceWorkerPage implements OnInit {
     this.expInfo.id_position = ev.target.value.id_position;
   }
 
-  setOpenErrorToast(value:boolean){
+  async setOpenErrorToast(value:boolean){
+    if(value){
+      await this.haptics.impactMedium()
+    }
     this.isErrorToastOpen = value;
   }
 

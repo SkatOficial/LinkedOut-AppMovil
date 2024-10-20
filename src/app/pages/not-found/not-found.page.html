@@ -8,23 +8,16 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <h1>Ups...</h1>
-  <ion-button expand="block" size ="large" fill="solid" shape="round" (click)="toAccess()">
-    Inicio
-  </ion-button>
-  <h1>USERS</h1>
-  <ion-item *ngFor="let post of postArray">
-    <ion-list>
-      <ion-label>
-        <h2>id_post{{post.id_post}}</h2>
-        <p>status: {{post.status_post}}</p>
-        <p>titulo trabajo:{{post.title_job}}</p>
-        <p>id empresa : {{post.id_company}}</p>
-        <p>nombre empresa:{{post.name_company}}</p>
-        <p>id user:{{post.id_user}}</p>
-        <p>nombre postulante:{{post.name_user}} {{post.lastname_user}}</p>
-
-      </ion-label>
-    </ion-list>  
+  <ion-item>
+    <ion-label>
+      <h1 class="center-text">Ups... Página no encontrada</h1>
+    </ion-label>
   </ion-item>
+  <ion-item>
+    <ion-label>
+      <h2>La página que estás buscando no existe o ha sido movida.</h2>
+    </ion-label>
+  </ion-item>
+
+  
 </ion-content>

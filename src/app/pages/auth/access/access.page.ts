@@ -37,6 +37,10 @@ export class AccessPage implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  toNotFound(){
+    this.router.navigate(['/notFound']);
+  }
+
   setOpenSuccessToast(value:boolean){
     this.isSuccessToastOpen = value;
   }
