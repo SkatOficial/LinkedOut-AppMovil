@@ -16,8 +16,14 @@
   <ion-item *ngFor="let post of postArray">
     <ion-list>
       <ion-label>
-        <h2>{{post.id_position}}</h2>
-        <p>{{post.name_position}}</p>
+        <h2>id_post{{post.id_post}}</h2>
+        <p>status: {{post.status_post}}</p>
+        <p>titulo trabajo:{{post.title_job}}</p>
+        <p>id empresa : {{post.id_company}}</p>
+        <p>nombre empresa:{{post.name_company}}</p>
+        <p>id user:{{post.id_user}}</p>
+        <p>nombre postulante:{{post.name_user}} {{post.lastname_user}}</p>
+
       </ion-label>
     </ion-list>  
   </ion-item>

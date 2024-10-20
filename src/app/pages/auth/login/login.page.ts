@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { HapticsService } from 'src/app/services/haptics.service';
 import { ServiceBDService } from 'src/app/services/service-bd.service';
 
 @Component({
@@ -18,7 +19,7 @@ export class LoginPage implements OnInit {
     password: ""
   }
 
-  constructor(private db: ServiceBDService ,private router: Router) { }
+  constructor(private db: ServiceBDService ,private router: Router,private haptics:HapticsService) { }
 
   ngOnInit(){
   }
@@ -67,7 +68,10 @@ export class LoginPage implements OnInit {
     this.setOpenErrorToast(true);
   }
 
-  setOpenErrorToast(value:boolean){
+  async setOpenErrorToast(value:boolean){
+    if(value){
+      await this.haptics.impactMedium()
+    }
     this.isErrorToastOpen = value;
   }
 }

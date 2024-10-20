@@ -9,4 +9,10 @@ export class Postulation {
     photo_company !: any;
     name_company !: string;
     address_company !: string;
+    id_user !:number;
+    name_user !: string;
+    lastname_user !: string;
+    description_user !: string;
+    address_user !:string;
+    photo_user !:any;
 }

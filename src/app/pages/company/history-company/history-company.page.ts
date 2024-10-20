@@ -33,6 +33,7 @@ export class HistoryCompanyPage implements OnInit {
 
   //VALIDADORES
   isSuccessToastOpen:boolean = false;
+  searchValue:string = "";
 
   //MENSAJES
   successMsg?:string;
@@ -55,6 +56,8 @@ export class HistoryCompanyPage implements OnInit {
           let msg = this.router.getCurrentNavigation()?.extras?.state?.["msg"];
 
           if(status == "editJob"){
+            this.setOpenSuccessToast(true,msg)
+          }if(status == "finishJob"){
             this.setOpenSuccessToast(true,msg)
           }
         }
@@ -81,7 +84,13 @@ export class HistoryCompanyPage implements OnInit {
   
   //RUTAS
   toJob(id_job:number) {
-    this.router.navigate(['/candidates']);
+    this.bd.selectPostulationsByIdCompany(id_job);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        id_job: id_job
+      }
+    };
+    this.router.navigate(['/candidates'],navigationExtras);
   }
   
   toOptions(job:any){
@@ -93,9 +102,21 @@ export class HistoryCompanyPage implements OnInit {
     this.router.navigate(['/option-job'],navigationExtras)
   }
 
+  toCreateJob(){
+    this.router.navigate(['tabs-company/create-job']);
+  }
   //OTROS
   setOpenSuccessToast(value:boolean, msg:string){
     this.successMsg = msg;
     this.isSuccessToastOpen = value;
+  }
+
+  searchFilter(event:any){
+    try{
+      this.searchValue = event.detail.value.toLowerCase();
+      this.bd.selectFilterJobsById(this.id_user,event.detail.value.toLowerCase());
+    }catch(e){
+
+    }
   }
 }

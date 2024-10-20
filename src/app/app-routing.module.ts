@@ -88,15 +88,12 @@ const routes: Routes = [
   },
   {
     path: 'edit-job',
-    loadChildren: () => import('./pages/job/edit-job/edit-job.module').then( m => m.EditJobPageModule)
+    loadChildren: () => import('./pages/company/job/edit-job/edit-job.module').then( m => m.EditJobPageModule)
   },
   {
     path: '**',
     loadChildren: () => import('./pages/not-found/not-found.module').then( m => m.NotFoundPageModule)
   },
-  
-
-
 ];
 
 @NgModule({

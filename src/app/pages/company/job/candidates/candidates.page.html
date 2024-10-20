@@ -3,113 +3,79 @@
     <ion-buttons slot="start">
       <ion-back-button class="back-btn"></ion-back-button>
     </ion-buttons>
-    <ion-searchbar placeholder="Buscar Candidato"></ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" [ngClass]="{'pressed-btn': btnPressed === 'pendientes'}" (click)="pressButton('pendientes')">
+        <ion-icon slot="start" name="person-circle"></ion-icon>
+        Pendientes
+      </ion-button>
+      <ion-button fill="outline" [ngClass]="{'pressed-btn': btnPressed === 'aceptados'}" (click)="pressButton('aceptados')">
+        <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+        Aceptados
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <ion-list>
-    <ion-item class="bg-white" >
-      <div id="open-modal4" class="item-content">
-        <ion-img  src="assets/img/profile.jpg" alt="img-worker"></ion-img>
-        <ion-label>
-          <h2>Juan Pérez</h2>
-          <h3>Desarrollador de Software</h3>
-          <p class="trunc">Colina, Región Metropolitana, Chile</p>
-        </ion-label>
-      </div>
+    <div *ngIf="applicantsArray.length > 0" >
+      <ion-item *ngFor="let applicant of applicantsArray" class="bg-white" (click)="setOpenModal(true,applicant.id_user,applicant.id_post)">
+        <div class="item-content">
+          <ion-img *ngIf="!applicant.photo_user" src="assets/img/profile.jpg" alt="img-worker"></ion-img>
+          <ion-img *ngIf="applicant.photo_user" [src]="applicant.photo_user" alt="img-worker"></ion-img>
+          <ion-label>
+            <h2>{{applicant.name_user}} {{applicant.lastname_user}}</h2>
+            <h3>{{applicant.description_user}}</h3>
+            <p class="trunc">{{applicant.address_user}}</p>
+          </ion-label>
+        </div>
+      </ion-item>
+    </div>
+    <ion-item *ngIf="applicantsArray.length === 0">
+      <ion-label>
+        <h2 *ngIf="btnPressed === 'pendientes'" class="center-text">SIN CANDIDATOS PENDIENTES</h2>
+        <h2 *ngIf="btnPressed === 'aceptados'" class="center-text">SIN CANDIDATOS ACEPTADOS</h2>
+      </ion-label>
     </ion-item>
   </ion-list>
   
-  //MODAL
-  <ion-modal #modal trigger="open-modal4" [initialBreakpoint]="0.90" [breakpoints]="[0, 0.90]">
+  <ion-modal [isOpen]="isModalOpen">
     <ng-template>
+      <ion-header class="ion-no-border ">
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-icon name="arrow-back-outline" class="back-btn" size="large" (click)="setOpenModal(false,0,0)"></ion-icon>
+          </ion-buttons>
+          <a class="linkedout-logo"><ion-img src="assets/img/logo.png"></ion-img></a>
+        </ion-toolbar>
+      </ion-header>
       <ion-content>
         <!-- FOTO NOMBRE Y DIRECCION -->
-        <ion-item class="bg-white">
-          <div class="item-content-mod">
-            <ion-item class="bg-white">
-              <ion-img src="assets/img/profile.jpg" tab="foto-perfil" class="img-profile"></ion-img>
+        <ion-item>
+          <div class="item-content-model">
+            <ion-item>
+              <ion-img *ngIf="userModel.photo_user" [src]="userModel.photo_user" alt="Con imagen" class="img-profile-model"></ion-img>
+              <ion-img *ngIf="!userModel.photo_user" src="assets/img/profile.jpg" tab="img-company" class="img-profile-model"></ion-img>
             </ion-item>
             <ion-label>
-              <h1>Juan Pérez</h1>
-              <h2>Desarrollador de Software</h2>
-              <p>Colina, Región Metropolitana, Chile</p>
+              <h1>{{userModel.name_user}} {{userModel.lastname_user}}</h1>
+              <h2>{{userModel.description_user}}</h2>
+              <p>{{userModel.address_user}}</p>
             </ion-label>
           </div>  
         </ion-item>
-      
-        <!-- ACERCA DE -->
-        <ion-item class="pt-10px bg-white">
-          <ion-label>
-            <ion-item class="bg-white">
-              <h1>Acerca de</h1>
-            </ion-item>
-            <p>Soy un desarrollador de software apasionado por la creación de soluciones innovadoras. Mi enfoque se centra en la calidad, la eficiencia, y la colaboración en equipo. Con más de 5 años de experiencia en el sector tecnológico, me dedico a ofrecer resultados que superen las expectativas.</p>
-          </ion-label>
-        </ion-item>
-      
-        <!-- EXPERIENCIA LABORAL -->
-        <ion-item class="pt-10px bg-white">
-          <div class="item-content-mod">
-            <ion-item class="bg-white">
-              <h1>Experiencia</h1>
-            </ion-item>
-            
-            <ion-list>
-              <ion-item class="list-item">
-                <ion-label>
-                  <h2>Compañía Tech</h2>
-                  <h3>Desarrollador Full-Stack</h3>
-                  <p>2020 - 2023</p>
-                </ion-label>
-              </ion-item>
-              <ion-item class="list-item">
-                <ion-label>
-                  <h2>StartUp Innovación</h2>
-                  <h3>Ingeniero de Software</h3>
-                  <p>2017 - 2020</p>
-                </ion-label>
-              </ion-item>
-            </ion-list>
-          </div>  
-        </ion-item>
-      
-        <!-- EDUCACION -->
-        <ion-item class="pt-10px bg-white">
-          <div class="item-content-mod">
-            <ion-item class="bg-white">
-              <h1>Educación</h1>
-            </ion-item>
-            <ion-list class="bg-white">
-              <ion-item class="list-item">
-                <ion-label>
-                  <h2>Universidad de Chile</h2>
-                  <h3>Ingeniería en Computación</h3>
-                  <p>2014 - 2019</p>
-                </ion-label>
-              </ion-item>
-              <ion-item class="list-item">
-                <ion-label>
-                  <h2>Instituto Técnico Colina</h2>
-                  <h3>Técnico en Programación</h3>
-                  <p>2010 - 2014</p>
-                </ion-label>
-              </ion-item>
-            </ion-list>
-          </div>  
-        </ion-item>
+
         <!-- CONTACTOS -->
-        <ion-item class="pt-10px ">
+        <ion-item class="pt-10px">
           <ion-label>
             <ion-item>
               <h1>Contactos</h1>
             </ion-item>
             <ion-list>
-              <ion-item>
+              <ion-item *ngIf="userModel.phone_user">
                 <ion-icon name="call-outline" slot="start"></ion-icon>
                 <ion-label>
                   <h2>Teléfono</h2>
-                  <p>+56 9 1234 5678</p>
+                  <p>+{{userModel.phone_user}}</p>
                 </ion-label>
               </ion-item>
               
@@ -117,17 +83,77 @@
                 <ion-icon name="mail-outline" slot="start"></ion-icon>
                 <ion-label>
                   <h2>Correo Electrónico</h2>
-                  <p>juan.perez&#64;example.com</p>
+                  <p>{{userModel.email_user}}</p>
                 </ion-label>
               </ion-item>
             </ion-list>
           </ion-label>
         </ion-item>
 
+        <!-- ACERCA DE -->
+        <ion-item class="pt-10px">
+          <ion-label>
+            <ion-item>
+              <h1>Acerca de</h1>
+            </ion-item>
+            <p>{{userModel.about_user}}</p>
+          </ion-label>
+        </ion-item>
+
+        <!-- EXPERIENCIA LABORAL -->
+        <ion-item class="pt-10px">
+          <div class="item-content-model">
+            <ion-item>
+              <h1>Experiencia</h1>
+            </ion-item>   
+            <ion-list *ngIf="expArray.length > 0">
+              <ion-item *ngFor="let exp of expArray" class="list-item">
+                <ion-label>
+                  <h2 *ngIf="exp.comp">{{exp.comp}}</h2>
+                  <h2 *ngIf="!exp.comp">{{exp.otherCompany}}</h2>
+                  <h3 *ngIf="exp.position">{{exp.position}}</h3>
+                  <h3 *ngIf="!exp.position">{{exp.otherPosition}}</h3>
+                  <p>{{exp.startDate_exp}} - <span *ngIf="exp.endDate_exp">{{exp.endDate_exp}}</span><span *ngIf="!exp.endDate_exp">Actualmente</span></p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+            <ion-item *ngIf="expArray.length === 0">
+              <ion-label>
+                <h2 class="center-text">Sin Experiencia</h2>
+              </ion-label>
+            </ion-item>
+          </div>  
+        </ion-item>
+
+        <!-- EDUCACION -->
+        <ion-item class="pt-10px">
+          <div class="item-content-model">
+            <ion-item>
+              <h1>Educación</h1>
+            </ion-item>
+            <ion-list *ngIf="educArray.length > 0">
+              <ion-item *ngFor="let educ of educArray" class="list-item">
+                <ion-label>
+                  <h2 *ngIf="educ.inst">{{educ.inst}}</h2>
+                  <h2 *ngIf="!educ.inst">{{educ.otherInstitution}}</h2>
+                  <h3 *ngIf="educ.career">{{educ.career}}</h3>
+                  <h3 *ngIf="!educ.career">{{educ.otherCareer}}</h3>
+                  <p>{{educ.startDate_educ}} - <span *ngIf="educ.endDate_educ">{{educ.endDate_educ}}</span><span *ngIf="!educ.endDate_educ">Actualmente</span></p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+            <ion-item *ngIf="educArray.length === 0">
+              <ion-label>
+                <h2 class="center-text">Sin Educación</h2>
+              </ion-label>
+            </ion-item>
+          </div>  
+        </ion-item>
+        
         <!-- Botones -->
-        <ion-item class="mb-100px">
-          <ion-button color="danger" expand="block" size="default" class="w-50">Rechazar</ion-button>
-          <ion-button expand="block" size="default" class="w-50">Aceptar</ion-button>
+        <ion-item *ngIf="btnPressed === 'pendientes'" class="mb-100px pt-10px">
+          <ion-button color="danger" expand="block" size="default" class="w-50" (click)="decline()">Rechazar</ion-button>
+          <ion-button expand="block" size="default" class="w-50" (click)="accept()">Aceptar</ion-button>
         </ion-item>
       </ion-content>
     </ng-template>

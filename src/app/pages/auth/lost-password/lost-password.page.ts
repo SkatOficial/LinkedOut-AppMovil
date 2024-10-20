@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HapticsService } from 'src/app/services/haptics.service';
 import { emailValidation } from 'src/app/utils/validation-functions';
 
 @Component({
@@ -19,7 +20,7 @@ export class LostPasswordPage implements OnInit {
   emailErrorMessage = "";
 
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private haptics:HapticsService) { }
 
   ngOnInit() {
   }
@@ -35,7 +36,7 @@ export class LostPasswordPage implements OnInit {
     this.isAllGood = value;
   }
 
-  validateEmail(){
+  async validateEmail(){
     const emailValidations:any = emailValidation(this.email);
     this.emailIsCorrect = emailValidations.allOk;
     
@@ -43,6 +44,8 @@ export class LostPasswordPage implements OnInit {
     console.log(this.emailIsCorrect);
     if(this.emailIsCorrect){
       this.setOpenToast(true);
+    }else{
+      await this.haptics.impactMedium()
     }
   }
 

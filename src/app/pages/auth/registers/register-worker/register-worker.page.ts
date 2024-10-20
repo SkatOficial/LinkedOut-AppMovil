@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { HapticsService } from 'src/app/services/haptics.service';
 import { ServiceBDService } from 'src/app/services/service-bd.service';
 import { textValidaton, emailValidation, passwordValidation} from 'src/app/utils/validation-functions';
 
@@ -37,7 +38,7 @@ export class RegisterWorkerPage implements OnInit {
   //Mensaje de error
   emailErrorMessage = "";
 
-  constructor(private bd: ServiceBDService, private router:Router) { 
+  constructor(private bd: ServiceBDService, private router:Router, private haptics:HapticsService) { 
   }
   
   ngOnInit() {
@@ -120,7 +121,10 @@ export class RegisterWorkerPage implements OnInit {
     this.router.navigate(['access'],navigationextras)
   }
 
-  setOpenErrorToast(value:boolean){
+  async setOpenErrorToast(value:boolean){
+    if(value){
+      await this.haptics.impactMedium()
+    }
     this.isErrorToastOpen = value;
   }
 

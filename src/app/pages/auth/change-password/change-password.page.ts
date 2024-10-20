@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { HapticsService } from 'src/app/services/haptics.service';
 import { ServiceBDService } from 'src/app/services/service-bd.service';
 import { passwordValidation } from 'src/app/utils/validation-functions';
 
@@ -26,7 +27,7 @@ export class ChangePasswordPage implements OnInit {
   errorMessagesPassword: string[] = [];
   messageErrorToast?:string;
 
-  constructor(private bd:ServiceBDService,private storage: NativeStorage) { 
+  constructor(private bd:ServiceBDService,private storage: NativeStorage, private haptics:HapticsService) { 
     //Obtiene el id de usuario del storage
     this.storage.getItem("userId").then(data=>{
       this.user.id_user = data;
@@ -36,7 +37,10 @@ export class ChangePasswordPage implements OnInit {
   ngOnInit() {
   }
 
-  setOpenErrorToast(value:boolean){
+  async setOpenErrorToast(value:boolean){
+    if(value){
+      await this.haptics.impactMedium()
+    }
     this.isErrorToastOpen = value;
   }
 

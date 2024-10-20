@@ -6,16 +6,19 @@
   </ion-header>
   
   <ion-content>
-    <ion-item *ngIf="postArray.length === 0">
-      <ion-label>
-        <h1>No se encontraron postulaciones, realiza realiza postulaciones para verlas</h1>
-      </ion-label>
-    </ion-item>
+    <ion-list *ngIf="postArray.length === 0">
+      <ion-item  class="bg-white">
+        <ion-label>
+          <h2 *ngIf="searchValue.length === 0" class="center-text">No has postulado a trabajos, postula <span class="span-text" (click)="toHome()">aqui</span></h2>
+          <h2 *ngIf="searchValue.length > 0" class="center-text">No se encontraron trabajos con esas especificaciones</h2>
+        </ion-label>
+      </ion-item>
+    </ion-list>
     <ion-list *ngIf="postArray.length > 0">      
       <ion-item *ngFor ="let post of postArray" class="bg-white">
         <div class="item-content" (click)="updateModale(post)">
-          <ion-icon *ngIf="post.status_job === 'publicado'" name="time-outline" size="large" class="m-auto"></ion-icon>
-          <ion-icon *ngIf="post.status_job != 'publicado'" name="checkmark-circle-outline" size="large" class="m-auto"></ion-icon>
+          <ion-icon *ngIf="!post.status_post" name="time-outline" size="large" class="m-auto"></ion-icon>
+          <ion-icon *ngIf="post.status_post" name="checkmark-circle-outline" size="large" class="m-auto"></ion-icon>
           <ion-img *ngIf = "post.photo_company" [src]="post.photo_company" alt="img-company"></ion-img>
           <ion-img *ngIf = "!post.photo_company" src="assets/img/company.png" alt="img-company"></ion-img>
           <ion-label>
@@ -32,7 +35,8 @@
         <ion-content class="bg-white">
           <h1 class="text-center">{{modalPost.title_job}}</h1>
           <ion-item class="item-content bg-white">
-            <ion-img src="assets/img/company.png" alt="img-company"></ion-img>
+            <ion-img *ngIf = "modalPost.photo_company" [src]="modalPost.photo_company" alt="img-company"></ion-img>
+          <ion-img *ngIf = "!modalPost.photo_company" src="assets/img/company.png" alt="img-company"></ion-img>
             <ion-label>
               <h2>{{modalPost.name_company}}</h2>
               <p class="trunc">{{modalPost.address_company}}</p>
@@ -47,14 +51,19 @@
           <ion-item class="bg-white">
             <ion-label>
               <h2>Estado postulacion</h2>
-              <h4 *ngIf="modalPost.status_job === 'publicado'">Todavía se están revisando las postulaciones</h4>
-              <div *ngIf="modalPost.status_job != 'publicado'">
+              <h4 *ngIf="!modalPost.status_post">Todavía se están revisando las postulaciones</h4>
+              <div *ngIf="modalPost.status_post">
                 <h4 *ngIf="modalPost.status_post === 'rechazado'">Finalizado: Rechazado</h4>
                 <h4 *ngIf="modalPost.status_post === 'aceptado'">Finalizado: Aceptado</h4>
               </div>
             </ion-label>
           </ion-item>
-          <ion-button  expand="full" shape="round" color="danger" (click)="confirmDeletion(modalPost.id_post)">Quitar postulacion</ion-button>
+          <ion-button *ngIf="!modalPost.status_post" expand="full" shape="round" color="danger" (click)="confirmDeletion(modalPost.id_post)">Quitar postulacion</ion-button>
+          <ion-item *ngIf="modalPost.status_post" class="bg-white">
+            <ion-label>
+              <h2 class="center-text">No puedes eliminar una postulacion ya evaluada</h2>
+            </ion-label>
+          </ion-item>
         </ion-content>
       </ng-template>
     </ion-modal>

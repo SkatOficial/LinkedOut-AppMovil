@@ -1,21 +1,27 @@
 <ion-header>
   <ion-toolbar>
     <div class="toolbar-content">
-      <ion-searchbar placeholder="Buscar postulacion"></ion-searchbar>
+      <ion-searchbar placeholder="Buscar postulacion" (ionInput)="searchFilter($event)"></ion-searchbar>
     </div>
   </ion-toolbar>
 </ion-header>
   
 <ion-content>
-  <ion-list> 
+  <ion-item *ngIf="jobArray.length === 0">
+    <ion-label>
+      <h2 *ngIf="searchValue.length === 0" class="center-text">No haz creado trabajos, crea trabajos <span class="span-text" (click)="toCreateJob()">aquí</span></h2>
+      <h2 *ngIf="searchValue.length > 0" class="center-text">No se encontraron trabajos con esas especificaciones</h2>
+    </ion-label>
+  </ion-item>
+  <ion-list *ngIf="jobArray.length > 0"> 
     <ion-item *ngFor = "let job of jobArray" class="bg-white" >
       <div class="item-content" (click)="toJob(job.id_job)">
         <ion-img *ngIf = "user.photo_user" [src]="user.photo_user" alt="img-company"></ion-img>
         <ion-img *ngIf = "!user.photo_user" src="assets/img/company.png" alt="img-company"></ion-img>
         <ion-label>
           <h2>{{job.title_job}}</h2>
-          <h3>{{user.name_user}}</h3>
-          <p class="trunc">{{user.address_user}}</p>
+          <p  *ngIf="job.status_job === 'publicado'" class="trunc">Estado : En progreso</p>
+          <p  *ngIf="job.status_job === 'finalizado'" class="trunc">Estado : <span  color="danger">Finalizado</span></p>
         </ion-label>
       </div>
       <div class="d-flex" (click)="toOptions(job)">

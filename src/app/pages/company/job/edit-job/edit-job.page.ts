@@ -96,5 +96,8 @@ export class EditJobPage implements OnInit {
     };
     this.router.navigate(['tabs-company/history'],navigationExtras); 
   }
+  toHistoryAux(){
+    this.router.navigate(['tabs-company/history']); 
+  }
 
 }

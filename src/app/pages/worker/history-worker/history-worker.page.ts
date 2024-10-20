@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
 import { ServiceBDService } from 'src/app/services/service-bd.service';
@@ -40,10 +41,10 @@ export class HistoryWorkerPage implements OnInit {
   isModalOpen = false;
   isSuccessToastOpen:boolean = false;
   isErrorToastOpen: boolean = false;
+  searchValue:string="";
 
 
-
-  constructor(private alertController: AlertController,private bd: ServiceBDService,private storage: NativeStorage) { 
+  constructor(private router: Router, private alertController: AlertController,private bd: ServiceBDService,private storage: NativeStorage) { 
     this.storage.getItem("userId").then(data=>{
       this.id_user = data;
 
@@ -60,7 +61,7 @@ export class HistoryWorkerPage implements OnInit {
           this.postArray = res;
         })
       }
-      });
+    });
   }
 
   async confirmDeletion(id_post:number) {
@@ -119,9 +120,17 @@ export class HistoryWorkerPage implements OnInit {
 
   searchFilter(event:any){
     try{
+      this.searchValue = event.detail.value.toLowerCase();
       this.bd.selectFilterPostulationsById(this.id_user,event.detail.value.toLowerCase());
     }catch(e){
 
     }
   }
+
+  //RUTAS
+  toHome() {
+    this.router.navigate(['tabs-worker/home']);
+  };
+
+  
 }

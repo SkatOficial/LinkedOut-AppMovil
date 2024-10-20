@@ -130,12 +130,20 @@ ion-textarea.ng-dirty{
 .mt-5px{
     margin-top: 5px;
 }
+
+.mb-100px{
+    margin-bottom: 100px;
+}
+
 .pt-10px{
     padding-top: 10px;
 }
 
 .w-100{
     width: 100%;
+}
+.w-50{
+    width: 50%;
 }
 
 .flex-grow {
@@ -166,4 +174,8 @@ ion-textarea.ng-dirty{
     border-radius: 50%;
     padding: 5px;
   }
-  
+
+.center-text {
+text-align: center;
+width: 100%;
+}

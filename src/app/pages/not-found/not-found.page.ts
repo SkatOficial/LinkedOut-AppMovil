@@ -17,6 +17,7 @@ export class NotFoundPage implements OnInit {
   ]
 
   constructor(private bd: ServiceBDService ,private router:Router) {
+    bd.selectPostulations();
   }
 
   ngOnInit() {
@@ -26,7 +27,7 @@ export class NotFoundPage implements OnInit {
       //verifico si esta disponible
       if(data){
         //me subcribo al observable del select de todas las noticias
-        this.bd.fetchPositions().subscribe(res=>{
+        this.bd.fetchPostulations().subscribe(res=>{
           //guardar ese resultado en mi variable propia
           this.postArray = res;
         })

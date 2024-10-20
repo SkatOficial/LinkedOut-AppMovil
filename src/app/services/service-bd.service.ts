@@ -82,6 +82,7 @@ export class ServiceBDService {
   listUsers = new BehaviorSubject([]);
   listJobs = new BehaviorSubject([]);
   userById = new BehaviorSubject<User | null>(null);
+  userByIdAux = new BehaviorSubject<User | null>(null);
   listJobsById = new BehaviorSubject([]);
   listPostulationById = new BehaviorSubject([]);
   listCompanys = new BehaviorSubject([]);
@@ -90,6 +91,8 @@ export class ServiceBDService {
   listInstitutions = new BehaviorSubject([]);
   listCareers = new BehaviorSubject([]);
   listEducations = new BehaviorSubject([]);
+  listPostulationByIdCompany = new BehaviorSubject([]);
+  listPostulations  = new BehaviorSubject([]);
 
 
   //Contenedor de Apis externas
@@ -122,7 +125,7 @@ export class ServiceBDService {
     this.platform.ready().then(() => {
       //crearmos la BD
       this.sqlite.create({
-        name: 'bdprueba24.db',
+        name: 'bdprueba25.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
         //guardar la conexion
@@ -209,6 +212,10 @@ export class ServiceBDService {
     return this.userById.asObservable();
   }
 
+  fetchUserByIdAux(): Observable<User | null> {
+    return this.userByIdAux.asObservable();
+  }
+
   fetchJobsById(): Observable<Job[]> {
     return this.listJobsById.asObservable();
   }
@@ -239,6 +246,14 @@ export class ServiceBDService {
 
   fetchEducById(): Observable<Education[]> {
     return this.listEducations.asObservable();
+  }
+
+  fetchPostulationByIdCompany(): Observable<Postulation[]> {
+    return this.listPostulationByIdCompany.asObservable();
+  }
+
+  fetchPostulations(): Observable<Postulation[]> {
+    return this.listPostulations.asObservable();
   }
 
   //INSERTS
@@ -379,6 +394,46 @@ export class ServiceBDService {
       throw new Error('Error al modificar Job');
     }
   }
+
+  async updatePostulationAccept(id_post:number){
+    try {
+      const res = await this.database.executeSql('UPDATE postulation SET status_post = "aceptado" WHERE  id_post = ?', [id_post])
+
+      return res.rowsAffected > 0
+        
+    } catch (error) {
+      this.presentAlert("UPDATE ERROR", 'Error: ' + JSON.stringify(error))
+      throw new Error('Error al modificar postualciob');
+    }
+  }
+
+  async updatePostulationDecline(id_post:number){
+    try {
+      const res = await this.database.executeSql('UPDATE postulation SET status_post = "rechazado" WHERE  id_post = ?', [id_post])
+
+      return res.rowsAffected > 0
+        
+    } catch (error) {
+      throw new Error('Error al modificar Job');
+    }
+  }
+
+  async updateFinishJob(id_job:number){
+    try {
+      // Actualiza el estado del trabajo
+      await this.database.executeSql('UPDATE job SET status_job = "finalizado" WHERE id_job = ?', [id_job]);
+  
+      // Actualiza el estado de las postulaciones
+      await this.database.executeSql('UPDATE postulation SET status_post = "rechazado" WHERE status_post IS NULL AND id_job = ?', [id_job]);
+      
+      // Si ambas operaciones se completan, retornar true
+      return true;
+    } catch (error) {
+      // Manejo de errores
+      this.presentAlert("ERROR", 'Error: ' + JSON.stringify(error));
+      throw new Error('Error al finalizar Job o modificar postulación');
+    }
+  }
   
   //DELETE
   async deleteExp(id_exp:number): Promise<any> {
@@ -449,7 +504,7 @@ export class ServiceBDService {
   }
 
   async selectJobs() {
-    return await this.database.executeSql('SELECT * FROM job JOIN user ON user.id_user = job.id_company', []).then(res => {
+    return await this.database.executeSql('SELECT * FROM job JOIN user ON user.id_user = job.id_company WHERE job.status_job = "publicado"', []).then(res => {
       //variable para guardar el resultado de la consulta
       let items: Job[] = [];
 
@@ -549,6 +604,37 @@ export class ServiceBDService {
     }
   }
 
+  async selectUserByIdAux(id_user: number | any): Promise<any> {
+    try {
+      const res = await this.database.executeSql('SELECT * FROM user WHERE id_user = ?', [id_user])
+
+      if (res.rows.length > 0) {
+        const user: User = {
+          id_user: res.rows.item(0).id_user,
+          password_user: res.rows.item(0).password_user,
+          name_user: res.rows.item(0).name_user,
+          lastname_user: res.rows.item(0).lastname_user,
+          photo_user: res.rows.item(0).photo_user,
+          about_user: res.rows.item(0).about_user,
+          address_user: res.rows.item(0).address_user,
+          description_user: res.rows.item(0).description_user,
+          email_user: res.rows.item(0).email_user,
+          phone_user: res.rows.item(0).phone_user,
+          id_rol: res.rows.item(0).id_rol
+        };
+
+
+        //actualizamos el observable de este select
+        this.userByIdAux.next(user);
+
+      } else {
+
+      }
+    } catch (error) {
+      throw new Error('Error al encontrar el usuario');
+    }
+  }
+
   async selectJobsById(id_company: number) {
     return await this.database.executeSql('SELECT * FROM job JOIN user ON user.id_user = job.id_company WHERE user.id_user = ?', [id_company]).then(res => {
       //variable para guardar el resultado de la consulta
@@ -569,9 +655,8 @@ export class ServiceBDService {
             address_company: res.rows.item(i).address_user
           });
         }
-      } else {
-        
       }
+      
       //actualizamos el observable de este select
       this.listJobsById.next(items as any);
     }).catch(e => {
@@ -579,38 +664,7 @@ export class ServiceBDService {
     })
   }
 
-  async selectCandidates(id_job: number | any): Promise<any> {
-    try {
-      const res = await this.database.executeSql('SELECT * FROM user WHERE id_user = ?', [id_job])
-
-      if (res.rows.length > 0) {
-        const user: User = {
-          id_user: res.rows.item(0).id_user,
-          password_user: res.rows.item(0).password_user,
-          name_user: res.rows.item(0).name_user,
-          lastname_user: res.rows.item(0).lastname_user,
-          photo_user: res.rows.item(0).photo_user,
-          about_user: res.rows.item(0).about_user,
-          address_user: res.rows.item(0).address_user,
-          description_user: res.rows.item(0).description_user,
-          email_user: res.rows.item(0).email_user,
-          phone_user: res.rows.item(0).phone_user,
-          id_rol: res.rows.item(0).id_rol
-        };
-
-
-        //actualizamos el observable de este select
-        this.userById.next(user);
-
-      } else {
-
-      }
-    } catch (error) {
-      throw new Error('Error al encontrar el usuario');
-    }
-  }
-
-  async selectPostulationsById(id_user: number) {
+  async selectPostulationsById(id_user: number){ 
     return await this.database.executeSql('SELECT * FROM postulation JOIN job ON job.id_job = postulation.id_job JOIN user ON user.id_user = job.id_company  WHERE postulation.id_user = ?', [id_user]).then(res => {
       //variable para guardar el resultado de la consulta
       let items: Postulation[] = [];
@@ -629,14 +683,26 @@ export class ServiceBDService {
             id_company: res.rows.item(i).id_user,
             photo_company: res.rows.item(i).photo_user,
             name_company: res.rows.item(i).name_user,
-            address_company: res.rows.item(i).address_user
+            address_company: res.rows.item(i).address_user,
+            id_user :  res.rows.item(i).id_user || 0,
+            name_user : res.rows.item(i).name_user || ' ',
+            lastname_user : res.rows.item(i).lastname_user || ' ', 
+            description_user : res.rows.item(i).description_user || ' ', 
+            address_user : res.rows.item(i).address || ' ',
+            photo_user : res.rows.item(i).photo_user,
           });
         }
-      } else {
-        
+        //actualizamos el observable de este select
+        this.listPostulationById.next(items as any);
+        return true;
+      }else{
+        //actualizamos el observable de este select
+        this.listPostulationById.next(items as any);
+        return false;
       }
-      //actualizamos el observable de este select
-      this.listPostulationById.next(items as any);
+
+      
+      
     }).catch(e => {
       this.presentAlert('Select', 'Error: ' + JSON.stringify(e));
     })
@@ -806,7 +872,7 @@ export class ServiceBDService {
   
   async selectFilterJobs(value:string){
     const formattedValue = `%${value.toLowerCase()}%`
-    return await this.database.executeSql('SELECT * FROM job JOIN user ON user.id_user = job.id_company WHERE LOWER(job.title_job) LIKE ?', [formattedValue]).then(res => {
+    return await this.database.executeSql('SELECT * FROM job JOIN user ON user.id_user = job.id_company WHERE LOWER(job.title_job) LIKE ? AND job.status_job = "publicado"', [formattedValue]).then(res => {
       //variable para guardar el resultado de la consulta
       let items: Job[] = [];
 
@@ -853,7 +919,13 @@ export class ServiceBDService {
             id_company: res.rows.item(i).id_user,
             photo_company: res.rows.item(i).photo_user,
             name_company: res.rows.item(i).name_user,
-            address_company: res.rows.item(i).address_user
+            address_company: res.rows.item(i).address_user,
+            id_user :  res.rows.item(i).id_user || 0,
+            name_user : res.rows.item(i).name_user || ' ',
+            lastname_user : res.rows.item(i).lastname_user || ' ', 
+            description_user : res.rows.item(i).description_user || ' ', 
+            address_user : res.rows.item(i).address || ' ',
+            photo_user : res.rows.item(i).photo_user,
           });
         }
       } else {
@@ -861,6 +933,150 @@ export class ServiceBDService {
       }
       //actualizamos el observable de este select
       this.listPostulationById.next(items as any);
+    }).catch(e => {
+      this.presentAlert('Select', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
+  async selectPostulationsByIdCompany(id_job: number) { 
+    return await this.database.executeSql('SELECT p.id_post, p.status_post, p.id_job, j.title_job, j.description_job, j.status_job, c.id_user as id_company, c.photo_user as photo_company, c.name_user as name_company, c.address_user as address_company, w.id_user as id_worker, w.name_user as name_worker, w.lastname_user as lastname_worker, w.description_user as description_worker, w.address_user as address_worker, w.photo_user as photo_worker FROM postulation p JOIN job j ON j.id_job = p.id_job JOIN user c ON c.id_user = j.id_company JOIN user w ON p.id_user = w.id_user WHERE p.status_post IS NULL AND p.id_job = ?', [id_job]).then(res => {
+      //variable para guardar el resultado de la consulta
+      let items: Postulation[] = [];
+
+      //verificar si la consulta trae registros
+      if (res.rows.length > 0) {
+        //recorro el cursor
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_post: res.rows.item(i).id_post,
+            status_post: res.rows.item(i).status_post,
+            id_job: res.rows.item(i).id_job,
+            title_job: res.rows.item(i).title_job,
+            description_job: res.rows.item(i).description_job,
+            status_job: res.rows.item(i).status_job,
+            id_company: res.rows.item(i).id_company,
+            photo_company: res.rows.item(i).photo_company,
+            name_company: res.rows.item(i).name_company,
+            address_company: res.rows.item(i).address_company,
+            id_user :  res.rows.item(i).id_worker  || 0,
+            name_user : res.rows.item(i).name_worker  || ' ',
+            lastname_user : res.rows.item(i).lastname_worker  || ' ', 
+            description_user : res.rows.item(i).description_worker  || ' ', 
+            address_user : res.rows.item(i).address_worker  || ' ',
+            photo_user : res.rows.item(i).photo_worker
+          });
+        }
+      } else {
+        
+      }
+      //actualizamos el observable de este select
+      this.listPostulationByIdCompany.next(items as any);
+    }).catch(e => {
+      this.presentAlert('Select', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
+  async selectPostulations() { 
+    return await this.database.executeSql("SELECT p.id_post, p.status_post, p.id_job, j.title_job, j.description_job, j.status_job, c.id_user as id_company, c.photo_user as photo_company, c.name_user as name_company, c.address_user as address_company, w.id_user as id_worker, w.name_user as name_worker, w.lastname_user as lastname_worker, w.description_user as description_worker, w.address_user as address_worker, w.photo_user as photo_worker FROM postulation p JOIN job j ON j.id_job = p.id_job JOIN user c ON c.id_user = j.id_company JOIN user w ON p.id_user = w.id_user", []).then(res => {
+      //variable para guardar el resultado de la consulta
+      let items: Postulation[] = [];
+
+      //verificar si la consulta trae registros
+      if (res.rows.length > 0) {
+        //recorro el cursor
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_post: res.rows.item(i).id_post,
+            status_post: res.rows.item(i).status_post,
+            id_job: res.rows.item(i).id_job,
+            title_job: res.rows.item(i).title_job,
+            description_job: res.rows.item(i).description_job,
+            status_job: res.rows.item(i).status_job,
+            id_company: res.rows.item(i).id_company,
+            photo_company: res.rows.item(i).photo_company,
+            name_company: res.rows.item(i).name_company,
+            address_company: res.rows.item(i).address_company,
+            id_user :  res.rows.item(i).id_worker  || 0,
+            name_user : res.rows.item(i).name_worker  || ' ',
+            lastname_user : res.rows.item(i).lastname_worker  || ' ', 
+            description_user : res.rows.item(i).description_worker  || ' ', 
+            address_user : res.rows.item(i).address_worker  || ' ',
+            photo_user : res.rows.item(i).photo_worker
+          });
+        }
+      } else {
+        
+      }
+      //actualizamos el observable de este select
+      this.listPostulations.next(items as any);
+    }).catch(e => {
+      this.presentAlert('Select', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
+  async selectAcceptedPostulationsByIdCompany(id_job: number) { 
+    return await this.database.executeSql('SELECT p.id_post, p.status_post, p.id_job, j.title_job, j.description_job, j.status_job, c.id_user as id_company, c.photo_user as photo_company, c.name_user as name_company, c.address_user as address_company, w.id_user as id_worker, w.name_user as name_worker, w.lastname_user as lastname_worker, w.description_user as description_worker, w.address_user as address_worker, w.photo_user as photo_worker FROM postulation p JOIN job j ON j.id_job = p.id_job JOIN user c ON c.id_user = j.id_company JOIN user w ON p.id_user = w.id_user WHERE p.status_post = "aceptado" AND p.id_job = ?', [id_job]).then(res => {
+      //variable para guardar el resultado de la consulta
+      let items: Postulation[] = [];
+
+      //verificar si la consulta trae registros
+      if (res.rows.length > 0) {
+        //recorro el cursor
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_post: res.rows.item(i).id_post,
+            status_post: res.rows.item(i).status_post,
+            id_job: res.rows.item(i).id_job,
+            title_job: res.rows.item(i).title_job,
+            description_job: res.rows.item(i).description_job,
+            status_job: res.rows.item(i).status_job,
+            id_company: res.rows.item(i).id_company,
+            photo_company: res.rows.item(i).photo_company,
+            name_company: res.rows.item(i).name_company,
+            address_company: res.rows.item(i).address_company,
+            id_user :  res.rows.item(i).id_worker  || 0,
+            name_user : res.rows.item(i).name_worker  || ' ',
+            lastname_user : res.rows.item(i).lastname_worker  || ' ', 
+            description_user : res.rows.item(i).description_worker  || ' ', 
+            address_user : res.rows.item(i).address_worker  || ' ',
+            photo_user : res.rows.item(i).photo_worker
+          });
+        }
+      } else {
+        
+      }
+      //actualizamos el observable de este select
+      this.listPostulationByIdCompany.next(items as any);
+    }).catch(e => {
+      this.presentAlert('Select', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
+  async selectFilterJobsById(id_company: number,value:string) {
+    const formattedValue = `%${value.toLowerCase()}%`
+    return await this.database.executeSql('SELECT * FROM job JOIN user ON user.id_user = job.id_company WHERE user.id_user = ? AND job.title_job LIKE ?', [id_company,formattedValue]).then(res => {
+      //variable para guardar el resultado de la consulta
+      let items: Job[] = [];
+
+      //verificar si la consulta trae registros
+      if (res.rows.length > 0) {
+        //recorro el cursor
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_job: res.rows.item(i).id_job,
+            title_job: res.rows.item(i).title_job,
+            description_job: res.rows.item(i).description_job,
+            status_job: res.rows.item(i).status_job,
+            id_company: res.rows.item(i).id_user,
+            photo_company: res.rows.item(i).photo_user,
+            name_company: res.rows.item(i).name_user,
+            address_company: res.rows.item(i).address_user
+          });
+        }
+      }
+      
+      //actualizamos el observable de este select
+      this.listJobsById.next(items as any);
     }).catch(e => {
       this.presentAlert('Select', 'Error: ' + JSON.stringify(e));
     })
