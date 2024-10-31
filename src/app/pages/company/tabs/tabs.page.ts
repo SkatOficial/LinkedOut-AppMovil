@@ -30,7 +30,7 @@ export class TabsPage implements OnInit {
       this.id_user = this.router.getCurrentNavigation()?.extras.state?.['id_user'];
     }
 
-    this.bd.selectUserById(this.id_user)
+    this.bd.selectUserById(this.id_user);
     this.bd.selectJobsById(this.id_user);  
     this.saveUserInfo()
   }

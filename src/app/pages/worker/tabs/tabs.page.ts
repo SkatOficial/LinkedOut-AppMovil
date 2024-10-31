@@ -27,8 +27,15 @@ export class TabsPage implements OnInit {
   }
 
   constructor(private router: Router, private bd:ServiceBDService, private nativeStorage:NativeStorage) {
+    if (this.router.getCurrentNavigation()?.extras.state) {
+      this.id_user = this.router.getCurrentNavigation()?.extras.state?.['id_user'];
+    }
     //actaulizo el observador del UserById
-    this.bd.selectUserById(this.id_user)
+    this.bd.selectUserById(this.id_user);
+    this.bd.selectExpById(this.id_user)
+    this.bd.selectEducById(this.id_user)
+
+    this.saveUserInfo()
   }
 
   ngOnInit() {
@@ -59,9 +66,7 @@ export class TabsPage implements OnInit {
     });
   }
   
-  toProfile() {
-    this.bd.selectExpById(this.id_user)
-    this.bd.selectEducById(this.id_user)
+  async toProfile() {
 
     const navigationExtras: NavigationExtras = {
       state: {
@@ -72,10 +77,8 @@ export class TabsPage implements OnInit {
   };
 
   
-  
-
-  //OTROS
-  saveUserInfo() {
+ //OTROS
+ saveUserInfo() {
     this.nativeStorage.setItem('userId', this.id_user);
   }
 }

@@ -48,21 +48,21 @@ export class HistoryCompanyPage implements OnInit {
       this.bd.selectJobsById(this.id_user);  
 
       //subscribirse al observable/promesa
-    this.activedroute.queryParams.subscribe(param =>{
-      //verificar si viene la variable de contexto
-      if(this.router.getCurrentNavigation()?.extras.state){
-        if(this.router.getCurrentNavigation()?.extras?.state?.["status"]){
-          let status = this.router.getCurrentNavigation()?.extras?.state?.["status"];
-          let msg = this.router.getCurrentNavigation()?.extras?.state?.["msg"];
+      this.activedroute.queryParams.subscribe(param =>{
+        //verificar si viene la variable de contexto
+        if(this.router.getCurrentNavigation()?.extras.state){
+          if(this.router.getCurrentNavigation()?.extras?.state?.["status"]){
+            let status = this.router.getCurrentNavigation()?.extras?.state?.["status"];
+            let msg = this.router.getCurrentNavigation()?.extras?.state?.["msg"];
 
-          if(status == "editJob"){
-            this.setOpenSuccessToast(true,msg)
-          }if(status == "finishJob"){
-            this.setOpenSuccessToast(true,msg)
+            if(status == "editJob"){
+              this.setOpenSuccessToast(true,msg)
+            }if(status == "finishJob"){
+              this.setOpenSuccessToast(true,msg)
+            }
           }
         }
-      }
-    });
+      });
    });
   }
 

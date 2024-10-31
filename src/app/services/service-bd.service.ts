@@ -17,6 +17,7 @@ import { Education } from '../models/education';
 @Injectable({
   providedIn: 'root'
 })
+
 export class ServiceBDService {
   public database !: SQLiteObject;
 
@@ -125,7 +126,7 @@ export class ServiceBDService {
     this.platform.ready().then(() => {
       //crearmos la BD
       this.sqlite.create({
-        name: 'bdprueba25.db',
+        name: 'LinkedOut.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
         //guardar la conexion

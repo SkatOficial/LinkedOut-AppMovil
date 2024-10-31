@@ -62,10 +62,11 @@ export class LoginPage implements OnInit {
       }else if(user.id_rol == 2){
         this.toHomeWorker(user.id_user);
       }
+    }else{
+      this.accountNotFound = true;
+      this.setOpenErrorToast(true);
     }
     
-    this.accountNotFound = true;
-    this.setOpenErrorToast(true);
   }
 
   async setOpenErrorToast(value:boolean){
