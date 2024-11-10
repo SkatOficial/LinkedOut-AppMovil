@@ -43,5 +43,13 @@
     [duration]="3000"
     (didDismiss)="setOpenErrorToast(false)"
     ></ion-toast>
+
+    <ion-toast
+    color = "success"
+    [isOpen]="isSuccessToastOpen"
+    message="{{status}}"
+    [duration]="3000"
+    (didDismiss)="setOpenSuccessToast(false)"
+    ></ion-toast>
   </ion-list>
 </ion-content>

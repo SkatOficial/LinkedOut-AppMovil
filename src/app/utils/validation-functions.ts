@@ -5,6 +5,12 @@ export function textValidaton(text:string): boolean{
   return true;
 }
 
+export function numberValidaton(number:number): boolean{
+  if(!number || 0){
+    return false
+  }
+  return true;
+}
 export function emailValidation(email: string): any {
   let validations:any = {
     allOk: true,

@@ -30,7 +30,7 @@ const routes: Routes = [
   },
   {
     path: 'lost-password',
-    loadChildren: () => import('./pages/auth/lost-password/lost-password.module').then( m => m.LostPasswordPageModule)
+    loadChildren: () => import('./pages/auth/recover-password/lost-password/lost-password.module').then( m => m.LostPasswordPageModule)
   },
   {
     path: 'change-password',
@@ -89,6 +89,14 @@ const routes: Routes = [
   {
     path: 'edit-job',
     loadChildren: () => import('./pages/company/job/edit-job/edit-job.module').then( m => m.EditJobPageModule)
+  },
+  {
+    path: 'security-question',
+    loadChildren: () => import('./pages/auth/recover-password/security-question/security-question.module').then( m => m.SecurityQuestionPageModule)
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./pages/auth/recover-password/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   },
   {
     path: '**',

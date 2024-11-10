@@ -57,7 +57,7 @@ export class ChangePasswordPage implements OnInit {
     this.confirmPasswordIsCorrect = (this.user.password == this.confirmPassword)
 
     if(this.passwordIsCorrect && this.confirmPasswordIsCorrect){
-        this.bd.updatePassword(this.user.password,this.user.id_user);
+        this.bd.updatePassword(this.user.id_user,this.user.password);
         this.setOpenSuccessToast(true);
         this.user.password = "";
         this.confirmPassword = "";

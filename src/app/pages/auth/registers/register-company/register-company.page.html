@@ -56,6 +56,33 @@
     <ion-button expand="block" size ="large" fill="solid" shape="round" class="continue-btn" (click)="validatePassword()">Continuar</ion-button>
   </ion-list>
 
+  <!-- Etiquetas Pregunta-->
+  <ion-list *ngIf="labelsQuestionActived">
+    <div>
+      <ion-select
+      fill="outline"
+      interface="action-sheet"
+      aria-label="Preguntas"
+      [compareWith]="compareWith"
+      placeholder="Seleccionar Pregunta"
+      (ionChange)="handleChangeQuestion($event)"
+      >
+      <ion-select-option *ngFor="let question of questionsArray" [value]="question">{{question.question_text}}</ion-select-option>
+      </ion-select>
+  
+      <p class="error-message" *ngIf="!questionIsCorrect">este campo es obligatorio</p>
+    </div> 
+
+    <div>
+      <ion-input label="Respuesta" labelPlacement="floating" placeholder="Ingresa una respuesta que solo tú sepas" fill="outline"
+      [(ngModel)]="security_answer.answer">
+      </ion-input>
+      <p class="error-message" *ngIf="!answerIsCorrect">este campo es obligatorio</p>
+    </div> 
+  
+    <ion-button expand="block" size="large" fill="solid" shape="round" class="continue-btn" (click)="validateQuestion()">Continuar</ion-button>
+  </ion-list>  
+  
   <ion-toast
   color = "danger"
   [isOpen]="isErrorToastOpen"

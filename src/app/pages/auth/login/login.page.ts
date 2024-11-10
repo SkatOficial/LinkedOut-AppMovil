@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { HapticsService } from 'src/app/services/haptics.service';
 import { ServiceBDService } from 'src/app/services/service-bd.service';
 
@@ -11,15 +11,27 @@ import { ServiceBDService } from 'src/app/services/service-bd.service';
 export class LoginPage implements OnInit {
   
   //VALIDADORES
-  accountNotFound:boolean = false;
+  accountNotFound: boolean = false;
   isErrorToastOpen: boolean = false;
+  isSuccessToastOpen: boolean = false;
 
   userInput:any = {
     email: "",
     password: ""
   }
 
-  constructor(private db: ServiceBDService ,private router: Router,private haptics:HapticsService) { }
+  status:string ="";
+
+  constructor(private db: ServiceBDService ,private router: Router,private haptics:HapticsService,private activedroute:ActivatedRoute) {
+    this.activedroute.queryParams.subscribe(param =>{
+      if (this.router.getCurrentNavigation()?.extras.state) {
+        if(this.router.getCurrentNavigation()?.extras.state?.['status']){
+          this.status = this.router.getCurrentNavigation()?.extras.state?.['status'];
+          this.setOpenSuccessToast(true);
+        }
+      }
+    });
+  }
 
   ngOnInit(){
   }
@@ -74,5 +86,9 @@ export class LoginPage implements OnInit {
       await this.haptics.impactMedium()
     }
     this.isErrorToastOpen = value;
+  }
+
+  setOpenSuccessToast(value:boolean){
+    this.isSuccessToastOpen = value;
   }
 }

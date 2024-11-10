@@ -12,6 +12,7 @@ import { Experience } from '../experience';
 import { Institution } from '../models/institution';
 import { Career } from '../models/career';
 import { Education } from '../models/education';
+import { Question } from '../models/question';
 
 
 @Injectable({
@@ -25,6 +26,10 @@ export class ServiceBDService {
   tableRol: string = "CREATE TABLE IF NOT EXISTS rol(id_rol INTEGER PRIMARY KEY AUTOINCREMENT,nombre_rol VARCHAR(100) NOT NULL)";
 
   tableUser: string = "CREATE TABLE IF NOT EXISTS user(id_user INTEGER PRIMARY KEY AUTOINCREMENT,password_user varchar(50) NOT NULL,name_user VARCHAR(100) NOT NULL,lastname_user VARCHAR(100), photo_user BLOB,description_user VARCHAR(220),about_user TEXT,address_user varchar(100), email_user varchar(250) UNIQUE NOT NULL, phone_user VARCHAR(20), id_rol INTEGER NOT NULL, FOREIGN  KEY (id_rol) REFERENCES rol(id_rol))";
+
+  tableQuestion: string = "CREATE TABLE IF NOT EXISTS security_question(id_question INTEGER PRIMARY KEY AUTOINCREMENT,question_text VARCHAR(50) NOT NULL)"
+
+  tableAnswer: string = "CREATE TABLE IF NOT EXISTS security_answer(id_user INTEGER PRIMARY KEY NOT NULL, id_question INTEGER NOT NULL, answer TEXT NOT NULL,FOREIGN KEY (id_user) REFERENCES users(id_user),FOREIGN KEY (id_question) REFERENCES security_question(id_question))"
 
   tableJob: string = "CREATE TABLE IF NOT EXISTS job(id_job INTEGER PRIMARY KEY AUTOINCREMENT, title_job VARCHAR(100) NOT NULL, description_job VARCHAR(1000), status_job VARCHAR(20) DEFAULT 'publicado',id_company INTEGER, FOREIGN  KEY (id_company) REFERENCES user(id_user))";
 
@@ -51,6 +56,18 @@ export class ServiceBDService {
   registroUsers: any = [{
     insert: "INSERT OR IGNORE INTO user(id_user,password_user,name_user,lastname_user, email_user, phone_user,id_rol) VALUES (1,'prueba123','prueba','prueba','prueba@duocuc.cl','981502867',2)"
   }]
+
+  registroQuestions: any = [
+    { insert: "INSERT OR IGNORE INTO security_question(id_question, question_text) VALUES (1, '¿Cuál es el nombre de tu primera mascota?')" },
+    { insert: "INSERT OR IGNORE INTO security_question(id_question, question_text) VALUES (2, '¿Cuál es el nombre de la ciudad donde naciste?')" },
+    { insert: "INSERT OR IGNORE INTO security_question(id_question, question_text) VALUES (3, '¿Cuál fue el modelo de tu primer automóvil?')" },
+    { insert: "INSERT OR IGNORE INTO security_question(id_question, question_text) VALUES (4, '¿Cuál es el nombre de tu escuela primaria?')" },
+    { insert: "INSERT OR IGNORE INTO security_question(id_question, question_text) VALUES (5, '¿Cuál es el segundo nombre de tu padre?')" }
+];
+
+  registroAnswer: any = [
+    { insert: "INSERT OR IGNORE INTO security_answer(id_user,id_question, answer) VALUES (1,1,'Pan')" },
+];
 
   registrocompanys: any[] = []
 
@@ -81,9 +98,10 @@ export class ServiceBDService {
 
   //observables para guardar las consultas de las tablas
   listUsers = new BehaviorSubject([]);
+  listQuestions = new BehaviorSubject([]);
   listJobs = new BehaviorSubject([]);
   userById = new BehaviorSubject<User | null>(null);
-  userByIdAux = new BehaviorSubject<User | null>(null);
+  listUserByIdAux = new BehaviorSubject<User | null>(null);
   listJobsById = new BehaviorSubject([]);
   listPostulationById = new BehaviorSubject([]);
   listCompanys = new BehaviorSubject([]);
@@ -126,7 +144,7 @@ export class ServiceBDService {
     this.platform.ready().then(() => {
       //crearmos la BD
       this.sqlite.create({
-        name: 'LinkedOut.db',
+        name: 'prueba31.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
         //guardar la conexion
@@ -148,6 +166,8 @@ export class ServiceBDService {
       //Ejecutar la creación de las tablas
       await this.database.executeSql(this.tableRol, []);
       await this.database.executeSql(this.tableUser, []);
+      await this.database.executeSql(this.tableQuestion,[]);
+      await this.database.executeSql(this.tableAnswer,[]);
       await this.database.executeSql(this.tableJob, []);
       await this.database.executeSql(this.tablePostulation, []);
       await this.database.executeSql(this.tableInstitution,[]);
@@ -156,6 +176,7 @@ export class ServiceBDService {
       await this.database.executeSql(this.tableCompany, []);
       await this.database.executeSql(this.tablePosition,[]);
       await this.database.executeSql(this.tableExperience,[]);
+      
       //Ejecutar los inserts en caso que existan
 
       for (let registro of this.registroRols) {
@@ -163,6 +184,14 @@ export class ServiceBDService {
       }
 
       for (let registro of this.registroUsers) {
+        await this.database.executeSql(registro.insert, []);
+      }
+
+      for (let registro of this.registroQuestions) {
+        await this.database.executeSql(registro.insert, []);
+      }
+
+      for (let registro of this.registroAnswer) {
         await this.database.executeSql(registro.insert, []);
       }
 
@@ -205,6 +234,10 @@ export class ServiceBDService {
     return this.listUsers.asObservable();
   }
 
+  fetchQuestions(): Observable<Question[]> {
+    return this.listQuestions.asObservable();
+  }
+
   fetchJobs(): Observable<Job[]> {
     return this.listJobs.asObservable();
   }
@@ -214,7 +247,7 @@ export class ServiceBDService {
   }
 
   fetchUserByIdAux(): Observable<User | null> {
-    return this.userByIdAux.asObservable();
+    return this.listUserByIdAux.asObservable();
   }
 
   fetchJobsById(): Observable<Job[]> {
@@ -274,6 +307,16 @@ export class ServiceBDService {
       return res.insertId
     } catch (error) {
       throw new Error('Error al insertar usuario');
+    }
+  }
+
+  async insertAnswer(id_user: number,id_question:number,answer:string): Promise<void> {
+    try {
+      const res = await this.database.executeSql('INSERT INTO security_answer(id_user,id_question,answer) VALUES(?,?,?)', [id_user,id_question,answer])
+
+      return res.insertId;
+    } catch (error) {
+      throw new Error('Error al insertar pregunta para recuperar contraseña');
     }
   }
 
@@ -377,7 +420,7 @@ export class ServiceBDService {
 
   async updatePassword(id_user:number, password_user:string){
     try {
-      const res = await this.database.executeSql('UPDATE user SET password_user = ? WHERE id_user = ?', [id_user, password_user]);
+      const res = await this.database.executeSql('UPDATE user SET password_user = ? WHERE id_user = ?', [password_user,id_user]);
       return res.rowsAffected > 0;
     } catch (error) {
       this.presentAlert("MODIFICACION ERROR", 'Error: ' + JSON.stringify(error))
@@ -605,6 +648,17 @@ export class ServiceBDService {
     }
   }
 
+  async selectIdUserByEmail(email: string | any): Promise<any> {
+    try {
+      const res = await this.database.executeSql('SELECT id_user FROM user WHERE email_user = ?', [email])
+      const id_user = res.rows.item(0).id_user;
+
+      return res.rows.item(0).id_user;
+    } catch (error) {
+      this.presentAlert("ERROR SELECT",'Error al encontrar el usuario por email');
+    }
+  }
+
   async selectUserByIdAux(id_user: number | any): Promise<any> {
     try {
       const res = await this.database.executeSql('SELECT * FROM user WHERE id_user = ?', [id_user])
@@ -626,11 +680,44 @@ export class ServiceBDService {
 
 
         //actualizamos el observable de este select
-        this.userByIdAux.next(user);
+        this.listUserByIdAux.next(user);
 
       } else {
 
       }
+    } catch (error) {
+      throw new Error('Error al encontrar el usuario');
+    }
+  }
+
+  async selectQuestions(): Promise<any> {
+    return await this.database.executeSql('SELECT * FROM security_question', []).then(res => {
+      //variable para guardar el resultado de la consulta
+      let items: Question[] = [];
+
+      //verificar si la consulta trae registros
+      if (res.rows.length > 0) {
+        //recorro el cursor
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_question: res.rows.item(i).id_question,
+            question_text: res.rows.item(i).question_text,
+          });
+        }
+      }
+      //actualizamos el observable de este select
+      this.listQuestions.next(items as any);
+    }).catch(e => {
+      this.presentAlert('Select questions ERROR', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
+  async selectAnswer(id_user:number , id_question:number, answer : string): Promise<any>{
+    try {
+      const res = await this.database.executeSql('SELECT * FROM security_answer WHERE id_user = ? AND id_question = ? AND answer = ?', [id_user,id_question,answer])
+
+      return res.rows.length > 0;
+      
     } catch (error) {
       throw new Error('Error al encontrar el usuario');
     }
