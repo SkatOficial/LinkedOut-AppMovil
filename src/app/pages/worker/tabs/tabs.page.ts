@@ -26,34 +26,36 @@ export class TabsPage implements OnInit {
     id_rol : 0
   }
 
-  constructor(private router: Router, private bd:ServiceBDService, private nativeStorage:NativeStorage) {
-    if (this.router.getCurrentNavigation()?.extras.state) {
-      this.id_user = this.router.getCurrentNavigation()?.extras.state?.['id_user'];
-    }
-    //actaulizo el observador del UserById
-    this.bd.selectUserById(this.id_user);
-    this.bd.selectExpById(this.id_user)
-    this.bd.selectEducById(this.id_user)
-
-    this.saveUserInfo()
+  constructor(private router: Router, private bd:ServiceBDService, private nativeStorage:NativeStorage,  private activedroute:ActivatedRoute) {
+    
   }
 
   ngOnInit() {
-    this.bd.dbReady().subscribe(data=>{
-      if(data){
-        //me subcribo al observable del select del userById
-        this.bd.fetchUserById().subscribe(res=>{
-          this.user = res;
-        }) 
+    this.activedroute.queryParams.subscribe(param =>{
+      this.bd.dbReady().subscribe(data=>{
+        if(data){
+          //me subcribo al observable del select del userById
+          this.bd.fetchUserById().subscribe(res=>{
+            this.user = res;
+          }) 
+        }
+      })
+
+      //pregunto si hay datos pasados desde otras pages
+      if (this.router.getCurrentNavigation()?.extras.state) {
+        if(this.router.getCurrentNavigation()?.extras?.state?.['id_user'])
+        this.id_user = this.router.getCurrentNavigation()?.extras.state?.['id_user'];
       }
-    })
-    //Recupero el id_user enviado desde el login
-    if (this.router.getCurrentNavigation()?.extras.state) {
-      this.id_user = this.router.getCurrentNavigation()?.extras.state?.['id_user'];
+
+      //actaulizo los observadores 
+      this.bd.selectUserById(this.id_user);
+      this.bd.selectExpById(this.id_user)
+      this.bd.selectEducById(this.id_user)
+
+      //Guardo el id_uesr en el local storage
+      this.saveUserInfo()
       
-    }
-    //Guardo el id_uesr en el local storage
-    this.saveUserInfo()
+    });
   }
 
   toHome() {
@@ -67,7 +69,6 @@ export class TabsPage implements OnInit {
   }
   
   async toProfile() {
-
     const navigationExtras: NavigationExtras = {
       state: {
         user: this.user

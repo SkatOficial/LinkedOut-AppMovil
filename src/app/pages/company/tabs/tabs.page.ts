@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { ServiceBDService } from 'src/app/services/service-bd.service';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
@@ -25,31 +25,34 @@ export class TabsPage implements OnInit {
     id_rol : 0
   }
 
-  constructor(private bd:ServiceBDService, private router: Router, private nativeStorage:NativeStorage) { 
-    if (this.router.getCurrentNavigation()?.extras.state) {
-      this.id_user = this.router.getCurrentNavigation()?.extras.state?.['id_user'];
-    }
-
-    this.bd.selectUserById(this.id_user);
-    this.bd.selectJobsById(this.id_user);  
-    this.saveUserInfo()
+  constructor(private bd:ServiceBDService, private router: Router, private nativeStorage:NativeStorage,private activedroute:ActivatedRoute) { 
   }
 
   ngOnInit() {
-    this.bd.dbReady().subscribe(data=>{
-      if(data){
-        //me subcribo al observable del select de los trabajos
-        this.bd.fetchUserById().subscribe(res=>{
-          this.user = res;
-        }) 
+    this.activedroute.queryParams.subscribe(param =>{
+      this.bd.dbReady().subscribe(data=>{
+        if(data){
+          //me subcribo al observable del select de los trabajos
+          this.bd.fetchUserById().subscribe(res=>{
+            this.user = res;
+          }) 
+        }
+      });
+
+      if (this.router.getCurrentNavigation()?.extras.state) {
+        if(this.router.getCurrentNavigation()?.extras.state?.['id_user']){
+          this.id_user = this.router.getCurrentNavigation()?.extras.state?.['id_user'];
+        }
       }
-    })
+  
+      this.bd.selectUserById(this.id_user);
+      this.bd.selectJobsById(this.id_user);  
+      this.saveUserInfo();
+    });
   }
 
   //RUTAS
   toHistory(){
-    this.bd.selectJobsById(this.id_user);  
-    this.bd.selectUserById(this.id_user);
     this.router.navigate(['tabs-company/history']);
   }
   

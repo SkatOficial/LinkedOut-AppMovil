@@ -39,13 +39,27 @@ export class HistoryCompanyPage implements OnInit {
   successMsg?:string;
 
   constructor(private router:Router, private bd:ServiceBDService,private storage: NativeStorage, private activedroute:ActivatedRoute) { 
+    
+  }
+
+  ngOnInit() {
+    this.bd.dbReady().subscribe(data=>{
+      if(data){
+        //me subcribo al observable del select de los UserById
+        this.bd.fetchUserById().subscribe(res=>{
+          this.user = res;
+        })
+        
+        //me subcribo al observable del select de los JobsById
+        this.bd.fetchJobsById().subscribe(res=>{
+          this.jobArray = res;
+        })
+      }
+    });
+
     //Obtiene el id de usuario del storage
     this.storage.getItem("userId").then(data=>{
       this.id_user = data;
-
-      //actualizo los observables
-      this.bd.selectUserById(this.id_user);
-      this.bd.selectJobsById(this.id_user);  
 
       //subscribirse al observable/promesa
       this.activedroute.queryParams.subscribe(param =>{
@@ -64,22 +78,6 @@ export class HistoryCompanyPage implements OnInit {
         }
       });
    });
-  }
-
-  ngOnInit() {
-    this.bd.dbReady().subscribe(data=>{
-      if(data){
-        //me subcribo al observable del select de los UserById
-        this.bd.fetchUserById().subscribe(res=>{
-          this.user = res;
-        })
-        
-        //me subcribo al observable del select de los JobsById
-        this.bd.fetchJobsById().subscribe(res=>{
-          this.jobArray = res;
-        })
-      }
-    });
   }
   
   //RUTAS

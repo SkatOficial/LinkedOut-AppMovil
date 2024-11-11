@@ -228,7 +228,23 @@ export class ServiceBDService {
     await alert.present();
   }
 
-
+  resetObservables(){
+    this.listUsers.next([]);
+    this.listQuestions.next([]);
+    this.listJobs.next([]);
+    this.userById.next(null);
+    this.listUserByIdAux.next(null);
+    this.listJobsById.next([]);
+    this.listPostulationById.next([]);
+    this.listCompanys.next([]);
+    this.listPositions.next([]);
+    this.listExperience.next([]);
+    this.listInstitutions.next([]);
+    this.listCareers.next([]);
+    this.listEducations.next([]);
+    this.listPostulationByIdCompany.next([]);
+    this.listPostulations.next([]);
+  }
   //funciones de retorno de observable para las variables de los selects
   fetchUsers(): Observable<User[]> {
     return this.listUsers.asObservable();

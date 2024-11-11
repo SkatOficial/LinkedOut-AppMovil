@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
 import { HapticsService } from 'src/app/services/haptics.service';
@@ -11,6 +12,8 @@ import { textValidaton } from 'src/app/utils/validation-functions';
   styleUrls: ['./create-job.page.scss'],
 })
 export class CreateJobPage implements OnInit {
+  id_user : number = 0;
+
   job:any = {
     title_job: "",
     description_job: "",
@@ -66,8 +69,9 @@ export class CreateJobPage implements OnInit {
         {
           text: 'Confirmar',
           cssClass: 'confirm-button',
-          handler: () => {
-            this.bd.insertJob(this.job.title_job,this.job.description_job,this.job.id_company);
+          handler: async () => {
+            await this.bd.insertJob(this.job.title_job,this.job.description_job,this.job.id_company);
+            await this.bd.selectJobsById(this.job.id_company); 
             this.job.title_job = "";
             this.job.description_job = "";
             this.setOpenSuccessToast(true);

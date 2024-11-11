@@ -23,7 +23,14 @@ export class LoginPage implements OnInit {
   status:string ="";
 
   constructor(private db: ServiceBDService ,private router: Router,private haptics:HapticsService,private activedroute:ActivatedRoute) {
+    
+  }
+
+  ngOnInit(){
     this.activedroute.queryParams.subscribe(param =>{
+      //resetea los observables
+      this.db.resetObservables();
+      //pregunta los datos enviados desde otras pages
       if (this.router.getCurrentNavigation()?.extras.state) {
         if(this.router.getCurrentNavigation()?.extras.state?.['status']){
           this.status = this.router.getCurrentNavigation()?.extras.state?.['status'];
@@ -31,9 +38,6 @@ export class LoginPage implements OnInit {
         }
       }
     });
-  }
-
-  ngOnInit(){
   }
 
   //RUTAS
