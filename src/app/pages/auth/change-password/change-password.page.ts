@@ -15,11 +15,13 @@ export class ChangePasswordPage implements OnInit {
     id_user: null,
     password: ''
   }
+  newPassword:string = '';
+  confirmPassword: string = '';
 
   //Validadores
   passwordIsCorrect: boolean = true;
+  newPasswordIsCorrect:boolean = true;
   confirmPasswordIsCorrect : boolean = true;
-  confirmPassword: string = '';
   isErrorToastOpen: boolean = false;
   isSuccessToastOpen:boolean = false;
 
@@ -36,9 +38,39 @@ export class ChangePasswordPage implements OnInit {
 
   ngOnInit() {
   }
+  
+  //VALIDADORES
+  async validatePassword(){
+    const pwValidations: any = passwordValidation(this.newPassword);
+    this.errorMessagesPassword = pwValidations.errorMessages;
+    this.newPasswordIsCorrect = pwValidations.allOk;
 
-  async setOpenErrorToast(value:boolean){
+    this.passwordIsCorrect = await this.bd.selectPasswordById(this.user.id_user,this.user.password);
+    
+    this.confirmPasswordIsCorrect = (this.newPassword == this.confirmPassword);
+
+    if(!this.passwordIsCorrect){
+      this.setOpenErrorToast(true,"Contraseña incorrecta");
+      return;
+    }
+
+    if(this.newPasswordIsCorrect && this.confirmPasswordIsCorrect){
+      this.bd.updatePassword(this.user.id_user,this.user.password);
+      this.setOpenSuccessToast(true);
+      this.user.password = "";
+      this.newPassword = "";
+      this.confirmPassword = "";
+      
+    }else{
+      this.setOpenErrorToast(true,"Campos rellenados incorrectamente");
+    }
+    
+  }
+
+  //OTROS
+  async setOpenErrorToast(value:boolean, msg:string = ""){
     if(value){
+      this.messageErrorToast= msg
       await this.haptics.impactMedium()
     }
     this.isErrorToastOpen = value;
@@ -46,25 +78,6 @@ export class ChangePasswordPage implements OnInit {
 
   setOpenSuccessToast(value:boolean){
     this.isSuccessToastOpen = value;
-  }
-
-  validatePassword(){
-    const pwValidations: any = passwordValidation(this.user.password)
-    this.errorMessagesPassword = pwValidations.errorMessages;
-    this.passwordIsCorrect = pwValidations.allOk;
-    
-
-    this.confirmPasswordIsCorrect = (this.user.password == this.confirmPassword)
-
-    if(this.passwordIsCorrect && this.confirmPasswordIsCorrect){
-        this.bd.updatePassword(this.user.id_user,this.user.password);
-        this.setOpenSuccessToast(true);
-        this.user.password = "";
-        this.confirmPassword = "";
-    }else{
-      this.messageErrorToast= "Campos rellenados incorrectamente" 
-      this.setOpenErrorToast(true);
-    }
   }
 
 }

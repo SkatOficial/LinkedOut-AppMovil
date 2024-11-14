@@ -633,6 +633,17 @@ export class ServiceBDService {
     }
   }
 
+  async selectPasswordById(id_user: string, password_user: string): Promise<any> {
+    try {
+      const res = await this.database.executeSql('SELECT * FROM user WHERE id_user = ? AND password_user = ?', [id_user, password_user])
+
+      return res.rows.length > 0;
+
+    } catch {
+      throw new Error('Error al encontrar el usuario');
+    }
+  }
+
   async selectUserById(id_user: number | any): Promise<any> {
     try {
       const res = await this.database.executeSql('SELECT * FROM user WHERE id_user = ?', [id_user])
