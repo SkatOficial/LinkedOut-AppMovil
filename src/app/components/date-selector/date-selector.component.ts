@@ -42,6 +42,7 @@ export class DateSelectorComponent  implements OnInit {
     //LIMITA LA FECHA FINAL
     if(this.auxEndDate && this.selectedEndDate && value > this.auxEndDate ){
       this.selectedEndDate = undefined;
+      this.endDateChange.emit(undefined);
     }
 
     this.minDate = value.toISOString();
