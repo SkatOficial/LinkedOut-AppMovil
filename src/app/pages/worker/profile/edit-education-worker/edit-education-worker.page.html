@@ -19,6 +19,7 @@
       <ion-label>
         <h3>Nombre Institucion Educacional</h3>
         <ion-select *ngIf="!isOtherInstitution"
+        [value]="institutionsArray[educInfo.id_inst-1]"
         interface="action-sheet"
         aria-label="Institution"
         [compareWith]="compareWithInstitution"
@@ -46,6 +47,7 @@
       <ion-label>
         <h3>Carrera</h3>
         <ion-select *ngIf="!isOtherCareer"
+        [value]="careersArray[educInfo.id_career-1]"
         interface="action-sheet"
         aria-label="Career"
         [compareWith]="compareWithCareer"
@@ -65,6 +67,9 @@
   <app-date-selector class="mt-10px"
   [startDateIsCorrect]="startDateIsCorrect"
   [endDateIsCorrect]="endDateIsCorrect"
+  [selectedStartDate]="educInfo.startDate_educ"
+  [selectedEndDate]="educInfo.endDate_educ"
+  [isWorking]="isWorkingNow"
   (startDateChange)="startDateChanged($event)"
   (endDateChange)="endDateChanged($event)"
   (isWorkingChange)="isWorkingChanged($event)">

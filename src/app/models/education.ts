@@ -6,5 +6,7 @@ export class Education {
     otherInstitution !:string ; 
     inst !:string ; 
     career !:string ; 
+    id_inst!:number;
+    id_career!:number;
     id_user !:number ; 
 }

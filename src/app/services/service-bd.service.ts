@@ -892,6 +892,8 @@ export class ServiceBDService {
             otherCompany :res.rows.item(i).otherCompany ,
             comp :res.rows.item(i).name_comp ,
             position :res.rows.item(i).name_position ,
+            id_comp :res.rows.item(i).id_comp ,
+            id_position :res.rows.item(i).id_position ,
             id_user :res.rows.item(i).id_user,
           });
         }
@@ -970,6 +972,8 @@ export class ServiceBDService {
             otherInstitution :res.rows.item(i).otherInstitution ,
             inst :res.rows.item(i).name_inst ,
             career :res.rows.item(i).name_career ,
+            id_inst:res.rows.item(i).id_inst ,
+            id_career :res.rows.item(i).id_career ,
             id_user :res.rows.item(i).id_user,
           });
 

@@ -8,6 +8,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class DateSelectorComponent  implements OnInit {
   @Input() startDateIsCorrect ?: boolean;
   @Input() endDateIsCorrect ?: boolean;
+  @Input() selectedStartDate ?: string;
+  @Input() selectedEndDate ?: string;
+  @Input() isWorking ?: boolean;
   @Output() startDateChange = new EventEmitter<string>();
   @Output() endDateChange = new EventEmitter<string>();
   @Output() isWorkingChange = new EventEmitter <boolean>();
@@ -15,11 +18,9 @@ export class DateSelectorComponent  implements OnInit {
  
   //Fecha
   defaultDate= new Date();
-  selectedStartDate ?: string;
-  selectedEndDate ?: string;
   today ?: string;  
   minDate ?: string;
-  isWorking ?: boolean;
+  
 
   auxEndDate?:Date;
 
@@ -28,7 +29,14 @@ export class DateSelectorComponent  implements OnInit {
 
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if(this.selectedStartDate){
+      this.minDate = this.convertToValidDate(this.selectedStartDate);
+    }
+    if(this.selectedEndDate){
+      this.auxEndDate = new Date(this.convertToValidDate(this.selectedEndDate));
+    }
+  }
 
   startDateConfirmed(event:any){
     let value:any = event.detail.value;
@@ -62,7 +70,7 @@ export class DateSelectorComponent  implements OnInit {
       value= new Date(event.detail.value);
     }
     
-    this.auxEndDate=value;
+    this.auxEndDate = value;
     
     value= this.formatDate(value);//transforma la fecha a string "YYYY-MM"
 
@@ -86,5 +94,29 @@ export class DateSelectorComponent  implements OnInit {
     const month = date.toLocaleString('es-ES', { month: 'long' }); //transforma el mes a la palabra en español
 
     return year + " " + month;
+  }
+
+  convertToValidDate(dateString: string): string {
+    // Diccionario de meses en español a números
+    const monthMap: { [key: string]: string } = {
+      enero: '01',
+      febrero: '02',
+      marzo: '03',
+      abril: '04',
+      mayo: '05',
+      junio: '06',
+      julio: '07',
+      agosto: '08',
+      septiembre: '09',
+      octubre: '10',
+      noviembre: '11',
+      diciembre: '12',
+    };
+
+    const [year, month] = dateString.split(' '); 
+
+    const monthAux = monthMap[month.toLowerCase()];
+
+    return `${year}-${monthAux}-01`;
   }
 }

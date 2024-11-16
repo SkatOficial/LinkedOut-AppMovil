@@ -6,5 +6,7 @@ export class Experience {
     otherCompany !:string ; 
     comp !:string ; 
     position !:string ; 
+    id_comp!:number;
+    id_position!:number;
     id_user !:number ; 
 }

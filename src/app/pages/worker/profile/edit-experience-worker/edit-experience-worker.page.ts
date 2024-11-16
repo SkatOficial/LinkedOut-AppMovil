@@ -21,6 +21,8 @@ export class EditExperienceWorkerPage implements OnInit {
     endDate_exp :"",
     otherPosition :null,
     otherCompany :null,
+    comp : null,
+    position :null,
     id_comp : null,
     id_position :null,
     id_user :0,
@@ -45,7 +47,6 @@ export class EditExperienceWorkerPage implements OnInit {
   isOtherCompany:boolean = false; 
   isOtherPosition:boolean = false;
   isErrorToastOpen:boolean = false;
-
 
   constructor(private alertController:AlertController,private router: Router, private activedroute:
     ActivatedRoute,private bd:ServiceBDService, private haptics:HapticsService) {
@@ -80,13 +81,16 @@ export class EditExperienceWorkerPage implements OnInit {
 
     //activa checkboxs si es nesesario
     if(this.expInfo.otherPosition){
-      this.isOtherPosition=true
+      this.isOtherPosition=true;
     }
 
     if(this.expInfo.otherCompany){
-      this.isOtherCompany=true
+      this.isOtherCompany=true;
     }
-
+    
+    if(!this.expInfo.endDate_exp){
+      this.isWorkingNow = true;
+    }
   }
   
   //VARIABLES DEL COMPONENTE

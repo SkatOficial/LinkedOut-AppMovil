@@ -18,6 +18,7 @@
       <ion-label>
         <h3>Nombre entidad</h3>
         <ion-select *ngIf="!isOtherCompany"
+        [value]="companyArray[expInfo.id_comp-1]"
         interface="action-sheet"
         aria-label="Companys"
         [compareWith]="compareWithCompany"
@@ -45,6 +46,7 @@
       <ion-label>
         <h3>Cargo</h3>
         <ion-select *ngIf="!isOtherPosition"
+        [value]="positionArray[expInfo.id_position-1]"
         interface="action-sheet"
         aria-label="Positions"
         [compareWith]="compareWithPosition"
@@ -64,6 +66,9 @@
   <app-date-selector class="mt-10px"
   [startDateIsCorrect]="startDateIsCorrect"
   [endDateIsCorrect]="endDateIsCorrect"
+  [selectedStartDate]="expInfo.startDate_exp"
+  [selectedEndDate]="expInfo.endDate_exp"
+  [isWorking]="isWorkingNow"
   (startDateChange)="startDateChanged($event)"
   (endDateChange)="endDateChanged($event)"
   (isWorkingChange)="isWorkingChanged($event)">

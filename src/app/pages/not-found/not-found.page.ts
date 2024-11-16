@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ServiceBDService } from 'src/app/services/service-bd.service';
+
 
 @Component({
   selector: 'app-not-found',
@@ -16,23 +16,11 @@ export class NotFoundPage implements OnInit {
     }
   ]
 
-  constructor(private bd: ServiceBDService ,private router:Router) {
-    bd.selectPostulations();
+  constructor(private router:Router) {
+
   }
 
   ngOnInit() {
-    //consulto por el estado de la base de datos
-    this.bd.dbReady().subscribe(data=>{
-      this.bd.selectPositions();
-      //verifico si esta disponible
-      if(data){
-        //me subcribo al observable del select de todas las noticias
-        this.bd.fetchPostulations().subscribe(res=>{
-          //guardar ese resultado en mi variable propia
-          this.postArray = res;
-        })
-      }
-    })
   }
   
   toAccess(){

@@ -80,6 +80,10 @@ export class EditEducationWorkerPage implements OnInit {
     if(this.educInfo.otherInstitution){
       this.isOtherInstitution=true
     }
+
+    if(!this.educInfo.endDate_educ){
+      this.isWorkingNow = true;
+    }
   }
   
   //VARIABLES DEL COMPONENTE
