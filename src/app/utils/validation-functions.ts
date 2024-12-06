@@ -1,12 +1,13 @@
-export function textValidaton(text:string): boolean{
-  if(!text){
+export function textValidaton(text:string | null): boolean{
+  if(text == null){
     return false
   }
+  
   return true;
 }
 
 export function numberValidaton(number:number): boolean{
-  if(!number || 0){
+  if(!number || number == 0){
     return false
   }
   return true;

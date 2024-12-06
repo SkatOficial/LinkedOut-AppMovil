@@ -48,7 +48,7 @@ describe('TabsPage', () => {
            snapshot: { params: {} },
          },
        },
-       { provide: SQLite, useClass: MockSQLite }, // Agrega el mock de SQLite
+       { provide: SQLite, useClass: MockSQLite },// Agrega el mock de SQLite
        { provide: NativeStorage, useClass: MockNativeStorage },
        
      ],

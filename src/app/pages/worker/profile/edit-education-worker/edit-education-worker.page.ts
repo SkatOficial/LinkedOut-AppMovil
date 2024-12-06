@@ -3,7 +3,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { HapticsService } from 'src/app/services/haptics.service';
 import { ServiceBDService } from 'src/app/services/service-bd.service';
-import { dateValidaton, textValidaton } from 'src/app/utils/validation-functions';
+import { dateValidaton, numberValidaton, textValidaton } from 'src/app/utils/validation-functions';
 
 @Component({
   selector: 'app-edit-education-worker',
@@ -127,8 +127,8 @@ export class EditEducationWorkerPage implements OnInit {
       this.educInfo.endDate_educ = null;
     }
 
-    this.institutionNameIsCorrect = textValidaton(this.educInfo.otherInstitution) || this.educInfo.id_inst;
-    this.careerIsCorrect = textValidaton(this.educInfo.otherCareer) || this.educInfo.id_career;
+    this.institutionNameIsCorrect = textValidaton(this.educInfo.otherInstitution) || numberValidaton(this.educInfo.id_inst);
+    this.careerIsCorrect = textValidaton(this.educInfo.otherCareer) || numberValidaton(this.educInfo.id_career);
     this.startDateIsCorrect = dateValidaton(this.educInfo.startDate_educ);
     this.endDateIsCorrect = dateValidaton(this.educInfo.endDate_educ) || this.isWorkingNow;
 

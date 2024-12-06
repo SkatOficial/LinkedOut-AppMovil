@@ -14,4 +14,13 @@ describe('RegisterCompanyPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('Comprueba Contraseña', () => {
+    component.confirmPassword = "Pepe123456.";
+    component.user.password_user ="Pepe123456.";
+
+    component.validatePassword();
+
+    expect(component.labelsQuestionActived).toBe(true);
+  })
 });

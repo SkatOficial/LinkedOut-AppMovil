@@ -3,7 +3,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { HapticsService } from 'src/app/services/haptics.service';
 import { ServiceBDService } from 'src/app/services/service-bd.service';
-import { dateValidaton, textValidaton } from 'src/app/utils/validation-functions';
+import { dateValidaton, numberValidaton, textValidaton } from 'src/app/utils/validation-functions';
 
 @Component({
   selector: 'app-add-experience-worker',
@@ -112,8 +112,8 @@ export class AddExperienceWorkerPage implements OnInit {
       this.expInfo.endDate_exp = null;
     }
 
-    this.companyNameIsCorrect = textValidaton(this.expInfo.otherCompany) || this.expInfo.id_comp;
-    this.positionIsCorrect = textValidaton(this.expInfo.otherPosition) || this.expInfo.id_position;
+    this.companyNameIsCorrect = textValidaton(this.expInfo.otherCompany) || numberValidaton(this.expInfo.id_comp);
+    this.positionIsCorrect = textValidaton(this.expInfo.otherPosition) || numberValidaton(this.expInfo.id_position);
     this.startDateIsCorrect = dateValidaton(this.expInfo.startDate_exp);
     this.endDateIsCorrect = dateValidaton(this.expInfo.endDate_exp) || this.isWorkingNow;
 
