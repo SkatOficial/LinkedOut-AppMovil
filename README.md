@@ -34,3 +34,7 @@ Sigue estos pasos para ejecutar el proyecto:
    
 5. **Compila y ejecuta la aplicación.**  
    Una vez en Android Studio, conecta un dispositivo o emulador y ejecuta la aplicación.
+
+---
+
+También puedes revisar mi [proyecto web](https://github.com/SkatOficial/LinkedOutWeb), donde puedes descargar la aplicación directamente a tu dispositivo Android.
